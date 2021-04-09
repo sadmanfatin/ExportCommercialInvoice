@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="CiLines2VO"
+  Version="11.1.1.62.29"
+  InheritPersonalization="true"
+  BindingStyle="OracleName"
+  CustomQuery="true"
+  PageIterMode="Full"
+  UseGlueCode="false">
+  <DesignTime>
+    <Attr Name="_codeGenFlag2" Value="Access|VarAccess"/>
+    <Attr Name="_isExpertMode" Value="true"/>
+  </DesignTime>
+  <SQLQuery>
+    <![CDATA[SELECT CiLines2EO.EXP_CI_LINE2_ID, 
+       CiLines2EO.EXP_CI_HEADER_ID, 
+       CiLines2EO.QUANTITY, 
+       CiLines2EO.STYLE,
+       NVL((SELECT DECODE(StyleLineEO.TRACK_BASIS,'Style Name',StyleLineEO.STYLE_NAME,'Style Number',StyleLineEO.STYLE_NUMBER)
+       FROM PWC_MFG_BSS_STYLE_L StyleLineEO,
+            pwc_mfg_bss_buyer_h pwcmfgbssbuyerh       
+       WHERE StyleLineEO.STYLE_IDENTIFIER = CiLines2EO.STYLE
+       AND   pwcmfgbssbuyerh.BUYER_ID = (SELECT CiHeadersEO.BUYER_ID
+                                         FROM IEDOC_EXP_CI_HEADERS CiHeadersEO
+                                         WHERE CiHeadersEO.EXP_CI_HEADER_ID = CiLines2EO.EXP_CI_HEADER_ID)
+       --AND   pwcmfgbssbuyerh.ORG_ID = HeaderEO.ORG_ID 
+       AND   StyleLineEO.HEADER_ID = pwcmfgbssbuyerh.HEADER_ID
+       AND   rownum = 1),CiLines2EO.STYLE) CURRENT_STYLE, 
+       CiLines2EO.CONSUMPTION, 
+       CiLines2EO.USED_FABRIC, 
+       CiLines2EO.ATTRIBUTE4, 
+       CiLines2EO.ATTRIBUTE_NUM1, 
+       CiLines2EO.ATTRIBUTE_NUM2, 
+       CiLines2EO.ATTRIBUTE_NUM3, 
+       CiLines2EO.ATTRIBUTE_NUM4, 
+       CiLines2EO.ATTRIBUTE_NUM5, 
+       CiLines2EO.ATTRIBUTE_NUM6, 
+       CiLines2EO.ATTRIBUTE_NUM7, 
+       CiLines2EO.ATTRIBUTE_NUM8, 
+       CiLines2EO.ATTRIBUTE_NUM9, 
+       CiLines2EO.ATTRIBUTE_NUM10, 
+       CiLines2EO.ATTRIBUTE_DATE1, 
+       CiLines2EO.ATTRIBUTE_DATE2, 
+       CiLines2EO.ATTRIBUTE_DATE3, 
+       CiLines2EO.ATTRIBUTE_DATE4, 
+       CiLines2EO.ATTRIBUTE_DATE5, 
+       CiLines2EO.COLOR
+FROM IEDOC_EXP_CI_LINES_2 CiLines2EO]]>
+  </SQLQuery>
+  <EntityUsage
+    Name="CiLines2EO"
+    Entity="mnj.ont.model.entities.CiLines2EO"/>
+  <ViewAttribute
+    Name="ExpCiLine2Id"
+    IsNotNull="true"
+    PrecisionRule="true"
+    EntityAttrName="ExpCiLine2Id"
+    EntityUsage="CiLines2EO"
+    AliasName="EXP_CI_LINE2_ID"/>
+  <ViewAttribute
+    Name="ExpCiHeaderId"
+    IsNotNull="true"
+    PrecisionRule="true"
+    EntityAttrName="ExpCiHeaderId"
+    EntityUsage="CiLines2EO"
+    AliasName="EXP_CI_HEADER_ID"/>
+  <ViewAttribute
+    Name="Quantity"
+    PrecisionRule="true"
+    EntityAttrName="Quantity"
+    EntityUsage="CiLines2EO"
+    AliasName="QUANTITY"/>
+  <ViewAttribute
+    Name="Style"
+    PrecisionRule="true"
+    EntityAttrName="Style"
+    EntityUsage="CiLines2EO"
+    AliasName="STYLE"/>
+  <ViewAttribute
+    Name="CurrentStyle"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="500"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="CURRENT_STYLE"
+    Expression="CURRENT_STYLE"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="500"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Consumption"
+    PrecisionRule="true"
+    EntityAttrName="Consumption"
+    EntityUsage="CiLines2EO"
+    AliasName="CONSUMPTION"/>
+  <ViewAttribute
+    Name="UsedFabric"
+    PrecisionRule="true"
+    EntityAttrName="UsedFabric"
+    EntityUsage="CiLines2EO"
+    AliasName="USED_FABRIC"/>
+  <ViewAttribute
+    Name="Attribute4"
+    PrecisionRule="true"
+    EntityAttrName="Attribute4"
+    EntityUsage="CiLines2EO"
+    AliasName="ATTRIBUTE4"/>
+  <ViewAttribute
+    Name="AttributeNum1"
+    PrecisionRule="true"
+    EntityAttrName="AttributeNum1"
+    EntityUsage="CiLines2EO"
+    AliasName="ATTRIBUTE_NUM1"/>
+  <ViewAttribute
+    Name="AttributeNum2"
+    PrecisionRule="true"
+    EntityAttrName="AttributeNum2"
+    EntityUsage="CiLines2EO"
+    AliasName="ATTRIBUTE_NUM2"/>
+  <ViewAttribute
+    Name="AttributeNum3"
+    PrecisionRule="true"
+    EntityAttrName="AttributeNum3"
+    EntityUsage="CiLines2EO"
+    AliasName="ATTRIBUTE_NUM3"/>
+  <ViewAttribute
+    Name="AttributeNum4"
+    PrecisionRule="true"
+    EntityAttrName="AttributeNum4"
+    EntityUsage="CiLines2EO"
+    AliasName="ATTRIBUTE_NUM4"/>
+  <ViewAttribute
+    Name="AttributeNum5"
+    PrecisionRule="true"
+    EntityAttrName="AttributeNum5"
+    EntityUsage="CiLines2EO"
+    AliasName="ATTRIBUTE_NUM5"/>
+  <ViewAttribute
+    Name="AttributeNum6"
+    PrecisionRule="true"
+    EntityAttrName="AttributeNum6"
+    EntityUsage="CiLines2EO"
+    AliasName="ATTRIBUTE_NUM6"/>
+  <ViewAttribute
+    Name="AttributeNum7"
+    PrecisionRule="true"
+    EntityAttrName="AttributeNum7"
+    EntityUsage="CiLines2EO"
+    AliasName="ATTRIBUTE_NUM7"/>
+  <ViewAttribute
+    Name="AttributeNum8"
+    PrecisionRule="true"
+    EntityAttrName="AttributeNum8"
+    EntityUsage="CiLines2EO"
+    AliasName="ATTRIBUTE_NUM8"/>
+  <ViewAttribute
+    Name="AttributeNum9"
+    PrecisionRule="true"
+    EntityAttrName="AttributeNum9"
+    EntityUsage="CiLines2EO"
+    AliasName="ATTRIBUTE_NUM9"/>
+  <ViewAttribute
+    Name="AttributeNum10"
+    PrecisionRule="true"
+    EntityAttrName="AttributeNum10"
+    EntityUsage="CiLines2EO"
+    AliasName="ATTRIBUTE_NUM10"/>
+  <ViewAttribute
+    Name="AttributeDate1"
+    PrecisionRule="true"
+    EntityAttrName="AttributeDate1"
+    EntityUsage="CiLines2EO"
+    AliasName="ATTRIBUTE_DATE1"/>
+  <ViewAttribute
+    Name="AttributeDate2"
+    PrecisionRule="true"
+    EntityAttrName="AttributeDate2"
+    EntityUsage="CiLines2EO"
+    AliasName="ATTRIBUTE_DATE2"/>
+  <ViewAttribute
+    Name="AttributeDate3"
+    PrecisionRule="true"
+    EntityAttrName="AttributeDate3"
+    EntityUsage="CiLines2EO"
+    AliasName="ATTRIBUTE_DATE3"/>
+  <ViewAttribute
+    Name="AttributeDate4"
+    PrecisionRule="true"
+    EntityAttrName="AttributeDate4"
+    EntityUsage="CiLines2EO"
+    AliasName="ATTRIBUTE_DATE4"/>
+  <ViewAttribute
+    Name="AttributeDate5"
+    PrecisionRule="true"
+    EntityAttrName="AttributeDate5"
+    EntityUsage="CiLines2EO"
+    AliasName="ATTRIBUTE_DATE5"/>
+  <ViewAttribute
+    Name="Color"
+    PrecisionRule="true"
+    EntityAttrName="Color"
+    EntityUsage="CiLines2EO"
+    AliasName="COLOR"/>
+</ViewObject>

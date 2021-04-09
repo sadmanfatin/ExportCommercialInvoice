@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<adfc-config xmlns="http://xmlns.oracle.com/adf/controller" version="1.2">
+  <view id="SearchPG">
+    <page>/SearchPG.jspx</page>
+    
+     <input-page-parameter>
+      <from-value>#{param.ParamOrgId}</from-value>
+      <to-value>#{viewScope.OrgId}</to-value>
+    </input-page-parameter>
+    <input-page-parameter>
+      <from-value>#{param.ParamUserId}</from-value>
+      <to-value>#{viewScope.UserId}</to-value>
+    </input-page-parameter>
+    <input-page-parameter>
+      <from-value>#{param.ParamRespId}</from-value>
+      <to-value>#{viewScope.RespId}</to-value>
+    </input-page-parameter>
+    <input-page-parameter>
+      <from-value>#{param.ParamRespApplId}</from-value>
+      <to-value>#{viewScope.RespApplId}</to-value>
+    </input-page-parameter>
+  </view>
+  <view id="CreatePG">
+    <page>/CreatePG.jspx</page>
+  </view>
+  <control-flow-rule id="__1">
+    <from-activity-id id="__2">SearchPG</from-activity-id>
+    <control-flow-case id="__3">
+      <from-outcome id="__5">Go to Create Page</from-outcome>
+      <to-activity-id id="__4">CreatePG</to-activity-id>
+    </control-flow-case>
+  </control-flow-rule>
+  <control-flow-rule id="__6">
+    <from-activity-id id="__7">CreatePG</from-activity-id>
+    <control-flow-case id="__8">
+      <from-outcome id="__10">Back to Search</from-outcome>
+      <to-activity-id id="__9">SearchPG</to-activity-id>
+    </control-flow-case>
+  </control-flow-rule>
+  <managed-bean id="__13">
+    <managed-bean-name id="__14">backing_bean</managed-bean-name>
+    <managed-bean-class id="__11">mnj.ont.managed.BackingBean</managed-bean-class>
+    <managed-bean-scope id="__12">request</managed-bean-scope>
+  </managed-bean>
+  <managed-bean id="__16">
+    <managed-bean-name id="__18">LovManagedBean</managed-bean-name>
+    <managed-bean-class id="__17">view.bean.LovManagedBean</managed-bean-class>
+    <managed-bean-scope id="__15">request</managed-bean-scope>
+  </managed-bean>
+  <managed-bean id="__21">
+    <managed-bean-name id="__19">PopupManagedBean</managed-bean-name>
+    <managed-bean-class id="__20">mnj.ont.managed.PopupManagedBean</managed-bean-class>
+    <managed-bean-scope id="__22">request</managed-bean-scope>
+  </managed-bean>
+  <managed-bean id="__25">
+    <managed-bean-name id="__26">ExcelBean</managed-bean-name>
+    <managed-bean-class id="__23">mnj.ont.managed.ExcelReport</managed-bean-class>
+    <managed-bean-scope id="__24">request</managed-bean-scope>
+  </managed-bean>
+</adfc-config>

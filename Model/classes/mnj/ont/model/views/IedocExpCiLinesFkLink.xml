@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewLink SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewLink
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="IedocExpCiLinesFkLink"
+  Version="11.1.1.62.29"
+  InheritPersonalization="true"
+  EntityAssociation="mnj.ont.model.entities.IedocExpCiLinesFkAssoc">
+  <DesignTime>
+    <Attr Name="_isCodegen" Value="true"/>
+  </DesignTime>
+  <ViewLinkDefEnd
+    Name="CiHeaders"
+    Cardinality="1"
+    Owner="mnj.ont.model.views.CiHeadersVO"
+    Source="true">
+    <DesignTime>
+      <Attr Name="_finderName" Value="CiHeaders"/>
+      <Attr Name="_isUpdateable" Value="true"/>
+      <Attr Name="_accessor" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="mnj.ont.model.views.CiHeadersVO.ExpCiHeaderId"/>
+    </AttrArray>
+  </ViewLinkDefEnd>
+  <ViewLinkDefEnd
+    Name="CiLines"
+    Cardinality="-1"
+    Owner="mnj.ont.model.views.CiLinesVO">
+    <DesignTime>
+      <Attr Name="_finderName" Value="CiLines"/>
+      <Attr Name="_isUpdateable" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="mnj.ont.model.views.CiLinesVO.ExpCiHeaderId"/>
+    </AttrArray>
+  </ViewLinkDefEnd>
+</ViewLink>

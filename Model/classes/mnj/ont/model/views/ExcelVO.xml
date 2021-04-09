@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="ExcelVO"
+  Version="11.1.1.62.29"
+  InheritPersonalization="true"
+  BindingStyle="OracleName"
+  CustomQuery="true"
+  PageIterMode="Full"
+  UseGlueCode="false">
+  <DesignTime>
+    <Attr Name="_isExpertMode" Value="true"/>
+  </DesignTime>
+  <Properties>
+    <SchemaBasedProperties>
+      <LABEL
+        ResId="mnj.ont.model.views.ExcelVO_LABEL"/>
+    </SchemaBasedProperties>
+  </Properties>
+  <SQLQuery>
+    <![CDATA[SELECT HederEO.SHPCKASSORT_NO as PACKING_LIST,
+HederEO.SALESORDER_NO as BPO,
+LineEO.NWEIGHT,
+LineEO.NET_NET_WEIGHT,
+LineEO.ATTRIBUTE7 as QUANTITY,
+DetailEO.ATTRIBUTE2 as COLOR,
+DetailEO.SIZE_NO
+
+FROM CUST_MNJ_ONT_FINISHPCKASSORT HederEO,CUST_MNJ_ONT_FINISHPCKASSORT_L LineEO,CUST_MNJ_ONT_SHPCKASTSIZES_DET DetailEO
+WHERE HederEO.SHPCKASSORT_ID=LineEO.SHPCKASSORT_ID
+AND LineEO.PCKASSORT_LINEID=DetailEO.PCKASSORT_LINEID]]>
+  </SQLQuery>
+  <ViewAttribute
+    Name="PackingList"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="15"
+    Scale="0"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="PACKING_LIST"
+    Expression="PACKING_LIST"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="16"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Bpo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="255"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="BPO"
+    Expression="BPO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="255"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Nweight"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="12"
+    Scale="3"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="NWEIGHT"
+    Expression="NWEIGHT"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="14"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="NetNetWeight"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="NET_NET_WEIGHT"
+    Expression="NET_NET_WEIGHT"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Quantity"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="QUANTITY"
+    Expression="QUANTITY"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Color"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="COLOR"
+    Expression="COLOR"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="SizeNo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="255"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="SIZE_NO"
+    Expression="SIZE_NO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="255"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ResourceBundle>
+    <PropertiesBundle
+      PropertiesFile="model.ModelBundle"/>
+  </ResourceBundle>
+</ViewObject>

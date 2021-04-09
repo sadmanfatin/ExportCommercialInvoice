@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="CountryLOV"
+  Version="11.1.1.62.29"
+  InheritPersonalization="true"
+  BindingStyle="OracleName"
+  CustomQuery="true"
+  PageIterMode="Full"
+  UseGlueCode="false">
+  <DesignTime>
+    <Attr Name="_isExpertMode" Value="true"/>
+  </DesignTime>
+  <Properties>
+    <SchemaBasedProperties>
+      <LABEL
+        ResId="mnj.ont.model.lov.views.CountryLOV_LABEL"/>
+    </SchemaBasedProperties>
+  </Properties>
+  <SQLQuery>
+    <![CDATA[--select DISTINCT GE.geography_name Country,L.address4  DCPO
+--from hz_locations L , hz_geographies GE  
+--where GE.COUNTRY_CODE=L.COUNTRY 
+--order by GE.geography_name DESC 
+
+
+
+--SELECT geography_element1 country,
+--       geography_element1_code country_code
+--FROM hz_geographies
+
+
+
+SELECT distinct ftt.TERRITORY_SHORT_NAME  Country  --added on 13.nov.17
+  FROM hz_parties             hp,
+       hz_party_sites         hps,
+       hz_locations           hl,
+       hz_cust_accounts_all   hca,
+       hz_cust_acct_sites_all hcsa,
+       hz_cust_site_uses_all  hcsu,
+       fnd_territories_tl     ftt
+ WHERE hp.party_id = hps.party_id
+   AND hps.location_id = hl.location_id
+   AND hp.party_id = hca.party_id
+   AND hcsa.party_site_id = hps.party_site_id
+   AND hcsu.cust_acct_site_id = hcsa.cust_acct_site_id
+   AND hca.cust_account_id = hcsa.cust_account_id
+   and hcsu.site_use_code = 'SHIP_TO'
+   and hps.status = 'A'
+   and ftt.territory_code = hl.country
+   
+union all
+
+SELECT ffvt.description
+  FROM fnd_flex_value_sets ffvs,
+       fnd_flex_values     ffv,
+       fnd_flex_values_tl  ffvt
+ WHERE ffvs.flex_value_set_id = ffv.flex_value_set_id
+   and ffv.flex_value_id = ffvt.flex_value_id
+   and ffv.enabled_flag = 'Y'
+   and flex_value_set_name like 'OM_County_SizeForm']]>
+  </SQLQuery>
+  <ViewAttribute
+    Name="Country"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="255"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="COUNTRY"
+    Expression="COUNTRY"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="360"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CountryCode"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="30"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="COUNTRY_CODE"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="30"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ResourceBundle>
+    <PropertiesBundle
+      PropertiesFile="model.ModelBundle"/>
+  </ResourceBundle>
+</ViewObject>

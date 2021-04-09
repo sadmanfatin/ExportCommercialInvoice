@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="BrandVO"
+  Version="11.1.1.62.29"
+  InheritPersonalization="true"
+  BindingStyle="OracleName"
+  CustomQuery="true"
+  PageIterMode="Full"
+  UseGlueCode="false">
+  <DesignTime>
+    <Attr Name="_isExpertMode" Value="true"/>
+  </DesignTime>
+  <Properties>
+    <SchemaBasedProperties>
+      <LABEL
+        ResId="mnj.ont.model.lov.views.BrandVO_LABEL"/>
+    </SchemaBasedProperties>
+  </Properties>
+  <Variable
+    Name="P_STYLE"
+    Kind="where"
+    Type="java.lang.String"/>
+  <Variable
+    Name="P_COUNTRY"
+    Kind="where"
+    Type="java.lang.String"/>
+  <Variable
+    Name="P_DCPO"
+    Kind="where"
+    Type="java.lang.String"/>
+  <SQLQuery>
+    <![CDATA[SELECT DISTINCT qr.CHARACTER9 brand,
+                qr.CHARACTER2 country,
+                qr.CHARACTER3 dcpo
+FROM MNJ_MFG_PRECOSTING_H h,
+     qa_results qr,
+     qa_plans qp
+WHERE h.BUYER_ID  = 1086
+AND   h.STYLE_NO =  :P_STYLE
+AND   qp.name = 'EXP COM INV CONSIGNEE NOTIFY'
+AND   qr.PLAN_ID = qp.plan_id
+AND   h.brand = qr.CHARACTER4
+AND qr.CHARACTER2 = :P_COUNTRY
+and qr.CHARACTER3 = :P_DCPO]]>
+  </SQLQuery>
+  <ViewAttribute
+    Name="Brand"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="255"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="BRAND"
+    Expression="BRAND"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="150"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Country"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="150"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="COUNTRY"
+    Expression="COUNTRY"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="150"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Dcpo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="150"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="DCPO"
+    Expression="DCPO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="150"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ResourceBundle>
+    <PropertiesBundle
+      PropertiesFile="model.ModelBundle"/>
+  </ResourceBundle>
+</ViewObject>

@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1"
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
+  <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+  <f:view>
+    <af:document id="d1">
+      <af:messages id="m1"/>
+      <af:form id="f1">
+        <af:panelGroupLayout layout="vertical" id="pgl1">
+          <af:panelGroupLayout id="pgl2" layout="horizontal">
+            <af:panelHeader text="Search " id="ph1" inlineStyle="width:700px;">
+              <af:query id="qryId1" headerText="Search" disclosed="true"
+                        value="#{bindings.CiHeadersVOCriteriaQuery.queryDescriptor}"
+                        model="#{bindings.CiHeadersVOCriteriaQuery.queryModel}"
+                        queryListener="#{bindings.CiHeadersVOCriteriaQuery.processQuery}"
+                        queryOperationListener="#{bindings.CiHeadersVOCriteriaQuery.processQueryOperation}"
+                        resultComponentId="::pc1:resId1"/>
+            </af:panelHeader>
+            <af:panelFormLayout id="pfl5"
+                                inlineStyle="height:57px; background-color:rgb(243,243,240); width:364px; border-color:rgb(198,198,198); border-style:solid; border-width:thin;"
+                                binding="#{backing_bean.searchCIDocNoBlock}"
+                               >
+              <af:panelGroupLayout id="pgl3" layout="horizontal"
+                                   inlineStyle="width:328px;">
+                <af:inputText label="Packing List No" id="it100"
+                              binding="#{backing_bean.packListNo}"/>
+                <af:commandButton text="Search" id="cb8"
+                                  actionListener="#{backing_bean.searchDocNoForPackList}"/>
+              </af:panelGroupLayout>
+              <af:panelGroupLayout id="pgl4"
+                                   inlineStyle="width:283px; height:30.0px;">
+                                   
+                <af:outputLabel value="Commerciea Invoice Doc No" id="ol10"/>
+                
+                   <af:outputText id="ot100"
+                               binding="#{backing_bean.commercilInvDocNo}"
+                              
+                               inlineStyle="font-size:small; border-color:rgb(247,247,247); border-style:solid; border-width:thin;"
+                               styleClass="Width:200px"/>             
+                              
+                              
+              </af:panelGroupLayout>
+              <f:facet name="footer"/>
+            </af:panelFormLayout>
+          </af:panelGroupLayout>
+          <af:panelCollection id="pc1" styleClass="AFStretchWidth"
+                              inlineStyle="height:500.0px;">
+            <f:facet name="menus"/>
+            <f:facet name="toolbar">
+              <af:toolbar id="t1">
+                <af:commandButton actionListener="#{bindings.CreateInsert.execute}"
+                                  text="Create"
+                                  disabled="#{!bindings.CreateInsert.enabled}"
+                                  id="cb1" action="Go to Create Page"/>
+                <af:commandButton actionListener="#{bindings.setCurrentRowWithKey.execute}"
+                                  text="Edit"
+                                  disabled="#{!bindings.setCurrentRowWithKey.enabled}"
+                                  id="cb2" action="Go to Create Page"/>
+                <af:commandButton text="Copy" id="cb3"
+                                  actionListener="#{backing_bean.copyDocument}"/>
+                <af:commandButton text="Amendment" id="cb4"
+                                  action="#{backing_bean.amendmentActionListener}"/>
+                  
+                <af:commandButton actionListener="#{bindings.Delete.execute}"
+                                  text="Delete"
+                                  disabled="#{!bindings.Delete.enabled}"
+                                  id="cb5" partialSubmit="true"/>
+                   
+                <af:commandButton actionListener="#{bindings.Commit.execute}"
+                                  text="Save"
+                                  id="cb6"/>
+                <af:commandButton text="Excel Download" id="cb7">
+                  <af:exportCollectionActionListener exportedId="resId1"
+                                                     type="excelHTML"/>
+                </af:commandButton>
+              </af:toolbar>
+            </f:facet>
+            <f:facet name="statusbar"/>
+            <af:table value="#{bindings.CiHeaders1.collectionModel}" var="row"
+                      rows="#{bindings.CiHeaders1.rangeSize}"
+                      emptyText="#{bindings.CiHeaders1.viewable ? 'No data to display.' : 'Access Denied.'}"
+                      fetchSize="#{bindings.CiHeaders1.rangeSize}"
+                      rowBandingInterval="0"
+                      filterModel="#{bindings.CiHeadersVOCriteriaQuery.queryDescriptor}"
+                      queryListener="#{bindings.CiHeadersVOCriteriaQuery.processQuery}"
+                      filterVisible="true" varStatus="vs"
+                      selectedRowKeys="#{bindings.CiHeaders1.collectionModel.selectedRow}"
+                      selectionListener="#{backing_bean.searchTable_selectionListener}"
+                      rowSelection="single" id="resId1" width="100%"
+                      partialTriggers="::cb1 ::cb2 ::cb5"
+                      binding="#{backing_bean.searchPageTable}">
+              <af:column headerText="Document No."
+                         id="c3" align="center" sortable="true"
+                         filterable="true" sortProperty="DocNo" width="55">
+                <af:inputText value="#{row.bindings.DocNo.inputValue}"
+                              label="#{bindings.CiHeaders1.hints.DocNo.label}"
+                              required="#{bindings.CiHeaders1.hints.DocNo.mandatory}"
+                              columns="#{bindings.CiHeaders1.hints.DocNo.displayWidth}"
+                              maximumLength="#{bindings.CiHeaders1.hints.DocNo.precision}"
+                              shortDesc="#{bindings.CiHeaders1.hints.DocNo.tooltip}"
+                              id="it4" readOnly="true">
+                  <f:validator binding="#{row.bindings.DocNo.validator}"/>
+                  <af:convertNumber groupingUsed="false"
+                                    pattern="#{bindings.CiHeaders1.hints.DocNo.format}"/>
+                </af:inputText>
+              </af:column>
+              <af:column headerText="Version No."
+                         id="c2" align="center" sortable="true"
+                         filterable="true" sortProperty="VersionNo" width="40">
+                <af:inputText value="#{row.bindings.VersionNo.inputValue}"
+                              label="#{bindings.CiHeaders1.hints.VersionNo.label}"
+                              required="#{bindings.CiHeaders1.hints.VersionNo.mandatory}"
+                              columns="#{bindings.CiHeaders1.hints.VersionNo.displayWidth}"
+                              maximumLength="#{bindings.CiHeaders1.hints.VersionNo.precision}"
+                              shortDesc="#{bindings.CiHeaders1.hints.VersionNo.tooltip}"
+                              id="it3" readOnly="true">
+                  <f:validator binding="#{row.bindings.VersionNo.validator}"/>
+                  <af:convertNumber groupingUsed="false"
+                                    pattern="#{bindings.CiHeaders1.hints.VersionNo.format}"/>
+                </af:inputText>
+              </af:column>
+              <af:column sortProperty="OrgName" filterable="true"
+                         sortable="true" headerText="Organization Name"
+                         id="resId1c1" align="center">
+                <af:inputText value="#{row.bindings.OrgNameLov.inputValue}"
+                              label="#{bindings.CiHeaders1.hints.OrgNameLov.label}"
+                              required="#{bindings.CiHeaders1.hints.OrgNameLov.mandatory}"
+                              columns="#{bindings.CiHeaders1.hints.OrgNameLov.displayWidth}"
+                              maximumLength="#{bindings.CiHeaders1.hints.OrgNameLov.precision}"
+                              shortDesc="#{bindings.CiHeaders1.hints.OrgNameLov.tooltip}"
+                              id="it1" readOnly="true">
+                  <f:validator binding="#{row.bindings.OrgNameLov.validator}"/>
+                </af:inputText>
+              </af:column>
+              <af:column sortProperty="InvoiceNo" filterable="true"
+                         sortable="true" headerText="Invoice Number"
+                         id="resId1c3" align="center">
+                <af:outputText value="#{row.InvoiceNo}" id="ot3"/>
+              </af:column>
+              
+              
+              
+              
+              <af:column headerText="Invoice Date"
+                         id="c6" align="center" sortable="true"
+                         filterable="true" sortProperty="InvoiceDate2">
+                         <f:facet name="filter">
+                  <af:inputDate value="#{vs.filterCriteria.InvoiceDate2}"
+                                id="id2"/>
+                </f:facet>
+                <af:outputText value="#{row.InvoiceDate2}" id="ot7">
+                  <af:convertDateTime pattern="dd/MMM/yyyy"/>
+                </af:outputText>
+              </af:column>
+              <af:column headerText="#{bindings.CiHeaders1.hints.TrxNumber.label}"
+                         id="c7" align="center" sortable="true"
+                         filterable="true" width="120" sortProperty="TrxNumber"
+                         filterFeatures="caseInsensitive">
+                <af:inputText value="#{row.bindings.TrxNumber.inputValue}"
+                              label="#{bindings.CiHeaders1.hints.TrxNumber.label}"
+                              required="#{bindings.CiHeaders1.hints.TrxNumber.mandatory}"
+                              columns="#{bindings.CiHeaders1.hints.TrxNumber.displayWidth}"
+                              maximumLength="#{bindings.CiHeaders1.hints.TrxNumber.precision}"
+                              shortDesc="#{bindings.CiHeaders1.hints.TrxNumber.tooltip}"
+                              id="it5">
+                  <f:validator binding="#{row.bindings.TrxNumber.validator}"/>
+                </af:inputText>
+              </af:column>
+              <af:column sortProperty="InvoiceDate" filterable="true"
+                         sortable="true" headerText="Ex Factory Date" id="resId1c4"
+                         align="center">
+                <f:facet name="filter">
+                  <af:inputDate value="#{vs.filterCriteria.InvoiceDate}"
+                                id="id1"/>
+                </f:facet>
+                <af:outputText value="#{row.InvoiceDate}" id="ot1">
+                  <af:convertDateTime pattern="dd/MMM/yyyy"/>
+                </af:outputText>
+              </af:column>
+              <af:column id="c1" headerText="Buyer" align="center"
+                         filterable="true" sortable="true" sortProperty="Buyer">
+                <af:inputText value="#{row.bindings.Buyer.inputValue}"
+                              label="#{bindings.CiHeaders1.hints.Buyer.label}"
+                              required="#{bindings.CiHeaders1.hints.Buyer.mandatory}"
+                              columns="#{bindings.CiHeaders1.hints.Buyer.displayWidth}"
+                              maximumLength="#{bindings.CiHeaders1.hints.Buyer.precision}"
+                              shortDesc="#{bindings.CiHeaders1.hints.Buyer.tooltip}"
+                              id="it2" readOnly="true">
+                  <f:validator binding="#{row.bindings.Buyer.validator}"/>
+                </af:inputText>
+              </af:column>
+              <af:column sortProperty="Season" filterable="true" sortable="true"
+                         headerText="#{bindings.CiHeaders1.hints.Season.label}"
+                         id="resId1c2" align="center" width="90">
+                <af:outputText value="#{row.Season}" id="ot10"/>
+              </af:column>
+              <af:column sortProperty="ContractLcNumber" filterable="true"
+                         sortable="true" headerText="Contract/LC Number"
+                         id="resId1c5" align="center">
+                <af:outputText value="#{row.ContractLcNumber}" id="ot9"/>
+              </af:column>
+              <af:column sortProperty="ContractLcDate" filterable="true"
+                         sortable="true" headerText="Contract/LC Date"
+                         id="resId1c6" align="center">
+                <f:facet name="filter">
+                  <af:inputDate value="#{vs.filterCriteria.ContractLcDate}"
+                                id="id5"/>
+                </f:facet>
+                <af:outputText value="#{row.ContractLcDate}" id="ot2">
+                  <af:convertDateTime pattern="dd/MMM/yyyy"/>
+                </af:outputText>
+              </af:column>
+              <af:column sortProperty="ExportLcNo" filterable="true"
+                         sortable="true" headerText="Export LC Number"
+                         id="resId1c7" align="center">
+                <af:outputText value="#{row.ExpNo}" id="ot11"/>
+              </af:column>
+              <af:column sortProperty="ExportLcDate" filterable="true"
+                         sortable="true" headerText="Export LC Date"
+                         id="resId1c8" align="center">
+                <f:facet name="filter">
+                  <af:inputDate value="#{vs.filterCriteria.ExportLcDate}"
+                                id="id4"/>
+                </f:facet>
+                <af:outputText value="#{row.ExpDate}" id="ot5">
+                  <af:convertDateTime pattern="dd/MMM/yyyy"/>
+                </af:outputText>
+              </af:column>
+              <af:column headerText="Exp No"
+                         id="c4" align="center" sortable="true"
+                         filterable="true" width="120"
+                         sortProperty="Attribute10">
+                <af:outputText value="#{row.Attribute10}" id="ot4"/>
+              </af:column>
+              <af:column headerText="Exp Date"
+                         id="c5" align="center" sortable="true"
+                         filterable="true" sortProperty="AttributeDate1">
+                <af:outputText value="#{row.AttributeDate1}" id="ot6">
+                  <af:convertDateTime pattern="#{bindings.CiHeaders1.hints.AttributeDate1.format}"/>
+                </af:outputText>
+              </af:column>
+            </af:table>
+          </af:panelCollection>
+        </af:panelGroupLayout>
+      </af:form>
+    </af:document>
+  </f:view>
+</jsp:root>

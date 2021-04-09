@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="ShiptoVO"
+  Version="11.1.1.62.29"
+  InheritPersonalization="true"
+  BindingStyle="OracleName"
+  CustomQuery="true"
+  PageIterMode="Full"
+  UseGlueCode="false">
+  <DesignTime>
+    <Attr Name="_isExpertMode" Value="true"/>
+  </DesignTime>
+  <Properties>
+    <SchemaBasedProperties>
+      <LABEL
+        ResId="mnj.ont.model.lov.views.ShiptoVO_LABEL"/>
+    </SchemaBasedProperties>
+  </Properties>
+  <Variable
+    Name="P_CUSTOMER_NAME"
+    Kind="where"
+    Type="java.lang.String">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYHINT
+          Value="Hide"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </Variable>
+  <Variable
+    Name="P_ORG_ID"
+    Kind="where"
+    Type="oracle.jbo.domain.Number">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYHINT
+          Value="Hide"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </Variable>
+  <SQLQuery>
+    <![CDATA[SELECT customer_number,
+       customer_name,
+       site_number,
+       address1 || address2 || address3 || CITY || POSTAL_CODE || STATE Address,
+       country,
+       SHIP_TO_LOCATION,
+       CUST_ACCOUNT_ID,
+       CUST_ACCT_SITE_ID,
+       ORG_ID    
+FROM (
+SELECT hca.account_number customer_number, 
+       hp.party_name customer_name,
+       hps.party_site_number site_number,
+       (SELECT address1
+          FROM hz_locations
+         WHERE location_id = hps.location_id) address1,
+       (SELECT address2
+          FROM hz_locations
+         WHERE location_id = hps.location_id) address2,
+       (SELECT address3
+          FROM hz_locations
+         WHERE location_id = hps.location_id) address3,
+       (SELECT address4
+          FROM hz_locations
+         WHERE location_id = hps.location_id) address4,
+       (SELECT city
+          FROM hz_locations
+         WHERE location_id = hps.location_id) city,
+       (SELECT postal_code
+          FROM hz_locations
+         WHERE location_id = hps.location_id) postal_code,
+       (SELECT state
+          FROM hz_locations
+         WHERE location_id = hps.location_id) state,
+       (SELECT ftt.territory_short_name
+          FROM fnd_territories_tl ftt, hz_locations hl
+         WHERE hl.country = ftt.territory_code
+           AND hl.location_id = hps.location_id) country,
+       (SELECT DISTINCT hcsua.LOCATION
+                   FROM hz_cust_site_uses_all hcsua
+                  WHERE hcsua.cust_acct_site_id =
+                                     hcasa.cust_acct_site_id
+                    AND hcsua.site_use_code = 'BILL_TO') bill_to_location,
+       (SELECT DISTINCT hcsua.LOCATION
+                   FROM hz_cust_site_uses_all hcsua
+                  WHERE hcsua.cust_acct_site_id =
+                                     hcasa.cust_acct_site_id
+                    AND hcsua.site_use_code = 'SHIP_TO'
+        and hcsua.status='A') ship_to_location,
+        HCA.CUST_ACCOUNT_ID,
+        HCASA.CUST_ACCT_SITE_ID,
+        hcasa.org_id
+  FROM hz_parties hp,
+       hz_party_sites hps,
+       hz_cust_accounts_all hca,
+       hz_cust_acct_sites_all hcasa
+ WHERE hp.party_id = hps.party_id
+   AND hp.party_id = hca.party_id
+   AND hcasa.party_site_id = hps.party_site_id
+   AND hca.cust_account_id = hcasa.cust_account_id
+   AND Ship_to_flag IS NOT NULL
+  AND hca.status = 'A'     -- added on 5 feb 2020 to filter out wrong customer number for 'G-Star' and 'GU'
+   )
+
+  where CUSTOMER_NAME= :P_CUSTOMER_NAME
+   AND  ORG_ID = :P_ORG_ID]]>
+  </SQLQuery>
+  <ViewAttribute
+    Name="CustomerNumber"
+    IsUpdateable="false"
+    IsPersistent="false"
+    IsNotNull="true"
+    PrecisionRule="true"
+    Precision="255"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="CUSTOMER_NUMBER"
+    Expression="CUSTOMER_NUMBER"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="30"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CustomerName"
+    IsUpdateable="false"
+    IsPersistent="false"
+    IsNotNull="true"
+    PrecisionRule="true"
+    Precision="360"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="CUSTOMER_NAME"
+    Expression="CUSTOMER_NAME"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="360"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <LABEL
+          ResId="mnj.ont.model.lov.views.ShiptoVO.CustomerName_LABEL"/>
+        <DISPLAYWIDTH
+          Value="50"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="SiteNumber"
+    IsUpdateable="false"
+    IsPersistent="false"
+    IsNotNull="true"
+    PrecisionRule="true"
+    Precision="30"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="SITE_NUMBER"
+    Expression="SITE_NUMBER"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="30"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="10"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Address"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="900"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="ADDRESS"
+    Expression="ADDRESS"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="900"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="60"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Country"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="80"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="COUNTRY"
+    Expression="COUNTRY"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="80"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="15"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ShipToLocation"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="40"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="SHIP_TO_LOCATION"
+    Expression="SHIP_TO_LOCATION"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="40"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CustAccountId"
+    IsUpdateable="false"
+    IsPersistent="false"
+    IsNotNull="true"
+    PrecisionRule="true"
+    Precision="15"
+    Scale="0"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="CUST_ACCOUNT_ID"
+    Expression="CUST_ACCOUNT_ID"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="16"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CustAcctSiteId"
+    IsUpdateable="false"
+    IsPersistent="false"
+    IsNotNull="true"
+    PrecisionRule="true"
+    Precision="15"
+    Scale="0"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="CUST_ACCT_SITE_ID"
+    Expression="CUST_ACCT_SITE_ID"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="16"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="OrgId"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="15"
+    Scale="0"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="ORG_ID"
+    Expression="ORG_ID"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="16"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYHINT
+          Value="Hide"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewCriteria
+    Name="ShiptoVOCriteria"
+    ViewObjectName="mnj.ont.model.lov.views.ShiptoVO"
+    Conjunction="AND">
+    <Properties>
+      <CustomProperties>
+        <Property
+          Name="displayOperators"
+          Value="InAdvancedMode"/>
+        <Property
+          Name="autoExecute"
+          Value="true"/>
+        <Property
+          Name="allowConjunctionOverride"
+          Value="true"/>
+        <Property
+          Name="showInList"
+          Value="true"/>
+        <Property
+          Name="mode"
+          Value="Basic"/>
+      </CustomProperties>
+    </Properties>
+    <ViewCriteriaRow
+      Name="vcrow42"
+      UpperColumns="1">
+      <ViewCriteriaItem
+        Name="CustomerName"
+        ViewAttribute="CustomerName"
+        Operator="="
+        Conjunction="AND"
+        Value=":P_CUSTOMER_NAME"
+        IsBindVarValue="true"
+        Required="Optional"/>
+      <ViewCriteriaItem
+        Name="ShiptoVOCriteria_vcrow42_Address"
+        ViewAttribute="Address"
+        Operator="CONTAINS"
+        Conjunction="AND"
+        Required="Optional"/>
+      <ViewCriteriaItem
+        Name="ShiptoVOCriteria_vcrow42_Country"
+        ViewAttribute="Country"
+        Operator="CONTAINS"
+        Conjunction="AND"
+        Required="Optional"/>
+      <ViewCriteriaItem
+        Name="OrgId"
+        ViewAttribute="OrgId"
+        Operator="="
+        Conjunction="AND"
+        Value=":P_ORG_ID"
+        IsBindVarValue="true"
+        Required="Optional"/>
+    </ViewCriteriaRow>
+  </ViewCriteria>
+  <ResourceBundle>
+    <PropertiesBundle
+      PropertiesFile="model.ModelBundle"/>
+  </ResourceBundle>
+</ViewObject>

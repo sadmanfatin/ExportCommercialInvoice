@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="ContractVO"
+  Version="11.1.1.62.29"
+  InheritPersonalization="true"
+  BindingStyle="OracleName"
+  CustomQuery="true"
+  ComponentClass="mnj.ont.model.lov.views.ContractVOImpl"
+  PageIterMode="Full"
+  UseGlueCode="false">
+  <DesignTime>
+    <Attr Name="_codeGenFlag2" Value="Access|Coll|Prog|VarAccess"/>
+    <Attr Name="_isExpertMode" Value="true"/>
+  </DesignTime>
+  <Properties>
+    <SchemaBasedProperties>
+      <LABEL
+        ResId="mnj.ont.model.lov.views.ContractVO_LABEL"/>
+    </SchemaBasedProperties>
+  </Properties>
+  <Variable
+    Name="buyerNameBind"
+    Kind="viewcriteria"
+    Type="java.lang.String"/>
+  <Variable
+    Name="seasonBind"
+    Kind="viewcriteria"
+    Type="java.lang.String"/>
+  <Variable
+    Name="ORG_ID"
+    Kind="viewcriteria"
+    Type="oracle.jbo.domain.Number"/>
+  <SQLQuery>
+    <![CDATA[SELECT  ORG_ID,
+      CONTRACT_NO,
+        UD_NUMBER,  
+        CONTRACT_DATE, 
+        COMMISION_PERC,
+        BUYER_ID,
+        ORDER_TYPE,
+        SEASON,
+        BUYER_NAME,
+        SUM(CONTRACT_VALUE) CONTRACT_VALUE,
+        BANK,
+        CURRENCY,
+        BRANCH_NAME,
+        (SELECT ADDRESS_LINE1 || ADDRESS_LINE2  
+         FROM CEFV_BANK_BRANCHES
+         WHERE BANK_NAME = BANK         
+         AND   BANK_BRANCH_NAME = BRANCH_NAME
+         )  BANK_ADDRESS
+FROM 
+(
+SELECT    DISTINCT     CONT.ORG_ID , 
+
+               CONT.IMP_SALE_CONTRACT_NO CONTRACT_NO,
+                (SELECT DISTINCT  TP_HEADER.EXPORT_ORDER_NUMBER 
+                 FROM IEDOC_IMP_UD_LINES_CONTRACT CONTRACT,
+                     IEDOC_IMP_UD_HEADERS HEADERS,
+                     IEDOC_IMP_UD_TP_HEADERS TP_HEADER
+                WHERE  CONTRACT.IMP_UD_HEADER_ID = HEADERS.IMP_UD_HEADER_ID
+                AND HEADERS.IMP_UD_TP_HEADER_ID = TP_HEADER.IMP_UD_TP_HEADER_ID
+                AND CONT.IMP_SALE_CONTRACT_NO = CONTRACT.CONTRACT_ELC_NO
+                   and HEADERS.ATTRIBUTE3 = 'Original'
+                 ) UD_NUMBER, 
+                CONT.CONTRACT_DATE, 
+                CONT.COMMISION_PERC  AS COMMISION_PERC,
+                CONT.BUYER_ID,
+                CONT.ORDER_TYPE,
+--                (select ac.customer_name
+--                from ar_customers ac
+--                WHERE ac.CUSTOMER_ID = cont.BUYER_ID ) buyer_name,
+                CONT.SEASON,
+                CONT.BUYER_NAME_NEW BUYER_NAME,
+                CONT.CONTRACT_VALUE,
+                CONT.ATTRIBUTE3 BANK,
+                CONT.CURRENCY,
+                CONT.BRANCH_NAME                
+        FROM IEDOC_IMP_SALE_CONTR_HEADERS CONT
+        WHERE CONT.IMP_SALE_CONTRACT_NO IS NOT NULL
+UNION 
+SELECT  
+              DISTINCT  CONT1.ORG_ID ,
+              CONT1.EXPORT_LC_NO, 
+                (SELECT DISTINCT  TP_HEADER.EXPORT_ORDER_NUMBER 
+                 FROM IEDOC_IMP_UD_LINES_CONTRACT CONTRACT,
+                     IEDOC_IMP_UD_HEADERS HEADERS,
+                     IEDOC_IMP_UD_TP_HEADERS TP_HEADER
+                WHERE  CONTRACT.IMP_UD_HEADER_ID = HEADERS.IMP_UD_HEADER_ID
+                AND HEADERS.IMP_UD_TP_HEADER_ID = TP_HEADER.IMP_UD_TP_HEADER_ID
+                AND CONT1.EXPORT_LC_NO = CONTRACT.CONTRACT_ELC_NO 
+                   and HEADERS.ATTRIBUTE3 = 'Original'
+                ) UD_NUMBER,
+                CONT1.CONTRACT_DATE , 
+                CONT1.COMMISION_PERC,
+                CONT1.BUYER_ID,
+                CONT1.ORDER_TYPE,
+                CONT1.SEASON,
+                CONT1.BUYER_NAME_NEW BUYER_NAME,
+                CONT1.CONTRACT_VALUE,
+                CONT1.ATTRIBUTE3 BANK,
+                CONT1.CURRENCY, 
+                CONT1.BRANCH_NAME
+        FROM IEDOC_IMP_SALE_CONTR_HEADERS CONT1
+        WHERE CONT1.EXPORT_LC_NO IS NOT NULL
+)
+
+
+
+GROUP BY ORG_ID,
+        CONTRACT_NO,
+        UD_NUMBER,  
+        CONTRACT_DATE, 
+        COMMISION_PERC,
+        BUYER_ID,
+        ORDER_TYPE,
+        SEASON,
+        BUYER_NAME,
+        BANK,
+        CURRENCY,
+        BRANCH_NAME]]>
+  </SQLQuery>
+  <ViewAttribute
+    Name="OrgId"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="ORG_ID"
+    Expression="ORG_ID"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ContractNo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="255"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="CONTRACT_NO"
+    Expression="CONTRACT_NO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="20"/>
+        <LABEL
+          ResId="mnj.ont.model.lov.views.ContractVO.ContractNo_LABEL"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="UdNumber"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="30"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="UD_NUMBER"
+    Expression="UD_NUMBER"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="30"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ContractDate"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Date"
+    ColumnType="DATE"
+    AliasName="CONTRACT_DATE"
+    Expression="CONTRACT_DATE"
+    SQLType="DATE">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="7"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <LABEL
+          ResId="mnj.ont.model.lov.views.ContractVO.ContractDate_LABEL"/>
+        <DISPLAYWIDTH
+          Value="20"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CommisionPerc"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="COMMISION_PERC"
+    Expression="COMMISION_PERC"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="20"/>
+        <LABEL
+          ResId="mnj.ont.model.lov.views.ContractVO.CommisionPerc_LABEL"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="BuyerId"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="50"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="BUYER_ID"
+    Expression="BUYER_ID"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="50"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="OrderType"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="ORDER_TYPE"
+    Expression="ORDER_TYPE"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Season"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="SEASON"
+    Expression="SEASON"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="20"/>
+        <LABEL
+          ResId="mnj.ont.model.lov.views.ContractVO.Season_LABEL"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="BuyerName"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="50"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="BUYER_NAME"
+    Expression="BUYER_NAME"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="50"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="20"/>
+        <LABEL
+          ResId="mnj.ont.model.lov.views.ContractVO.BuyerName_LABEL"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ContractValue"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="CONTRACT_VALUE"
+    Expression="CONTRACT_VALUE"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <LABEL
+          ResId="mnj.ont.model.lov.views.ContractVO.ContractValue_LABEL"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Bank"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="BANK"
+    Expression="BANK"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Currency"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="3"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="CURRENCY"
+    Expression="CURRENCY"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="3"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="BranchName"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="BRANCH_NAME"
+    Expression="BRANCH_NAME"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="BankAddress"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="480"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="BANK_ADDRESS"
+    Expression="BANK_ADDRESS"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="480"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewCriteria
+    Name="ContractVOCriteria"
+    ViewObjectName="mnj.ont.model.lov.views.ContractVO"
+    Conjunction="AND"
+    Mode="3">
+    <Properties>
+      <CustomProperties>
+        <Property
+          Name="displayOperators"
+          Value="InAdvancedMode"/>
+        <Property
+          Name="autoExecute"
+          Value="true"/>
+        <Property
+          Name="allowConjunctionOverride"
+          Value="true"/>
+        <Property
+          Name="showInList"
+          Value="true"/>
+        <Property
+          Name="mode"
+          Value="Basic"/>
+      </CustomProperties>
+    </Properties>
+    <ViewCriteriaRow
+      Name="vcrow103"
+      UpperColumns="1">
+      <ViewCriteriaItem
+        Name="OrgId"
+        ViewAttribute="OrgId"
+        Operator="="
+        Conjunction="AND"
+        Value=":ORG_ID"
+        IsBindVarValue="true"
+        Required="Required"
+        GenerateIsNullClauseForBindVars="false"
+        ValidateBindVars="true"/>
+      <ViewCriteriaItem
+        Name="ContractNo"
+        ViewAttribute="ContractNo"
+        Operator="CONTAINS"
+        Conjunction="AND"
+        Required="Optional"/>
+      <ViewCriteriaItem
+        Name="Season"
+        ViewAttribute="Season"
+        Operator="="
+        Conjunction="AND"
+        Value=":seasonBind"
+        IsBindVarValue="true"
+        Required="Optional"/>
+      <ViewCriteriaItem
+        Name="ContractVOCriteria_vcrow103_BuyerName"
+        ViewAttribute="BuyerName"
+        Operator="="
+        Conjunction="AND"
+        Value=":buyerNameBind"
+        IsBindVarValue="true"
+        Required="Optional"/>
+    </ViewCriteriaRow>
+  </ViewCriteria>
+  <ResourceBundle>
+    <PropertiesBundle
+      PropertiesFile="model.ModelBundle"/>
+  </ResourceBundle>
+</ViewObject>

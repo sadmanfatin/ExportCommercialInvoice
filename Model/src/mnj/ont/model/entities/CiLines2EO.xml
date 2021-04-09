@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE Entity SYSTEM "jbo_03_01.dtd">
+<!---->
+<Entity
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="CiLines2EO"
+  Version="11.1.1.62.29"
+  InheritPersonalization="true"
+  DBObjectType="table"
+  DBObjectName="IEDOC_EXP_CI_LINES_2"
+  AliasName="CiLines2EO"
+  BindingStyle="OracleName"
+  UseGlueCode="false"
+  RowClass="mnj.ont.model.entities.CiLines2EOImpl">
+  <DesignTime>
+    <AttrArray Name="_publishEvents"/>
+    <Attr Name="_codeGenFlag2" Value="Init|Access"/>
+    <Attr Name="_isCodegen" Value="true"/>
+  </DesignTime>
+  <Attribute
+    Name="ExpCiLine2Id"
+    IsNotNull="true"
+    ColumnName="EXP_CI_LINE2_ID"
+    SQLType="NUMERIC"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    TableName="IEDOC_EXP_CI_LINES_2"
+    PrimaryKey="true">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="ExpCiHeaderId"
+    IsNotNull="true"
+    ColumnName="EXP_CI_HEADER_ID"
+    SQLType="NUMERIC"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    TableName="IEDOC_EXP_CI_LINES_2">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="Quantity"
+    ColumnName="QUANTITY"
+    SQLType="NUMERIC"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    TableName="IEDOC_EXP_CI_LINES_2">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="Style"
+    Precision="500"
+    ColumnName="STYLE"
+    SQLType="VARCHAR"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    TableName="IEDOC_EXP_CI_LINES_2">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="500"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="Consumption"
+    Precision="250"
+    ColumnName="CONSUMPTION"
+    SQLType="VARCHAR"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    TableName="IEDOC_EXP_CI_LINES_2">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="UsedFabric"
+    Precision="250"
+    ColumnName="USED_FABRIC"
+    SQLType="VARCHAR"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    TableName="IEDOC_EXP_CI_LINES_2">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="Attribute4"
+    Precision="250"
+    ColumnName="ATTRIBUTE4"
+    SQLType="VARCHAR"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    TableName="IEDOC_EXP_CI_LINES_2">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="AttributeNum1"
+    ColumnName="ATTRIBUTE_NUM1"
+    SQLType="NUMERIC"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    TableName="IEDOC_EXP_CI_LINES_2">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="AttributeNum2"
+    ColumnName="ATTRIBUTE_NUM2"
+    SQLType="NUMERIC"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    TableName="IEDOC_EXP_CI_LINES_2">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="AttributeNum3"
+    ColumnName="ATTRIBUTE_NUM3"
+    SQLType="NUMERIC"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    TableName="IEDOC_EXP_CI_LINES_2">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="AttributeNum4"
+    ColumnName="ATTRIBUTE_NUM4"
+    SQLType="NUMERIC"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    TableName="IEDOC_EXP_CI_LINES_2">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="AttributeNum5"
+    ColumnName="ATTRIBUTE_NUM5"
+    SQLType="NUMERIC"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    TableName="IEDOC_EXP_CI_LINES_2">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="AttributeNum6"
+    ColumnName="ATTRIBUTE_NUM6"
+    SQLType="NUMERIC"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    TableName="IEDOC_EXP_CI_LINES_2">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="AttributeNum7"
+    ColumnName="ATTRIBUTE_NUM7"
+    SQLType="NUMERIC"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    TableName="IEDOC_EXP_CI_LINES_2">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="AttributeNum8"
+    ColumnName="ATTRIBUTE_NUM8"
+    SQLType="NUMERIC"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    TableName="IEDOC_EXP_CI_LINES_2">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="AttributeNum9"
+    ColumnName="ATTRIBUTE_NUM9"
+    SQLType="NUMERIC"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    TableName="IEDOC_EXP_CI_LINES_2">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="AttributeNum10"
+    ColumnName="ATTRIBUTE_NUM10"
+    SQLType="NUMERIC"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    TableName="IEDOC_EXP_CI_LINES_2">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="AttributeDate1"
+    ColumnName="ATTRIBUTE_DATE1"
+    SQLType="TIMESTAMP"
+    Type="oracle.jbo.domain.Date"
+    ColumnType="DATE"
+    TableName="IEDOC_EXP_CI_LINES_2">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="7"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="AttributeDate2"
+    ColumnName="ATTRIBUTE_DATE2"
+    SQLType="TIMESTAMP"
+    Type="oracle.jbo.domain.Date"
+    ColumnType="DATE"
+    TableName="IEDOC_EXP_CI_LINES_2">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="7"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="AttributeDate3"
+    ColumnName="ATTRIBUTE_DATE3"
+    SQLType="TIMESTAMP"
+    Type="oracle.jbo.domain.Date"
+    ColumnType="DATE"
+    TableName="IEDOC_EXP_CI_LINES_2">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="7"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="AttributeDate4"
+    ColumnName="ATTRIBUTE_DATE4"
+    SQLType="TIMESTAMP"
+    Type="oracle.jbo.domain.Date"
+    ColumnType="DATE"
+    TableName="IEDOC_EXP_CI_LINES_2">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="7"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="AttributeDate5"
+    ColumnName="ATTRIBUTE_DATE5"
+    SQLType="TIMESTAMP"
+    Type="oracle.jbo.domain.Date"
+    ColumnType="DATE"
+    TableName="IEDOC_EXP_CI_LINES_2">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="7"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="Color"
+    Precision="250"
+    ColumnName="COLOR"
+    SQLType="VARCHAR"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    TableName="IEDOC_EXP_CI_LINES_2">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </Attribute>
+  <AccessorAttribute
+    Name="CiHeaders"
+    Association="mnj.ont.model.entities.IedocExpCiLines2FkAssoc"
+    AssociationEnd="mnj.ont.model.entities.IedocExpCiLines2FkAssoc.CiHeaders"
+    AssociationOtherEnd="mnj.ont.model.entities.IedocExpCiLines2FkAssoc.CiLines2"
+    Type="mnj.ont.model.entities.CiHeadersEOImpl"
+    IsUpdateable="true"/>
+  <Key
+    Name="IedocExpCiLines2Pk"
+    PrimaryKey="true">
+    <DesignTime>
+      <Attr Name="_DBObjectName" Value="IEDOC_EXP_CI_LINES_2_PK"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="mnj.ont.model.entities.CiLines2EO.ExpCiLine2Id"/>
+    </AttrArray>
+  </Key>
+  <Key
+    Name="SysC00867798">
+    <DesignTime>
+      <Attr Name="_DBObjectName" Value="SYS_C00867798"/>
+      <Attr Name="_checkCondition" Value='"EXP_CI_LINE2_ID" IS NOT NULL'/>
+      <Attr Name="_isCheck" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="mnj.ont.model.entities.CiLines2EO.ExpCiLine2Id"/>
+    </AttrArray>
+  </Key>
+  <Key
+    Name="SysC00867799">
+    <DesignTime>
+      <Attr Name="_DBObjectName" Value="SYS_C00867799"/>
+      <Attr Name="_checkCondition" Value='"EXP_CI_HEADER_ID" IS NOT NULL'/>
+      <Attr Name="_isCheck" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="mnj.ont.model.entities.CiLines2EO.ExpCiHeaderId"/>
+    </AttrArray>
+  </Key>
+  <Key
+    Name="IedocExpCiLines2Fk">
+    <DesignTime>
+      <Attr Name="_referencedKey" Value="IEDOC_EXP_CI_HEADERS_PK"/>
+      <Attr Name="_isForeign" Value="true"/>
+      <Attr Name="_DBObjectName" Value="IEDOC_EXP_CI_LINES_2_FK"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="mnj.ont.model.entities.CiLines2EO.ExpCiHeaderId"/>
+    </AttrArray>
+  </Key>
+</Entity>

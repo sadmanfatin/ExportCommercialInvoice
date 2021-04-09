@@ -1,0 +1,1682 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="CiHeadersVO"
+  Version="11.1.1.62.29"
+  InheritPersonalization="true"
+  BindingStyle="OracleName"
+  CustomQuery="true"
+  PageIterMode="Full"
+  UseGlueCode="false">
+  <DesignTime>
+    <Attr Name="_codeGenFlag2" Value="Access|VarAccess"/>
+    <Attr Name="_isExpertMode" Value="true"/>
+  </DesignTime>
+  <Variable
+    Name="InvoiceNumber"
+    Kind="viewcriteria"
+    Type="java.lang.String">
+    <Properties>
+      <SchemaBasedProperties>
+        <LABEL
+          ResId="mnj.ont.model.views.CiHeadersVO.InvoiceNumber_LABEL"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </Variable>
+  <Variable
+    Name="ContractNumber"
+    Kind="viewcriteria"
+    Type="java.lang.String">
+    <Properties>
+      <SchemaBasedProperties>
+        <LABEL
+          ResId="mnj.ont.model.views.CiHeadersVO.ContractNumber_LABEL"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </Variable>
+  <Variable
+    Name="PakList_No"
+    Kind="viewcriteria"
+    Type="java.lang.String"/>
+  <ViewAccessor
+    Name="OrgVO1"
+    ViewObjectName="mnj.ont.model.lov.views.OrgVO"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="CustomerVO1"
+    ViewObjectName="mnj.ont.model.lov.views.CustomerVO"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="SeasonVO1"
+    ViewObjectName="mnj.ont.model.lov.views.SeasonVO">
+    <ViewCriteriaUsage
+      Name="SeasonVOCriteria"
+      FullName="mnj.ont.model.lov.views.SeasonVO.SeasonVOCriteria"/>
+    <ParameterMap>
+      <PIMap Variable="buyerNameBind">
+        <TransientExpression><![CDATA[Buyer]]></TransientExpression>
+      </PIMap>
+    </ParameterMap>
+  </ViewAccessor>
+  <ViewAccessor
+    Name="CiLinesVO1"
+    ViewObjectName="mnj.ont.model.views.CiLinesVO"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="ContractVO1"
+    ViewObjectName="mnj.ont.model.lov.views.ContractVO">
+    <ViewCriteriaUsage
+      Name="ContractVOCriteria"
+      FullName="mnj.ont.model.lov.views.ContractVO.ContractVOCriteria"/>
+    <ParameterMap>
+      <PIMap Variable="buyerNameBind">
+        <TransientExpression><![CDATA[Buyer]]></TransientExpression>
+      </PIMap>
+      <PIMap Variable="seasonBind">
+        <TransientExpression><![CDATA[Season]]></TransientExpression>
+      </PIMap>
+      <PIMap Variable="ORG_ID">
+        <TransientExpression><![CDATA[OrgId]]></TransientExpression>
+      </PIMap>
+    </ParameterMap>
+  </ViewAccessor>
+  <ViewAccessor
+    Name="ExportLCVO1"
+    ViewObjectName="mnj.ont.model.lov.views.ExportLCVO">
+    <ViewCriteriaUsage
+      Name="ExportLCVOCriteria"
+      FullName="mnj.ont.model.lov.views.ExportLCVO.ExportLCVOCriteria"/>
+    <ParameterMap>
+      <PIMap Variable="buyerBind">
+        <TransientExpression><![CDATA[Buyer]]></TransientExpression>
+      </PIMap>
+      <PIMap Variable="seasonBind">
+        <TransientExpression><![CDATA[Season]]></TransientExpression>
+      </PIMap>
+    </ParameterMap>
+  </ViewAccessor>
+  <ViewAccessor
+    Name="CountryLOV1"
+    ViewObjectName="mnj.ont.model.lov.views.CountryLOV"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="BankBanckVO1"
+    ViewObjectName="mnj.ont.model.lov.views.BankBanckVO">
+    <ParameterMap>
+      <PIMap Variable="P_BANK">
+        <TransientExpression><![CDATA[NegotiationBank]]></TransientExpression>
+      </PIMap>
+    </ParameterMap>
+  </ViewAccessor>
+  <ViewAccessor
+    Name="ConsigneeVO1"
+    ViewObjectName="mnj.ont.model.lov.views.ConsigneeVO">
+    <ParameterMap>
+      <PIMap Variable="P_BUYER_NAME">
+        <TransientExpression><![CDATA[Buyer]]></TransientExpression>
+      </PIMap>
+      <PIMap Variable="P_COUNTRY">
+        <TransientExpression><![CDATA[Attribute12]]></TransientExpression>
+      </PIMap>
+      <PIMap Variable="P_DCPO">
+        <TransientExpression><![CDATA[Dcpo]]></TransientExpression>
+      </PIMap>
+    </ParameterMap>
+  </ViewAccessor>
+  <ViewAccessor
+    Name="NotifyToLOV1"
+    ViewObjectName="mnj.ont.model.lov.views.NotifyToLOV">
+    <ViewCriteriaUsage
+      Name="NotifyToLOVCriteria"
+      FullName="mnj.ont.model.lov.views.NotifyToLOV.NotifyToLOVCriteria"/>
+    <ParameterMap>
+      <PIMap Variable="P_Buyer_Name">
+        <TransientExpression><![CDATA[Buyer]]></TransientExpression>
+      </PIMap>
+      <PIMap Variable="P_COUNTRY">
+        <TransientExpression><![CDATA[Attribute12]]></TransientExpression>
+      </PIMap>
+      <PIMap Variable="P_DCPO">
+        <TransientExpression><![CDATA[Dcpo]]></TransientExpression>
+      </PIMap>
+    </ParameterMap>
+  </ViewAccessor>
+  <ViewAccessor
+    Name="ShipToLOV1"
+    ViewObjectName="mnj.ont.model.lov.views.ShipToLOV">
+    <ViewCriteriaUsage
+      Name="ShipToLOVCriteria"
+      FullName="mnj.ont.model.lov.views.ShipToLOV.ShipToLOVCriteria"/>
+    <ParameterMap>
+      <PIMap Variable="P_BUYER_NAME">
+        <TransientExpression><![CDATA[Buyer]]></TransientExpression>
+      </PIMap>
+      <PIMap Variable="P_COUNTRY">
+        <TransientExpression><![CDATA[Attribute12]]></TransientExpression>
+      </PIMap>
+      <PIMap Variable="P_DCPO">
+        <TransientExpression><![CDATA[Dcpo]]></TransientExpression>
+      </PIMap>
+    </ParameterMap>
+  </ViewAccessor>
+  <ViewAccessor
+    Name="ShiptoVO1"
+    ViewObjectName="mnj.ont.model.lov.views.ShiptoVO">
+    <ViewCriteriaUsage
+      Name="ShiptoVOCriteria"
+      FullName="mnj.ont.model.lov.views.ShiptoVO.ShiptoVOCriteria"/>
+    <ParameterMap>
+      <PIMap Variable="P_CUSTOMER_NAME">
+        <TransientExpression><![CDATA[Buyer]]></TransientExpression>
+      </PIMap>
+      <PIMap Variable="P_ORG_ID">
+        <TransientExpression><![CDATA[OrgId]]></TransientExpression>
+      </PIMap>
+    </ParameterMap>
+  </ViewAccessor>
+  <ViewAccessor
+    Name="BillToVO1"
+    ViewObjectName="mnj.ont.model.lov.views.BillToVO">
+    <ViewCriteriaUsage
+      Name="BillToVOCriteria"
+      FullName="mnj.ont.model.lov.views.BillToVO.BillToVOCriteria"/>
+    <ParameterMap>
+      <PIMap Variable="P_CUSTOMER_NAME">
+        <TransientExpression><![CDATA[Buyer]]></TransientExpression>
+      </PIMap>
+      <PIMap Variable="P_ORG_ID">
+        <TransientExpression><![CDATA[OrgId]]></TransientExpression>
+      </PIMap>
+    </ParameterMap>
+  </ViewAccessor>
+  <ListBinding
+    Name="LOV_OrgNameLov"
+    ListVOName="OrgVO1"
+    ListRangeSize="10"
+    NullValueFlag="none"
+    NullValueId="LOV_OrgNameLov_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="OrgNameLov"/>
+    </AttrArray>
+    <AttrArray Name="DerivedAttrNames">
+      <Item Value="OrgId"/>
+      <Item Value="ManufacturerName"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="InternalAddressLine"/>
+      <Item Value="OrganizationId"/>
+      <Item Value="InternalAddressLine"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="InternalAddressLine"/>
+    </AttrArray>
+    <DisplayCriteria
+      Hint="showAndExecute"
+      Name="OrgVOCriteria"/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_Buyer"
+    ListVOName="CustomerVO1"
+    ListRangeSize="10"
+    NullValueFlag="none"
+    NullValueId="LOV_Buyer_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="Buyer"/>
+    </AttrArray>
+    <AttrArray Name="DerivedAttrNames">
+      <Item Value="BuyerId"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="CustomerName"/>
+      <Item Value="CustomerId"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="CustomerName"/>
+    </AttrArray>
+    <DisplayCriteria
+      Hint="showAndExecute"
+      Name="CustomerVOCriteria"/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_Season"
+    ListVOName="SeasonVO1"
+    ListRangeSize="10"
+    NullValueFlag="none"
+    NullValueId="LOV_Season_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="Season"/>
+    </AttrArray>
+    <AttrArray Name="DerivedAttrNames">
+      <Item Value="CurrentSeason"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="Season"/>
+      <Item Value="CurrentSeason"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="Season"/>
+      <Item Value="CurrentSeason"/>
+      <Item Value="Buyer"/>
+    </AttrArray>
+    <DisplayCriteria
+      Name="SeasonVOCriteria"
+      Hint="showAndExecute"/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_ContractLcNumber"
+    ListVOName="ContractVO1"
+    ListRangeSize="10"
+    NullValueFlag="none"
+    NullValueId="LOV_ContractLcNumber_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="ContractLcNumber"/>
+    </AttrArray>
+    <AttrArray Name="DerivedAttrNames">
+      <Item Value="CommissionPercentage"/>
+      <Item Value="ContractLcDate"/>
+      <Item Value="Attribute1"/>
+      <Item Value="Attribute13"/>
+      <Item Value="TotalContractValue"/>
+      <Item Value="NegotiationBank"/>
+      <Item Value="Currency"/>
+      <Item Value="BankBranch"/>
+      <Item Value="BankAddress"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="ContractNo"/>
+      <Item Value="CommisionPerc"/>
+      <Item Value="ContractDate"/>
+      <Item Value="UdNumber"/>
+      <Item Value="OrderType"/>
+      <Item Value="ContractValue"/>
+      <Item Value="Bank"/>
+      <Item Value="Currency"/>
+      <Item Value="BranchName"/>
+      <Item Value="BankAddress"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="ContractNo"/>
+      <Item Value="CommisionPerc"/>
+      <Item Value="ContractDate"/>
+      <Item Value="BuyerName"/>
+      <Item Value="Season"/>
+      <Item Value="ContractValue"/>
+      <Item Value="Bank"/>
+    </AttrArray>
+    <DisplayCriteria
+      Name="ContractVOCriteria"
+      Hint="showAndExecute"/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_ExportLcNo"
+    ListVOName="ExportLCVO1"
+    ListRangeSize="10"
+    NullValueFlag="none"
+    NullValueId="LOV_ExportLcNo_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="ExportLcNo"/>
+    </AttrArray>
+    <AttrArray Name="DerivedAttrNames">
+      <Item Value="ContractLcDate"/>
+      <Item Value="CommissionPercentage"/>
+      <Item Value="Attribute1"/>
+      <Item Value="Attribute13"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="ExportLcNo"/>
+      <Item Value="ContractDate"/>
+      <Item Value="CommisionPerc"/>
+      <Item Value="UdNumber"/>
+      <Item Value="OrderType"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="ExportLcNo"/>
+      <Item Value="ContractDate"/>
+      <Item Value="CommisionPerc"/>
+      <Item Value="BuyerName"/>
+      <Item Value="Season"/>
+    </AttrArray>
+    <DisplayCriteria
+      Hint="showAndExecute"
+      Name="ExportLCVOCriteria"/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_ManufacturerName"
+    ListVOName="OrgVO1"
+    ListRangeSize="10"
+    NullValueFlag="none"
+    NullValueId="LOV_ManufacturerName_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="ManufacturerName"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="InternalAddressLine"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="InternalAddressLine"/>
+    </AttrArray>
+    <DisplayCriteria
+      Name="OrgVOCriteria"
+      Hint="showAndExecute"/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_BankBranch"
+    ListVOName="BankBanckVO1"
+    ListRangeSize="10"
+    NullValueFlag="none"
+    NullValueId="LOV_BankBranch_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="BankBranch"/>
+    </AttrArray>
+    <AttrArray Name="DerivedAttrNames">
+      <Item Value="BankAddress"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="Branch"/>
+      <Item Value="Address"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="Branch"/>
+      <Item Value="Address"/>
+    </AttrArray>
+    <DisplayCriteria
+      Name="BankBanckVOCriteria"
+      Hint="showAndExecute"/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_Consignee"
+    ListVOName="ConsigneeVO1"
+    ListRangeSize="10"
+    NullValueFlag="none"
+    NullValueId="LOV_Consignee_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="Consignee"/>
+    </AttrArray>
+    <AttrArray Name="DerivedAttrNames">
+      <Item Value="ConsigneeAddress"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="ConsigneeName"/>
+      <Item Value="ConsigneeAddress"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="ConsigneeName"/>
+      <Item Value="ConsigneeAddress"/>
+    </AttrArray>
+    <DisplayCriteria
+      Hint="showAndExecute"
+      Name="ConsigneeVOCriteria"/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_NotifyTo"
+    ListVOName="NotifyToLOV1"
+    ListRangeSize="10"
+    NullValueFlag="none"
+    NullValueId="LOV_NotifyTo_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="NotifyTo"/>
+    </AttrArray>
+    <AttrArray Name="DerivedAttrNames">
+      <Item Value="NotifyAddress"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="NotifyTo"/>
+      <Item Value="NotifyAddress"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="NotifyAddress"/>
+      <Item Value="NotifyTo"/>
+    </AttrArray>
+    <DisplayCriteria
+      Name="NotifyToLOVCriteria"/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_ShipTo"
+    ListVOName="ShipToLOV1"
+    ListRangeSize="10"
+    NullValueFlag="none"
+    NullValueId="LOV_ShipTo_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="ShipTo"/>
+    </AttrArray>
+    <AttrArray Name="DerivedAttrNames">
+      <Item Value="ShipToAddress"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="ShipToName"/>
+      <Item Value="ShipToAddress"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="ShipToName"/>
+      <Item Value="ShipToAddress"/>
+    </AttrArray>
+    <DisplayCriteria
+      Name="ShipToLOVCriteria"/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_ShipToAddress"
+    ListVOName="ShiptoVO1"
+    ListRangeSize="10"
+    NullValueFlag="none"
+    NullValueId="LOV_ShipToAddress_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="ShipToAddress"/>
+    </AttrArray>
+    <AttrArray Name="DerivedAttrNames">
+      <Item Value="ShipAddressId"/>
+      <Item Value="ShipCustomerId"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="Address"/>
+      <Item Value="CustAccountId"/>
+      <Item Value="CustAcctSiteId"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="Country"/>
+      <Item Value="Address"/>
+      <Item Value="SiteNumber"/>
+    </AttrArray>
+    <DisplayCriteria
+      Name="ShiptoVOCriteria"
+      Hint="showAndExecute"/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_BillToAddress"
+    ListVOName="BillToVO1"
+    ListRangeSize="10"
+    NullValueFlag="none"
+    NullValueId="LOV_BillToAddress_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="BillToAddress"/>
+    </AttrArray>
+    <AttrArray Name="DerivedAttrNames">
+      <Item Value="BillAddressId"/>
+      <Item Value="BillCustomerId"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="Address"/>
+      <Item Value="CustAccountId"/>
+      <Item Value="CustAcctSiteId"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="Country"/>
+      <Item Value="Address"/>
+      <Item Value="SiteNumber"/>
+    </AttrArray>
+    <DisplayCriteria
+      Name="BillToVOCriteria"
+      Hint="showAndExecute"/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_Attribute12"
+    ListVOName="CountryLOV1"
+    ListRangeSize="10"
+    NullValueFlag="none"
+    NullValueId="LOV_Attribute12_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="Attribute12"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="Country"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="Country"/>
+    </AttrArray>
+    <DisplayCriteria
+      Hint="showAndExecute"/>
+  </ListBinding>
+  <SQLQuery>
+    <![CDATA[SELECT CiHeadersEO.EXP_CI_HEADER_ID, 
+       CiHeadersEO.ORG_NAME, 
+       CiHeadersEO.BUYER_ID, 
+       CiHeadersEO.SEASON,
+       NVL((SELECT SeasonDetailEO.SEASON_NAME
+       FROM PWC_MFG_BSS_STYLE_L  StyleLineEO,
+            pwc_mfg_bss_buyer_h  pwcmfgbssbuyerh,
+            PWC_MFG_BSS_SEASON_D SeasonDetailEO   
+       WHERE /*StyleLineEO.STYLE_IDENTIFIER = HederEO.STYLE_NAME
+       AND   */SeasonDetailEO.SEASON_IDENTIFIER = CiHeadersEO.SEASON
+       AND   pwcmfgbssbuyerh.BUYER_ID = CiHeadersEO.BUYER_ID
+       --AND   pwcmfgbssbuyerh.ORG_ID = HeaderEO.ORG_ID 
+       AND   StyleLineEO.HEADER_ID = pwcmfgbssbuyerh.HEADER_ID
+       AND   SeasonDetailEO.LINE_ID = StyleLineEO.LINE_ID 
+       AND   rownum = 1),CiHeadersEO.SEASON) CURRENT_SEASON, 
+       CiHeadersEO.INVOICE_NO, 
+       CiHeadersEO.INVOICE_DATE, 
+       CiHeadersEO.CONTRACT_LC_NUMBER, 
+       CiHeadersEO.CONTRACT_LC_DATE, 
+       CiHeadersEO.EXPORT_LC_NO, 
+       CiHeadersEO.EXPORT_LC_DATE, 
+       CiHeadersEO.EXP_NO, 
+       CiHeadersEO.EXP_DATE, 
+       CiHeadersEO.COMMISSION_PERCENTAGE, 
+       CiHeadersEO.VERSION_NO, 
+       CiHeadersEO.VERSION_DATE, 
+       CiHeadersEO.ORG_ID, 
+       CiHeadersEO.LAST_UPDATE_LOGIN, 
+       CiHeadersEO.LAST_UPDATE_DATE, 
+       CiHeadersEO.LAST_UPDATED_BY, 
+       CiHeadersEO.CREATION_DATE, 
+       CiHeadersEO.CREATED_BY, 
+       CiHeadersEO.ATTRIBUTE1, 
+       CiHeadersEO.ATTRIBUTE2, 
+       CiHeadersEO.ATTRIBUTE3, 
+       CiHeadersEO.ATTRIBUTE4, 
+       CiHeadersEO.ATTRIBUTE5, 
+       CiHeadersEO.ATTRIBUTE6, 
+       CiHeadersEO.ATTRIBUTE7, 
+       CiHeadersEO.ATTRIBUTE8, 
+       CiHeadersEO.ATTRIBUTE9, 
+       CiHeadersEO.ATTRIBUTE10, 
+       CiHeadersEO.ATTRIBUTE11, 
+       CiHeadersEO.ATTRIBUTE12, 
+       CiHeadersEO.ATTRIBUTE13, 
+       CiHeadersEO.ATTRIBUTE14, 
+       CiHeadersEO.ATTRIBUTE15, 
+       CiHeadersEO.ATTRIBUTE16, 
+       CiHeadersEO.ATTRIBUTE17, 
+       CiHeadersEO.ATTRIBUTE18, 
+       CiHeadersEO.ATTRIBUTE19, 
+       CiHeadersEO.ATTRIBUTE20, 
+       CiHeadersEO.ATTRIBUTE_NUM1, 
+       CiHeadersEO.ATTRIBUTE_NUM2, 
+       CiHeadersEO.ATTRIBUTE_NUM3, 
+       CiHeadersEO.ATTRIBUTE_NUM4, 
+       CiHeadersEO.ATTRIBUTE_NUM5, 
+       CiHeadersEO.ATTRIBUTE_NUM6, 
+       CiHeadersEO.ATTRIBUTE_NUM7, 
+       CiHeadersEO.ATTRIBUTE_NUM8, 
+       CiHeadersEO.ATTRIBUTE_NUM9, 
+       CiHeadersEO.ATTRIBUTE_NUM10, 
+       CiHeadersEO.ATTRIBUTE_DATE1, 
+       CiHeadersEO.ATTRIBUTE_DATE2, 
+       CiHeadersEO.ATTRIBUTE_DATE3, 
+       CiHeadersEO.ATTRIBUTE_DATE4, 
+       CiHeadersEO.ATTRIBUTE_DATE5,
+       (SELECT AC.CUSTOMER_NAME             FROM AR_CUSTOMERS AC           WHERE AC.CUSTOMER_ID = CiHeadersEO.BUYER_ID) BUYER,
+       (SELECT INTERNAL_ADDRESS_LINE        FROM HR_ORGANIZATION_UNITS     WHERE ORGANIZATION_ID = CiHeadersEO.ORG_ID) ORG_NAME_LOV,
+CiHeadersEO.INVOICE_AMOUNT,
+ (SELECT SUM(NVL(CiLinesEO.INVOICE_VALUE,0)) 
+        FROM    IEDOC_EXP_CI_LINES CiLinesEO 
+        WHERE CiLinesEO.EXP_CI_HEADER_ID = CiHeadersEO.EXP_CI_HEADER_ID) TOTAL_INVOICE_VALUE,
+CiHeadersEO.Manufacturer_Name,
+CiHeadersEO.TOTAL_CONTRACT_VALUE,
+--(SELECT SUM(CiLinesEO.CBM_M3)   
+-- FROM IEDOC_EXP_CI_LINES CiLinesEO
+-- WHERE CiLinesEO.EXP_CI_HEADER_ID =  CiHeadersEO.EXP_CI_HEADER_ID ) TOTAL_CBM_M3,
+CiHeadersEO.TOTAL_CBM_M3,
+ (SELECT SUM(CiLinesEO.SHIP_QTY) 
+ FROM IEDOC_EXP_CI_LINES CiLinesEO
+ WHERE CiLinesEO.EXP_CI_HEADER_ID = CiHeadersEO.EXP_CI_HEADER_ID  ) TOTAL_QUANTITY,
+ CiHeadersEO.TOTAL_NET_NET_WT,
+ CiHeadersEO.TOTAL_NET_WT,
+ CiHeadersEO.TOTAL_GROSS_WEIGHT,
+CiHeadersEO.NEGOTIATION_BANK,
+CiHeadersEO.BANK_BRANCH,
+CiHeadersEO.BANK_ADDRESS,
+CiHeadersEO.TOTAL_EXPORTED_VALUE,
+NVL(CiHeadersEO.TOTAL_CONTRACT_VALUE,0) - NVL(CiHeadersEO.TOTAL_EXPORTED_VALUE,0) BALANCE,
+CiHeadersEO.TOTAL_CARTON_QTY,
+CiHeadersEO.Consignee,
+CiHeadersEO.CURRENCY,
+CiHeadersEO.DOC_NO,
+(SELECT  CiLinesEO.DCPO
+FROM IEDOC_EXP_CI_LINES CiLinesEO
+WHERE CiHeadersEO.EXP_CI_HEADER_ID = CiLinesEO.EXP_CI_HEADER_ID
+AND ROWNUM = 1) DCPO,
+CiHeadersEO.CONSIGNEE_ADDRESS,
+CiHeadersEO.NOTIFY_TO,
+CiHeadersEO.NOTIFY_ADDRESS,
+CiHeadersEO.SHIP_TO,
+CiHeadersEO.SHIP_TO_ADDRESS,
+CiHeadersEO.BILL_TO,
+CiHeadersEO.CUST_ACCOUNT_ID,
+CiHeadersEO.CUST_ACCT_SITE_ID,
+CiHeadersEO.BILL_ADDRESS_ID,
+CiHeadersEO.BILL_CUSTOMER_ID,
+CiHeadersEO.SHIP_ADDRESS_ID,
+CiHeadersEO.SHIP_CUSTOMER_ID,
+CiHeadersEO.BILL_TO_ADDRESS ,
+CiHeadersEO.INVOICE_DATE2 ,
+
+ ( select ta.TRX_NUMBER from RA_CUSTOMER_TRX_ALL ta where ta.ATTRIBUTE13 =  TO_CHAR(CiHeadersEO.DOC_NO)  and  CiHeadersEO.org_id = ta.org_id  and   CiHeadersEO.INVOICE_NO = ta.ATTRIBUTE4 and rownum =1  
+     and ta.ATTRIBUTE13 is not null
+ 
+  )  TRX_NUMBER ,
+(SELECT listagg ( PACK_LIST_NO, ' , ')within group(order by EXP_CI_HEADER_ID) FROM ( select distinct  ML.PACK_LIST_NO,ML.EXP_CI_HEADER_ID FROM  IEDOC_EXP_CI_LINES ML WHERE ML.EXP_CI_HEADER_ID= CiHeadersEO.EXP_CI_HEADER_ID) ) PACK_LIST_NO 
+FROM IEDOC_EXP_CI_HEADERS CiHeadersEO
+ORDER BY    CiHeadersEO.DOC_NO desc , 
+            CiHeadersEO.VERSION_NO]]>
+  </SQLQuery>
+  <EntityUsage
+    Name="CiHeadersEO"
+    Entity="mnj.ont.model.entities.CiHeadersEO"/>
+  <ViewAttribute
+    Name="ExpCiHeaderId"
+    IsNotNull="true"
+    PrecisionRule="true"
+    EntityAttrName="ExpCiHeaderId"
+    EntityUsage="CiHeadersEO"
+    AliasName="EXP_CI_HEADER_ID">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="OrgName"
+    PrecisionRule="true"
+    EntityAttrName="OrgName"
+    EntityUsage="CiHeadersEO"
+    AliasName="ORG_NAME">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="BuyerId"
+    PrecisionRule="true"
+    EntityAttrName="BuyerId"
+    EntityUsage="CiHeadersEO"
+    AliasName="BUYER_ID">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Season"
+    PrecisionRule="true"
+    EntityAttrName="Season"
+    EntityUsage="CiHeadersEO"
+    AliasName="SEASON"
+    LOVName="LOV_Season">
+    <Dependencies>
+      <Item
+        Value="Buyer"/>
+      <Item
+        Value="BuyerId"/>
+    </Dependencies>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+        <CONTROLTYPE
+          Value="input_text_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CurrentSeason"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="CURRENT_SEASON"
+    Expression="CURRENT_SEASON"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="InvoiceNo"
+    PrecisionRule="true"
+    EntityAttrName="InvoiceNo"
+    EntityUsage="CiHeadersEO"
+    AliasName="INVOICE_NO">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+        <LABEL
+          ResId="mnj.ont.model.views.CiHeadersVO.InvoiceNo_LABEL"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="InvoiceDate"
+    PrecisionRule="true"
+    EntityAttrName="InvoiceDate"
+    EntityUsage="CiHeadersEO"
+    AliasName="INVOICE_DATE">
+    <Properties>
+      <SchemaBasedProperties>
+        <FMT_FORMATTER
+          ResId="mnj.ont.model.views.CiHeadersVO.InvoiceDate_FMT_FORMATTER"/>
+        <FMT_FORMAT
+          ResId="mnj.ont.model.views.CiHeadersVO.InvoiceDate_FMT_FORMAT"/>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ContractLcNumber"
+    PrecisionRule="true"
+    EntityAttrName="ContractLcNumber"
+    EntityUsage="CiHeadersEO"
+    AliasName="CONTRACT_LC_NUMBER"
+    LOVName="LOV_ContractLcNumber">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+        <LABEL
+          ResId="mnj.ont.model.views.CiHeadersVO.ContractLcNumber_LABEL"/>
+        <CONTROLTYPE
+          Value="input_text_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ContractLcDate"
+    PrecisionRule="true"
+    EntityAttrName="ContractLcDate"
+    EntityUsage="CiHeadersEO"
+    AliasName="CONTRACT_LC_DATE">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ExportLcNo"
+    PrecisionRule="true"
+    EntityAttrName="ExportLcNo"
+    EntityUsage="CiHeadersEO"
+    AliasName="EXPORT_LC_NO"
+    LOVName="LOV_ExportLcNo">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+        <CONTROLTYPE
+          Value="input_text_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ExportLcDate"
+    PrecisionRule="true"
+    EntityAttrName="ExportLcDate"
+    EntityUsage="CiHeadersEO"
+    AliasName="EXPORT_LC_DATE">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ExpNo"
+    PrecisionRule="true"
+    EntityAttrName="ExpNo"
+    EntityUsage="CiHeadersEO"
+    AliasName="EXP_NO">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ExpDate"
+    PrecisionRule="true"
+    EntityAttrName="ExpDate"
+    EntityUsage="CiHeadersEO"
+    AliasName="EXP_DATE">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CommissionPercentage"
+    PrecisionRule="true"
+    EntityAttrName="CommissionPercentage"
+    EntityUsage="CiHeadersEO"
+    AliasName="COMMISSION_PERCENTAGE">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="VersionNo"
+    PrecisionRule="true"
+    EntityAttrName="VersionNo"
+    EntityUsage="CiHeadersEO"
+    AliasName="VERSION_NO">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="VersionDate"
+    PrecisionRule="true"
+    EntityAttrName="VersionDate"
+    EntityUsage="CiHeadersEO"
+    AliasName="VERSION_DATE">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="OrgId"
+    PrecisionRule="true"
+    EntityAttrName="OrgId"
+    EntityUsage="CiHeadersEO"
+    AliasName="ORG_ID"/>
+  <ViewAttribute
+    Name="LastUpdateLogin"
+    PrecisionRule="true"
+    EntityAttrName="LastUpdateLogin"
+    EntityUsage="CiHeadersEO"
+    AliasName="LAST_UPDATE_LOGIN"/>
+  <ViewAttribute
+    Name="LastUpdateDate"
+    PrecisionRule="true"
+    EntityAttrName="LastUpdateDate"
+    EntityUsage="CiHeadersEO"
+    AliasName="LAST_UPDATE_DATE"/>
+  <ViewAttribute
+    Name="LastUpdatedBy"
+    PrecisionRule="true"
+    EntityAttrName="LastUpdatedBy"
+    EntityUsage="CiHeadersEO"
+    AliasName="LAST_UPDATED_BY"/>
+  <ViewAttribute
+    Name="CreationDate"
+    PrecisionRule="true"
+    EntityAttrName="CreationDate"
+    EntityUsage="CiHeadersEO"
+    AliasName="CREATION_DATE"/>
+  <ViewAttribute
+    Name="CreatedBy"
+    PrecisionRule="true"
+    EntityAttrName="CreatedBy"
+    EntityUsage="CiHeadersEO"
+    AliasName="CREATED_BY"/>
+  <ViewAttribute
+    Name="Attribute1"
+    PrecisionRule="true"
+    EntityAttrName="Attribute1"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE1">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Attribute2"
+    PrecisionRule="true"
+    EntityAttrName="Attribute2"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE2"/>
+  <ViewAttribute
+    Name="Attribute3"
+    PrecisionRule="true"
+    EntityAttrName="Attribute3"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE3"/>
+  <ViewAttribute
+    Name="Attribute4"
+    PrecisionRule="true"
+    EntityAttrName="Attribute4"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE4"/>
+  <ViewAttribute
+    Name="Attribute5"
+    PrecisionRule="true"
+    EntityAttrName="Attribute5"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE5"/>
+  <ViewAttribute
+    Name="Attribute6"
+    PrecisionRule="true"
+    EntityAttrName="Attribute6"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE6"/>
+  <ViewAttribute
+    Name="Attribute7"
+    PrecisionRule="true"
+    EntityAttrName="Attribute7"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE7"/>
+  <ViewAttribute
+    Name="Attribute8"
+    PrecisionRule="true"
+    EntityAttrName="Attribute8"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE8"/>
+  <ViewAttribute
+    Name="Attribute9"
+    PrecisionRule="true"
+    EntityAttrName="Attribute9"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE9"/>
+  <ViewAttribute
+    Name="Attribute10"
+    PrecisionRule="true"
+    EntityAttrName="Attribute10"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE10">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Attribute11"
+    PrecisionRule="true"
+    EntityAttrName="Attribute11"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE11">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Attribute12"
+    PrecisionRule="true"
+    EntityAttrName="Attribute12"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE12"
+    LOVName="LOV_Attribute12">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+        <CONTROLTYPE
+          Value="input_text_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Attribute13"
+    PrecisionRule="true"
+    EntityAttrName="Attribute13"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE13"/>
+  <ViewAttribute
+    Name="Attribute14"
+    PrecisionRule="true"
+    EntityAttrName="Attribute14"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE14"/>
+  <ViewAttribute
+    Name="Attribute15"
+    PrecisionRule="true"
+    EntityAttrName="Attribute15"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE15"/>
+  <ViewAttribute
+    Name="Attribute16"
+    PrecisionRule="true"
+    EntityAttrName="Attribute16"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE16"/>
+  <ViewAttribute
+    Name="Attribute17"
+    PrecisionRule="true"
+    EntityAttrName="Attribute17"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE17"/>
+  <ViewAttribute
+    Name="Attribute18"
+    PrecisionRule="true"
+    EntityAttrName="Attribute18"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE18"/>
+  <ViewAttribute
+    Name="Attribute19"
+    PrecisionRule="true"
+    EntityAttrName="Attribute19"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE19"/>
+  <ViewAttribute
+    Name="Attribute20"
+    PrecisionRule="true"
+    EntityAttrName="Attribute20"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE20"/>
+  <ViewAttribute
+    Name="AttributeNum1"
+    PrecisionRule="true"
+    EntityAttrName="AttributeNum1"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE_NUM1"/>
+  <ViewAttribute
+    Name="AttributeNum2"
+    PrecisionRule="true"
+    EntityAttrName="AttributeNum2"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE_NUM2"/>
+  <ViewAttribute
+    Name="AttributeNum3"
+    PrecisionRule="true"
+    EntityAttrName="AttributeNum3"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE_NUM3"/>
+  <ViewAttribute
+    Name="AttributeNum4"
+    PrecisionRule="true"
+    EntityAttrName="AttributeNum4"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE_NUM4"/>
+  <ViewAttribute
+    Name="AttributeNum5"
+    PrecisionRule="true"
+    EntityAttrName="AttributeNum5"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE_NUM5"/>
+  <ViewAttribute
+    Name="AttributeNum6"
+    PrecisionRule="true"
+    EntityAttrName="AttributeNum6"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE_NUM6"/>
+  <ViewAttribute
+    Name="AttributeNum7"
+    PrecisionRule="true"
+    EntityAttrName="AttributeNum7"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE_NUM7"/>
+  <ViewAttribute
+    Name="AttributeNum8"
+    PrecisionRule="true"
+    EntityAttrName="AttributeNum8"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE_NUM8"/>
+  <ViewAttribute
+    Name="AttributeNum9"
+    PrecisionRule="true"
+    EntityAttrName="AttributeNum9"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE_NUM9"/>
+  <ViewAttribute
+    Name="AttributeNum10"
+    PrecisionRule="true"
+    EntityAttrName="AttributeNum10"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE_NUM10"/>
+  <ViewAttribute
+    Name="AttributeDate1"
+    PrecisionRule="true"
+    EntityAttrName="AttributeDate1"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE_DATE1"/>
+  <ViewAttribute
+    Name="AttributeDate2"
+    PrecisionRule="true"
+    EntityAttrName="AttributeDate2"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE_DATE2"/>
+  <ViewAttribute
+    Name="AttributeDate3"
+    PrecisionRule="true"
+    EntityAttrName="AttributeDate3"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE_DATE3"/>
+  <ViewAttribute
+    Name="AttributeDate4"
+    PrecisionRule="true"
+    EntityAttrName="AttributeDate4"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE_DATE4"/>
+  <ViewAttribute
+    Name="AttributeDate5"
+    PrecisionRule="true"
+    EntityAttrName="AttributeDate5"
+    EntityUsage="CiHeadersEO"
+    AliasName="ATTRIBUTE_DATE5"/>
+  <ViewAttribute
+    Name="Buyer"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="50"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="BUYER"
+    Expression="BUYER"
+    SQLType="VARCHAR"
+    LOVName="LOV_Buyer">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="50"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+        <CONTROLTYPE
+          Value="input_text_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="OrgNameLov"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="80"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="ORG_NAME_LOV"
+    Expression="ORG_NAME_LOV"
+    SQLType="VARCHAR"
+    LOVName="LOV_OrgNameLov">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="80"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+        <CONTROLTYPE
+          Value="input_text_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="InvoiceAmount"
+    PrecisionRule="true"
+    AliasName="INVOICE_AMOUNT"
+    EntityAttrName="InvoiceAmount"
+    EntityUsage="CiHeadersEO"/>
+  <ViewAttribute
+    Name="TotalInvoiceValue"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="TOTAL_INVOICE_VALUE"
+    Expression="TOTAL_INVOICE_VALUE"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ManufacturerName"
+    PrecisionRule="true"
+    EntityAttrName="ManufacturerName"
+    EntityUsage="CiHeadersEO"
+    AliasName="MANUFACTURER_NAME"
+    LOVName="LOV_ManufacturerName">
+    <Properties>
+      <SchemaBasedProperties>
+        <CONTROLTYPE
+          Value="input_text_lov"/>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="TotalContractValue"
+    PrecisionRule="true"
+    EntityAttrName="TotalContractValue"
+    EntityUsage="CiHeadersEO"
+    AliasName="TOTAL_CONTRACT_VALUE">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="10"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="TotalCbmM3"
+    PrecisionRule="true"
+    EntityAttrName="TotalCbmM3"
+    EntityUsage="CiHeadersEO"
+    AliasName="TOTAL_CBM_M3"/>
+  <ViewAttribute
+    Name="TotalQuantity"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="TOTAL_QUANTITY"
+    Expression="TOTAL_QUANTITY"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="10"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="TotalNetNetWt"
+    PrecisionRule="true"
+    AliasName="TOTAL_NET_NET_WT"
+    EntityAttrName="TotalNetNetWt"
+    EntityUsage="CiHeadersEO"/>
+  <ViewAttribute
+    Name="TotalNetWt"
+    PrecisionRule="true"
+    AliasName="TOTAL_NET_WT"
+    EntityAttrName="TotalNetWt"
+    EntityUsage="CiHeadersEO"/>
+  <ViewAttribute
+    Name="TotalGrossWeight"
+    PrecisionRule="true"
+    AliasName="TOTAL_GROSS_WEIGHT"
+    EntityAttrName="TotalGrossWeight"
+    EntityUsage="CiHeadersEO"/>
+  <ViewAttribute
+    Name="NegotiationBank"
+    PrecisionRule="true"
+    EntityAttrName="NegotiationBank"
+    EntityUsage="CiHeadersEO"
+    AliasName="NEGOTIATION_BANK">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="BankBranch"
+    PrecisionRule="true"
+    AliasName="BANK_BRANCH"
+    EntityAttrName="BankBranch"
+    EntityUsage="CiHeadersEO"
+    LOVName="LOV_BankBranch">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+        <CONTROLTYPE
+          Value="input_text_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="BankAddress"
+    PrecisionRule="true"
+    AliasName="BANK_ADDRESS"
+    EntityAttrName="BankAddress"
+    EntityUsage="CiHeadersEO">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="TotalExportedValue"
+    PrecisionRule="true"
+    AliasName="TOTAL_EXPORTED_VALUE"
+    EntityAttrName="TotalExportedValue"
+    EntityUsage="CiHeadersEO"/>
+  <ViewAttribute
+    Name="Balance"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="BALANCE"
+    Expression="BALANCE"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="TotalCartonQty"
+    PrecisionRule="true"
+    EntityAttrName="TotalCartonQty"
+    EntityUsage="CiHeadersEO"
+    AliasName="TOTAL_CARTON_QTY"/>
+  <ViewAttribute
+    Name="Consignee"
+    PrecisionRule="true"
+    AliasName="CONSIGNEE"
+    EntityAttrName="Consignee"
+    EntityUsage="CiHeadersEO"
+    LOVName="LOV_Consignee">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+        <CONTROLTYPE
+          Value="input_text_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Currency"
+    PrecisionRule="true"
+    EntityAttrName="Currency"
+    EntityUsage="CiHeadersEO"
+    AliasName="CURRENCY"/>
+  <ViewAttribute
+    Name="DocNo"
+    PrecisionRule="true"
+    EntityAttrName="DocNo"
+    EntityUsage="CiHeadersEO"
+    AliasName="DOC_NO"/>
+  <ViewAttribute
+    Name="Dcpo"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="DCPO"
+    Expression="DCPO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ConsigneeAddress"
+    PrecisionRule="true"
+    EntityAttrName="ConsigneeAddress"
+    EntityUsage="CiHeadersEO"
+    AliasName="CONSIGNEE_ADDRESS">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="50"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="NotifyTo"
+    PrecisionRule="true"
+    EntityAttrName="NotifyTo"
+    EntityUsage="CiHeadersEO"
+    AliasName="NOTIFY_TO"
+    LOVName="LOV_NotifyTo">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+        <CONTROLTYPE
+          Value="input_text_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="NotifyAddress"
+    PrecisionRule="true"
+    EntityAttrName="NotifyAddress"
+    EntityUsage="CiHeadersEO"
+    AliasName="NOTIFY_ADDRESS">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="50"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ShipTo"
+    PrecisionRule="true"
+    EntityAttrName="ShipTo"
+    EntityUsage="CiHeadersEO"
+    AliasName="SHIP_TO"
+    LOVName="LOV_ShipTo">
+    <Properties>
+      <SchemaBasedProperties>
+        <CONTROLTYPE
+          Value="input_text_lov"/>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ShipToAddress"
+    PrecisionRule="true"
+    EntityAttrName="ShipToAddress"
+    EntityUsage="CiHeadersEO"
+    AliasName="SHIP_TO_ADDRESS"
+    LOVName="LOV_ShipToAddress">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+        <CONTROLTYPE
+          Value="input_text_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="BillTo"
+    PrecisionRule="true"
+    EntityAttrName="BillTo"
+    EntityUsage="CiHeadersEO"
+    AliasName="BILL_TO"/>
+  <ViewAttribute
+    Name="CustAccountId"
+    PrecisionRule="true"
+    EntityAttrName="CustAccountId"
+    EntityUsage="CiHeadersEO"
+    AliasName="CUST_ACCOUNT_ID"/>
+  <ViewAttribute
+    Name="CustAcctSiteId"
+    PrecisionRule="true"
+    EntityAttrName="CustAcctSiteId"
+    EntityUsage="CiHeadersEO"
+    AliasName="CUST_ACCT_SITE_ID"/>
+  <ViewAttribute
+    Name="BillAddressId"
+    PrecisionRule="true"
+    EntityAttrName="BillAddressId"
+    EntityUsage="CiHeadersEO"
+    AliasName="BILL_ADDRESS_ID"/>
+  <ViewAttribute
+    Name="BillCustomerId"
+    PrecisionRule="true"
+    EntityAttrName="BillCustomerId"
+    EntityUsage="CiHeadersEO"
+    AliasName="BILL_CUSTOMER_ID"/>
+  <ViewAttribute
+    Name="ShipAddressId"
+    PrecisionRule="true"
+    EntityAttrName="ShipAddressId"
+    EntityUsage="CiHeadersEO"
+    AliasName="SHIP_ADDRESS_ID"/>
+  <ViewAttribute
+    Name="ShipCustomerId"
+    PrecisionRule="true"
+    EntityAttrName="ShipCustomerId"
+    EntityUsage="CiHeadersEO"
+    AliasName="SHIP_CUSTOMER_ID"/>
+  <ViewAttribute
+    Name="BillToAddress"
+    PrecisionRule="true"
+    EntityAttrName="BillToAddress"
+    EntityUsage="CiHeadersEO"
+    AliasName="BILL_TO_ADDRESS"
+    LOVName="LOV_BillToAddress">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+        <CONTROLTYPE
+          Value="input_text_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="InvoiceDate2"
+    PrecisionRule="true"
+    EntityAttrName="InvoiceDate2"
+    EntityUsage="CiHeadersEO"
+    AliasName="INVOICE_DATE2"/>
+  <ViewAttribute
+    Name="TrxNumber"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="20"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="TRX_NUMBER"
+    Expression="TRX_NUMBER"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="20"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="PackListNo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="4000"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="PACK_LIST_NO"
+    Expression="PACK_LIST_NO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="4000"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <LABEL
+          ResId="mnj.ont.model.views.CiHeadersVO.PackListNo_LABEL"/>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewCriteria
+    Name="CiHeadersVOCriteria"
+    ViewObjectName="mnj.ont.model.views.CiHeadersVO"
+    Conjunction="AND">
+    <Properties>
+      <CustomProperties>
+        <Property
+          Name="displayOperators"
+          Value="InAdvancedMode"/>
+        <Property
+          Name="autoExecute"
+          Value="false"/>
+        <Property
+          Name="allowConjunctionOverride"
+          Value="true"/>
+        <Property
+          Name="showInList"
+          Value="true"/>
+        <Property
+          Name="mode"
+          Value="Basic"/>
+      </CustomProperties>
+    </Properties>
+    <ViewCriteriaRow
+      Name="vcrow0"
+      UpperColumns="1">
+      <ViewCriteriaItem
+        Name="InvoiceNo"
+        ViewAttribute="InvoiceNo"
+        Operator="="
+        Conjunction="AND"
+        Value=":InvoiceNumber"
+        IsBindVarValue="true"
+        Required="Optional"/>
+      <ViewCriteriaItem
+        Name="ContractLcNumber"
+        ViewAttribute="ContractLcNumber"
+        Operator="="
+        Conjunction="AND"
+        Value=":ContractNumber"
+        IsBindVarValue="true"
+        Required="Optional"/>
+      <ViewCriteriaItem
+        Name="PackListNo"
+        ViewAttribute="PackListNo"
+        Operator="CONTAINS"
+        Conjunction="AND"
+        Required="Optional"/>
+    </ViewCriteriaRow>
+  </ViewCriteria>
+  <ViewLinkAccessor
+    Name="CiLines"
+    ViewLink="mnj.ont.model.views.IedocExpCiLinesFkLink"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
+  <ViewLinkAccessor
+    Name="FillLines"
+    ViewLink="mnj.ont.model.popup.views.CiHeader_FillLines"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
+  <ViewLinkAccessor
+    Name="ExportedValue"
+    ViewLink="mnj.ont.model.views.HeaderExportedVL"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
+  <ViewLinkAccessor
+    Name="CiLines2"
+    ViewLink="mnj.ont.model.views.IedocExpCiLines2FkLink"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
+  <ResourceBundle>
+    <PropertiesBundle
+      PropertiesFile="model.ModelBundle"/>
+  </ResourceBundle>
+</ViewObject>

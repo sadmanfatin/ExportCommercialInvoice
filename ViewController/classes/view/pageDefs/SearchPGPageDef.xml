@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<pageDefinition xmlns="http://xmlns.oracle.com/adfm/uimodel"
+                version="11.1.1.62.29" id="SearchPGPageDef"
+                Package="view.pageDefs">
+  <parameters/>
+  <executables>
+    <variableIterator id="variables"/>
+    <iterator Binds="CiHeaders1" RangeSize="25" DataControl="MainAMDataControl"
+              id="CiHeaders1Iterator"/>
+    <searchRegion Criteria="CiHeadersVOCriteria"
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  Binds="CiHeaders1Iterator" id="CiHeadersVOCriteriaQuery"/>
+  </executables>
+  <bindings>
+    <tree IterBinding="CiHeaders1Iterator" id="CiHeaders1">
+      <nodeDefinition DefName="mnj.ont.model.views.CiHeadersVO"
+                      Name="CiHeaders10">
+        <AttrNames>
+          <Item Value="OrgName"/>
+          <Item Value="Season"/>
+          <Item Value="InvoiceNo"/>
+          <Item Value="InvoiceDate"/>
+          <Item Value="ContractLcNumber"/>
+          <Item Value="ContractLcDate"/>
+          <Item Value="ExportLcNo"/>
+          <Item Value="ExportLcDate"/>
+          <Item Value="ExpNo"/>
+          <Item Value="ExpDate"/>
+          <Item Value="VersionNo"/>
+          <Item Value="VersionDate"/>
+          <Item Value="OrgNameLov"/>
+          <Item Value="Buyer"/>
+          <Item Value="DocNo"/>
+          <Item Value="Attribute10"/>
+          <Item Value="AttributeDate1"/>
+          <Item Value="InvoiceDate2"/>
+          <Item Value="TrxNumber"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <action IterBinding="CiHeaders1Iterator" id="CreateInsert"
+            RequiresUpdateModel="true" Action="createInsertRow"/>
+    <action IterBinding="CiHeaders1Iterator" id="setCurrentRowWithKey"
+            RequiresUpdateModel="false" Action="setCurrentRowWithKey">
+      <NamedData NDName="rowKey" NDType="java.lang.String"/>
+    </action>
+    <methodAction id="copyDocument"
+                  InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="copyDocument"
+                  IsViewObjectMethod="false"/>
+    <methodAction id="amendmentAction"
+                  InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="amendmentAction"
+                  IsViewObjectMethod="false"/>
+    <action IterBinding="CiHeaders1Iterator" id="Delete"
+            RequiresUpdateModel="false" Action="removeCurrentRow"/>
+    <action id="Commit" RequiresUpdateModel="true" Action="commitTransaction"
+            DataControl="MainAMDataControl"/>
+    <methodAction id="setSessionValues"
+                  InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="setSessionValues"
+                  IsViewObjectMethod="false">
+      <NamedData NDName="orgId" NDType="java.lang.String"/>
+      <NamedData NDName="userId" NDType="java.lang.String"/>
+      <NamedData NDName="respId" NDType="java.lang.String"/>
+      <NamedData NDName="respAppl" NDType="java.lang.String"/>
+    </methodAction>
+  </bindings>
+</pageDefinition>

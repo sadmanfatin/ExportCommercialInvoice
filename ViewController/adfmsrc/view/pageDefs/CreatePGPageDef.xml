@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<pageDefinition xmlns="http://xmlns.oracle.com/adfm/uimodel"
+                version="11.1.1.62.29" id="CreatePGPageDef"
+                Package="view.pageDefs">
+  <parameters/>
+  <executables>
+    <variableIterator id="variables">
+      <variable Name="startDate" Type="oracle.jbo.domain.Date"/>
+      <variable Name="endDate" Type="oracle.jbo.domain.Date"/>
+    </variableIterator>
+    <iterator Binds="CiHeaders1" RangeSize="25" DataControl="MainAMDataControl"
+              id="CiHeaders1Iterator"/>
+    <iterator Binds="CiLines1" RangeSize="25" DataControl="MainAMDataControl"
+              id="CiLines1Iterator"/>
+    <searchRegion Binds="CiLines1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="CiLines1Query"/>
+    <iterator Binds="FillLinesVO1" RangeSize="25"
+              DataControl="MainAMDataControl" id="FillLinesVO1Iterator"/>
+    <searchRegion Binds="FillLinesVO1Iterator" Criteria="FillLinesVOCriteria"
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="FillLinesVO12Query"/>
+    <iterator Binds="CiLines2VO1" RangeSize="25" DataControl="MainAMDataControl"
+              id="CiLines2VO1Iterator"/>
+    <searchRegion Binds="CiLines2VO1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="CiLines2VO1Query"/>
+  </executables>
+  <bindings>
+    <listOfValues StaticList="false" IterBinding="CiHeaders1Iterator"
+                  Uses="LOV_Buyer" id="Buyer"/>
+    <listOfValues StaticList="false" IterBinding="CiHeaders1Iterator"
+                  Uses="LOV_OrgNameLov" id="OrgNameLov"/>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="InvoiceNo">
+      <AttrNames>
+        <Item Value="InvoiceNo"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="InvoiceDate">
+      <AttrNames>
+        <Item Value="InvoiceDate"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="ContractLcDate">
+      <AttrNames>
+        <Item Value="ContractLcDate"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="ExportLcDate">
+      <AttrNames>
+        <Item Value="ExportLcDate"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="ExpNo">
+      <AttrNames>
+        <Item Value="ExpNo"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="ExpDate">
+      <AttrNames>
+        <Item Value="ExpDate"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="CommissionPercentage">
+      <AttrNames>
+        <Item Value="CommissionPercentage"/>
+      </AttrNames>
+    </attributeValues>
+    <tree IterBinding="CiLines1Iterator" id="CiLines1">
+      <nodeDefinition DefName="mnj.ont.model.views.CiLinesVO" Name="CiLines10">
+        <AttrNames>
+          <Item Value="Style"/>
+          <Item Value="OrderBpo"/>
+          <Item Value="Dcpo"/>
+          <Item Value="ArticleNo"/>
+          <Item Value="ItemNo"/>
+          <Item Value="ItemDescription"/>
+          <Item Value="ShipQty"/>
+          <Item Value="Uom"/>
+          <Item Value="UnitPrice"/>
+          <Item Value="GoodsValue"/>
+          <Item Value="TradeDiscountCommission"/>
+          <Item Value="InvoiceValue"/>
+          <Item Value="IncoTerms"/>
+          <Item Value="HtsCode"/>
+          <Item Value="CartonNo"/>
+          <Item Value="CartonQuantity"/>
+          <Item Value="NetNetWeight"/>
+          <Item Value="NetWeight"/>
+          <Item Value="GrossWeight"/>
+          <Item Value="CbmM3"/>
+          <Item Value="ExcessShortQty"/>
+          <Item Value="PercExcessShortQty"/>
+          <Item Value="ShipmentMode"/>
+          <Item Value="FreightCharge"/>
+          <Item Value="Attribute1"/>
+          <Item Value="IncoTermsValue"/>
+          <Item Value="ChargableGrossWeight"/>
+          <Item Value="ShipmentType"/>
+          <Item Value="AttributeDate1"/>
+          <Item Value="PackListNo"/>
+          <Item Value="Country"/>
+          <Item Value="TransportationMode"/>
+          <Item Value="Currency"/>
+          <Item Value="ItemCode"/>
+          <Item Value="ItemName"/>
+          <Item Value="OrderItemId"/>
+          <Item Value="Attribute2"/>
+          <Item Value="CurrentStyle"/>
+          <Item Value="CurrentBpo"/>
+          <Item Value="FinalUnitPrice"/>
+          <Item Value="ChildStyleNo"/>
+          <Item Value="HangerStyle"/>
+          <Item Value="HangerCost"/>
+          <Item Value="SizerStyle"/>
+          <Item Value="SizerCost"/>
+          <Item Value="BpoId"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <action id="Rollback" RequiresUpdateModel="false"
+            Action="rollbackTransaction" DataControl="MainAMDataControl"/>
+    <listOfValues StaticList="false" IterBinding="CiHeaders1Iterator"
+                  Uses="LOV_Season" id="Season"/>
+    <listOfValues StaticList="false" IterBinding="CiHeaders1Iterator"
+                  Uses="LOV_ContractLcNumber" id="ContractLcNumber"/>
+    <tree IterBinding="FillLinesVO1Iterator" id="FillLinesVO1">
+      <nodeDefinition DefName="mnj.ont.model.popup.views.FillLinesVO"
+                      Name="FillLinesVO10">
+        <AttrNames>
+          <Item Value="Bpo"/>
+          <Item Value="OrderedItem"/>
+          <Item Value="UnitSellingPrice"/>
+          <Item Value="OrderQuantityUom"/>
+          <Item Value="SeasonName"/>
+          <Item Value="OrderedQuantity"/>
+          <Item Value="Amount"/>
+          <Item Value="Dcpo"/>
+          <Item Value="Country"/>
+          <Item Value="multiSelect" Binds="multiSelect"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <button IterBinding="FillLinesVO1Iterator" id="multiSelect"
+            DTSupportsMRU="false" StaticList="true">
+      <AttrNames>
+        <Item Value="multiSelect"/>
+      </AttrNames>
+      <ValueList>
+        <Item Value="Y"/>
+        <Item Value="N"/>
+      </ValueList>
+    </button>
+    <methodAction id="popupSelectActionListener"
+                  InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="popupSelectActionListener"
+                  IsViewObjectMethod="false"/>
+    <methodAction id="popupDeselectActionListener"
+                  InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="popupDeselectActionListener"
+                  IsViewObjectMethod="false"/>
+    <methodAction id="fetchLines" InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="fetchLines"
+                  IsViewObjectMethod="false"/>
+    <methodAction id="saveActionButton"
+                  InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="saveActionButton"
+                  IsViewObjectMethod="false"/>
+    <action IterBinding="CiLines1Iterator" id="Delete"
+            RequiresUpdateModel="false" Action="removeCurrentRow"/>
+    <tree IterBinding="CiLines1Iterator" id="CiLines11">
+      <nodeDefinition DefName="mnj.ont.model.views.CiLinesVO" Name="CiLines110">
+        <AttrNames>
+          <Item Value="ExpCiLineId"/>
+          <Item Value="ExpCiHeaderId"/>
+          <Item Value="Style"/>
+          <Item Value="OrderBpo"/>
+          <Item Value="Dcpo"/>
+          <Item Value="ArticleNo"/>
+          <Item Value="ItemNo"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <action id="Commit" DataControl="MainAMDataControl"
+            RequiresUpdateModel="true" Action="commitTransaction"/>
+    <tree IterBinding="FillLinesVO1Iterator" id="FillLinesVO11">
+      <nodeDefinition DefName="mnj.ont.model.popup.views.FillLinesVO"
+                      Name="FillLinesVO110">
+        <AttrNames>
+          <Item Value="multiSelect" Binds="multiSelect"/>
+          <Item Value="Bpo"/>
+          <Item Value="OrderedItem"/>
+          <Item Value="UnitSellingPrice"/>
+          <Item Value="OrderQuantityUom"/>
+          <Item Value="OrderedQuantity"/>
+          <Item Value="Amount"/>
+          <Item Value="Dcpo"/>
+          <Item Value="Country"/>
+          <Item Value="PartyName"/>
+          <Item Value="SeasonName"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="Attribute1">
+      <AttrNames>
+        <Item Value="Attribute1"/>
+      </AttrNames>
+    </attributeValues>
+    <listOfValues StaticList="false" IterBinding="CiHeaders1Iterator"
+                  Uses="LOV_ExportLcNo" id="ExportLcNo1"/>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="InvoiceAmount">
+      <AttrNames>
+        <Item Value="InvoiceAmount"/>
+      </AttrNames>
+    </attributeValues>
+    <methodAction id="testDate" InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="testDate"
+                  IsViewObjectMethod="false"/>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="TotalInvoiceValue">
+      <AttrNames>
+        <Item Value="TotalInvoiceValue"/>
+      </AttrNames>
+    </attributeValues>
+    <methodAction id="headerExecute"
+                  InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="headerExecute"
+                  IsViewObjectMethod="false"/>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="Attribute10">
+      <AttrNames>
+        <Item Value="Attribute10"/>
+      </AttrNames>
+    </attributeValues>
+    <listOfValues StaticList="false" IterBinding="CiHeaders1Iterator"
+                  id="Attribute12" Uses="LOV_Attribute12"/>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="Attribute13">
+      <AttrNames>
+        <Item Value="Attribute13"/>
+      </AttrNames>
+    </attributeValues>
+    <methodAction IterBinding="FillLinesVO1Iterator" id="setendDate"
+                  RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="setendDate" IsViewObjectMethod="true"
+                  DataControl="MainAMDataControl"
+                  InstanceName="MainAMDataControl.FillLinesVO1">
+      <NamedData NDName="value" NDType="oracle.jbo.domain.Date"/>
+    </methodAction>
+    <methodAction IterBinding="FillLinesVO1Iterator" id="setstartDate"
+                  RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="setstartDate" IsViewObjectMethod="true"
+                  DataControl="MainAMDataControl"
+                  InstanceName="MainAMDataControl.FillLinesVO1">
+      <NamedData NDName="value" NDType="oracle.jbo.domain.Date"/>
+    </methodAction>
+    <attributeValues IterBinding="variables" id="startDate1">
+      <AttrNames>
+        <Item Value="startDate"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="endDate1">
+      <AttrNames>
+        <Item Value="endDate"/>
+      </AttrNames>
+    </attributeValues>
+    <tree IterBinding="FillLinesVO1Iterator" id="FillLinesVO12">
+      <nodeDefinition DefName="mnj.ont.model.popup.views.FillLinesVO"
+                      Name="FillLinesVO120">
+        <AttrNames>
+          <Item Value="multiSelect"/>
+     
+          <Item Value="Bpo"/>
+          <Item Value="Dcpo"/>
+          <Item Value="OrderedQuantity"/>
+          <Item Value="UnitSellingPrice"/>
+          <Item Value="Amount"/>
+          <Item Value="OrderedItem"/>
+          <Item Value="OrderQuantityUom"/>
+          <Item Value="Country"/>
+          <Item Value="PartyName"/>
+          <Item Value="SeasonName"/>
+          <Item Value="IncoTerms"/>
+          <Item Value="HtsCode"/>
+          <Item Value="CatNo"/>
+          <Item Value="ExportLc"/>
+          <Item Value="PckLstNo"/>
+          <Item Value="CartonQuantity"/>
+          <Item Value="ShipCancelExBdDate"/>
+          <Item Value="Fromdate"/>
+          <Item Value="Todate"/>
+          <Item Value="ShipExFactoryDate"/>
+          <Item Value="NetNetWeight"/>
+          <Item Value="NetWeight"/>
+          <Item Value="GrossWeight"/>
+          <Item Value="TotalCbm"/>
+          <Item Value="ShortExcessQty"/>
+          <Item Value="ShortExcessPer"/>
+          <Item Value="TransportationMode"/>
+          <Item Value="Currency"/>
+          <Item Value="OrderedItemId"/>
+          <Item Value="ItemName"/>
+          <Item Value="ItemCode"/>
+          <Item Value="Color"/>
+          <Item Value="ShippedQuantity"/>
+          <Item Value="Style"/>
+          <Item Value="BpoId"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <attributeValues IterBinding="FillLinesVO1Iterator" id="ShipCancelExBdDate">
+      <AttrNames>
+        <Item Value="ShipCancelExBdDate"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="AttributeDate1">
+      <AttrNames>
+        <Item Value="AttributeDate1"/>
+      </AttrNames>
+    </attributeValues>
+    <listOfValues StaticList="false" IterBinding="CiHeaders1Iterator"
+                  Uses="LOV_ManufacturerName" id="ManufacturerName"/>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="TotalContractValue">
+      <AttrNames>
+        <Item Value="TotalContractValue"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="TotalQuantity">
+      <AttrNames>
+        <Item Value="TotalQuantity"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="TotalGrossWeight">
+      <AttrNames>
+        <Item Value="TotalGrossWeight"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="TotalNetWt">
+      <AttrNames>
+        <Item Value="TotalNetWt"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="TotalNetNetWt">
+      <AttrNames>
+        <Item Value="TotalNetNetWt"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="NegotiationBank">
+      <AttrNames>
+        <Item Value="NegotiationBank"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="BankAddress">
+      <AttrNames>
+        <Item Value="BankAddress"/>
+      </AttrNames>
+    </attributeValues>
+    <listOfValues StaticList="false" IterBinding="CiHeaders1Iterator"
+                  Uses="LOV_BankBranch" id="BankBranch"/>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="Balance">
+      <AttrNames>
+        <Item Value="Balance"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="TotalExportedValue">
+      <AttrNames>
+        <Item Value="TotalExportedValue"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="ExpCiHeaderId">
+      <AttrNames>
+        <Item Value="ExpCiHeaderId"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="TotalCartonQty">
+      <AttrNames>
+        <Item Value="TotalCartonQty"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="Currency">
+      <AttrNames>
+        <Item Value="Currency"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="VersionNo">
+      <AttrNames>
+        <Item Value="VersionNo"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="DocNo">
+      <AttrNames>
+        <Item Value="DocNo"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="Dcpo">
+      <AttrNames>
+        <Item Value="Dcpo"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="ConsigneeAddress">
+      <AttrNames>
+        <Item Value="ConsigneeAddress"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="NotifyAddress">
+      <AttrNames>
+        <Item Value="NotifyAddress"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="ShipToAddress">
+      <AttrNames>
+        <Item Value="ShipToAddress"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="TotalCbmM3">
+      <AttrNames>
+        <Item Value="TotalCbmM3"/>
+      </AttrNames>
+    </attributeValues>
+    <tree IterBinding="CiLines2VO1Iterator" id="CiLines2VO1">
+      <nodeDefinition DefName="mnj.ont.model.views.CiLines2VO"
+                      Name="CiLines2VO10">
+        <AttrNames>
+          <Item Value="Style"/>
+          <Item Value="Quantity"/>
+          <Item Value="Consumption"/>
+          <Item Value="Attribute4"/>
+          <Item Value="UsedFabric"/>
+          <Item Value="ExpCiLine2Id"/>
+          <Item Value="ExpCiHeaderId"/>
+          <Item Value="AttributeNum1"/>
+          <Item Value="AttributeNum2"/>
+          <Item Value="AttributeNum3"/>
+          <Item Value="AttributeDate1"/>
+          <Item Value="AttributeDate2"/>
+          <Item Value="Color"/>
+          <Item Value="CurrentStyle"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <action IterBinding="CiLines1Iterator" id="Create"
+            RequiresUpdateModel="true" Action="createInsertRow"/>
+    <action IterBinding="CiLines2VO1Iterator" id="Delete1"
+            RequiresUpdateModel="false" Action="removeCurrentRow"/>
+    <listOfValues StaticList="false" IterBinding="CiHeaders1Iterator"
+                  Uses="LOV_ShipToAddress" id="ShipToAddress1"/>
+    <listOfValues StaticList="false" IterBinding="CiHeaders1Iterator"
+                  Uses="LOV_BillToAddress" id="BillToAddress"/>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="Consignee">
+      <AttrNames>
+        <Item Value="Consignee"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="NotifyTo">
+      <AttrNames>
+        <Item Value="NotifyTo"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="ShipTo">
+      <AttrNames>
+        <Item Value="ShipTo"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="Attribute20">
+      <AttrNames>
+        <Item Value="Attribute20"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="InvoiceDate2">
+      <AttrNames>
+        <Item Value="InvoiceDate2"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="TrxNumber">
+      <AttrNames>
+        <Item Value="TrxNumber"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="CurrentSeason">
+      <AttrNames>
+        <Item Value="CurrentSeason"/>
+      </AttrNames>
+    </attributeValues>
+  </bindings>
+</pageDefinition>

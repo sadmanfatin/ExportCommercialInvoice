@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="FillStyleVO"
+  Version="11.1.1.62.29"
+  InheritPersonalization="true"
+  BindingStyle="OracleName"
+  CustomQuery="true"
+  RowClass="mnj.ont.model.views.FillStyleVORowImpl"
+  ComponentClass="mnj.ont.model.views.FillStyleVOImpl"
+  PageIterMode="Full"
+  UseGlueCode="false">
+  <DesignTime>
+    <Attr Name="_codeGenFlag2" Value="Access|Coll|VarAccess"/>
+    <Attr Name="_isExpertMode" Value="true"/>
+    <Attr Name="_isCodegen" Value="true"/>
+  </DesignTime>
+  <Properties>
+    <SchemaBasedProperties>
+      <LABEL
+        ResId="mnj.ont.model.views.FillStyleVO_LABEL"/>
+    </SchemaBasedProperties>
+  </Properties>
+  <Variable
+    Name="INVOICE_NO"
+    Kind="where"
+    Type="java.lang.String"/>
+  <Variable
+    Name="P_UD_NUM"
+    Kind="where"
+    Type="java.lang.String"/>
+  <SQLQuery>
+    <![CDATA[SELECT  AA.invoice_no,
+        AA.invoice_date,
+        AA.STYLE, 
+        AA.Color,
+        AA.INVOICE_AMOUNT,
+NVL(BB.UD_CONSUMPTION,0) * NVL(AA.INVOICE_AMOUNT,0) CONSUMPTION ,
+  BB.UD_CONSUMPTION,
+       DECODE(BB.CATEGORY,11,'Master Fabric',12,'Master Fabric',21,'Pocketing',22,'Interlinning') DESCRIPTION,
+         BB.UD_NUMBER
+FROM(    select h.invoice_no,
+               h.invoice_date,
+               CASE WHEN h.ATTRIBUTE13 = 'Style Based' THEN l.style 
+                    WHEN h.ATTRIBUTE13 = 'Order Based' THEN l.ORDER_BPO
+               ELSE l.style
+               END style,
+               l.ATTRIBUTE2 Color,
+                l.SHIP_QTY  invoice_amount
+          from IEDOC_EXP_CI_HEADERS h, Iedoc_Exp_Ci_Lines l
+         where h.invoice_no is not null
+           and h.exp_ci_header_id = l.exp_ci_header_id
+        and h.invoice_no= :INVOICE_NO
+    )AA,
+    (
+    SELECT UdDetailPiEO.* ,
+    UDHeaderTP_EO.EXPORT_ORDER_NUMBER UD_NUMBER,
+    (SELECT MSI.SEGMENT1  --ATTRIBUTE9
+       FROM MTL_SYSTEM_ITEMS MSI
+       WHERE MSI.ORGANIZATION_ID = 353
+       AND UdDetailPiEO.PI_ITEMS = MSI.DESCRIPTION
+       AND rownum = 1) CATEGORY 
+        FROM IEDOC_IMP_UD_TP_HEADERS UDHeaderTP_EO,
+             IEDOC_IMP_UD_HEADERS UdHeaderEO,
+             IEDOC_IMP_UD_LINES_CONTRACT UdContractsEO,
+             IEDOC_IMP_UD_DETAIL_CONSUM BblcDetailEO,
+             IEDOC_IMP_UD_DETAIL_PI UdDetailPiEO
+        WHERE   UDHeaderTP_EO.EXPORT_ORDER_NUMBER = :P_UD_NUM
+        AND     UDHeaderTP_EO.IMP_UD_TP_HEADER_ID = UdHeaderEO.IMP_UD_TP_HEADER_ID
+        AND     UdContractsEO.IMP_UD_HEADER_ID = UdHeaderEO.IMP_UD_HEADER_ID 
+        AND     UdContractsEO.IMP_UD_LINE_CONTRACT_ID = BblcDetailEO.IMP_UD_LINE_CONTRACT_ID
+        AND     BblcDetailEO.IMP_UD_DETAIL_CONSUM_ID = UdDetailPiEO.IMP_UD_DETAIL_CONSUM_ID 
+        --AND     UdHeaderEO.ATTRIBUTE3 = 'Original'
+        --AND     BblcDetailEO.ITEM_CATEGORY = 'Fabric'
+    ) BB
+WHERE AA.STYLE = BB.BPO_STYLE_NO
+AND BB.CATEGORY IN (11,12,21,22)
+UNION ALL
+SELECT CC.invoice_no,
+       CC.invoice_date,
+       CC.style,
+       CC.Color,
+       CC.invoice_amount,
+       NULL,
+       NULL,
+       NULL,
+       NULL
+FROM (
+        select h.invoice_no,
+               h.invoice_date,
+               CASE WHEN h.ATTRIBUTE13 = 'Style Based' THEN l.style 
+                    WHEN h.ATTRIBUTE13 = 'Order Based' THEN l.ORDER_BPO
+               ELSE l.style
+               END style,
+               l.ATTRIBUTE2 Color,
+                l.SHIP_QTY  invoice_amount ,
+               NULL,
+               NULL,
+               NULL,
+               NULL
+        from IEDOC_EXP_CI_HEADERS h, Iedoc_Exp_Ci_Lines l
+        where h.invoice_no is not null
+        and h.exp_ci_header_id = l.exp_ci_header_id
+        and h.invoice_no= :INVOICE_NO
+       
+    ) CC
+WHERE CC.STYLE NOT IN  (
+                    SELECT  STYLE
+                    FROM(  select h.invoice_no,
+               h.invoice_date,
+               CASE WHEN h.ATTRIBUTE13 = 'Style Based' THEN l.style 
+                    WHEN h.ATTRIBUTE13 = 'Order Based' THEN l.ORDER_BPO
+               ELSE l.style
+               END style,
+               l.ATTRIBUTE2 Color,
+                l.SHIP_QTY  invoice_amount
+                              from IEDOC_EXP_CI_HEADERS h, Iedoc_Exp_Ci_Lines l
+                             where h.invoice_no is not null
+                               and h.exp_ci_header_id = l.exp_ci_header_id
+                            and h.invoice_no= :INVOICE_NO
+                           
+                        )AA,
+                        (SELECT UdDetailPiEO.*,
+                        UDHeaderTP_EO.EXPORT_ORDER_NUMBER UD_NUMBER,
+                        (SELECT MSI.SEGMENT1  --ATTRIBUTE9
+                           FROM MTL_SYSTEM_ITEMS MSI
+                           WHERE MSI.ORGANIZATION_ID = 353
+                           AND UdDetailPiEO.PI_ITEMS = MSI.DESCRIPTION
+                           AND ROWNUM = 1) CATEGORY 
+                            FROM IEDOC_IMP_UD_TP_HEADERS UDHeaderTP_EO,
+                                 IEDOC_IMP_UD_HEADERS UdHeaderEO,
+                                 IEDOC_IMP_UD_LINES_CONTRACT UdContractsEO,
+                                 IEDOC_IMP_UD_DETAIL_CONSUM BblcDetailEO,
+                                 IEDOC_IMP_UD_DETAIL_PI UdDetailPiEO
+                            WHERE   UDHeaderTP_EO.EXPORT_ORDER_NUMBER = :P_UD_NUM
+                            AND     UDHeaderTP_EO.IMP_UD_TP_HEADER_ID = UdHeaderEO.IMP_UD_TP_HEADER_ID
+                            AND     UdContractsEO.IMP_UD_HEADER_ID = UdHeaderEO.IMP_UD_HEADER_ID 
+                            AND     UdContractsEO.IMP_UD_LINE_CONTRACT_ID = BblcDetailEO.IMP_UD_LINE_CONTRACT_ID
+                            AND     BblcDetailEO.IMP_UD_DETAIL_CONSUM_ID = UdDetailPiEO.IMP_UD_DETAIL_CONSUM_ID 
+                            --AND     UdHeaderEO.ATTRIBUTE3 = 'Original'
+                            --AND     BblcDetailEO.ITEM_CATEGORY = 'Fabric'
+                        ) BB
+                    WHERE AA.STYLE = BB.BPO_STYLE_NO
+                    AND BB.CATEGORY IN (11,12,21,22)
+                    )
+
+   order by STYLE,Color]]>
+  </SQLQuery>
+  <ViewAttribute
+    Name="InvoiceNo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="255"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="INVOICE_NO"
+    Expression="INVOICE_NO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="InvoiceDate"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Date"
+    ColumnType="DATE"
+    AliasName="INVOICE_DATE"
+    Expression="INVOICE_DATE"
+    SQLType="DATE">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="7"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Style"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="STYLE"
+    Expression="STYLE"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Color"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="COLOR"
+    Expression="COLOR"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="InvoiceAmount"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="INVOICE_AMOUNT"
+    Expression="INVOICE_AMOUNT"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Consumption"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="CONSUMPTION"
+    Expression="CONSUMPTION"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="UdConsumption"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="UD_CONSUMPTION"
+    Expression="UD_CONSUMPTION"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Description"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="13"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="DESCRIPTION"
+    Expression="DESCRIPTION"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="13"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="UdNumber"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="30"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="UD_NUMBER"
+    Expression="UD_NUMBER"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="30"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ResourceBundle>
+    <PropertiesBundle
+      PropertiesFile="model.ModelBundle"/>
+  </ResourceBundle>
+</ViewObject>

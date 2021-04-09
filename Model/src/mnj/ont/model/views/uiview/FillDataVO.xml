@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="FillDataVO"
+  Version="11.1.1.62.29"
+  InheritPersonalization="true"
+  BindingStyle="OracleName"
+  CustomQuery="true"
+  ComponentClass="mnj.ont.model.views.uiview.FillDataVOImpl"
+  PageIterMode="Full"
+  UseGlueCode="false">
+  <DesignTime>
+    <Attr Name="_codeGenFlag2" Value="Access|Coll|Prog|VarAccess"/>
+    <Attr Name="_isExpertMode" Value="true"/>
+  </DesignTime>
+  <Properties>
+    <SchemaBasedProperties>
+      <LABEL
+        ResId="mnj.ont.model.views.uiview.FillDataVO_LABEL"/>
+    </SchemaBasedProperties>
+  </Properties>
+  <SQLQuery>
+    <![CDATA[SELECT 'STYLE' STYLE, 
+       'PO' PO, 
+       'DCPO' DCPO, 
+       00 QTY, 
+       00 UNIT_PRICE, 
+       00 AMOUNT,
+       SYSDATE LATEST_SHIPMENT_DATE, 
+       'COUNTRY' COUNTRY,
+       'PACKING LIST' PACKING_LIST, 
+       'SALES CONTRACT' SALES_CONTRAT_EXPORT_LC,
+       'FROM' SE_FROM, 
+       'TO' SE_TO, 
+       'STATUS' STATUS
+  FROM DUAL]]>
+  </SQLQuery>
+  <ViewAttribute
+    Name="Style"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="255"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="STYLE"
+    Expression="STYLE"
+    SQLType="CHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="5"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Po"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="2"
+    Type="java.lang.String"
+    ColumnType="CHAR"
+    AliasName="PO"
+    Expression="PO"
+    SQLType="CHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="2"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Dcpo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="4"
+    Type="java.lang.String"
+    ColumnType="CHAR"
+    AliasName="DCPO"
+    Expression="DCPO"
+    SQLType="CHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="4"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Qty"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="QTY"
+    Expression="QTY"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="UnitPrice"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="UNIT_PRICE"
+    Expression="UNIT_PRICE"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Amount"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="AMOUNT"
+    Expression="AMOUNT"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="LatestShipmentDate"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Date"
+    ColumnType="DATE"
+    AliasName="LATEST_SHIPMENT_DATE"
+    Expression="LATEST_SHIPMENT_DATE"
+    SQLType="TIMESTAMP">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="7"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Country"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="7"
+    Type="java.lang.String"
+    ColumnType="CHAR"
+    AliasName="COUNTRY"
+    Expression="COUNTRY"
+    SQLType="CHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="7"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="PackingList"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="12"
+    Type="java.lang.String"
+    ColumnType="CHAR"
+    AliasName="PACKING_LIST"
+    Expression="PACKING_LIST"
+    SQLType="CHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="12"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="SalesContratExportLc"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="14"
+    Type="java.lang.String"
+    ColumnType="CHAR"
+    AliasName="SALES_CONTRAT_EXPORT_LC"
+    Expression="SALES_CONTRAT_EXPORT_LC"
+    SQLType="CHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="14"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="SeFrom"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="4"
+    Type="java.lang.String"
+    ColumnType="CHAR"
+    AliasName="SE_FROM"
+    Expression="SE_FROM"
+    SQLType="CHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="4"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="SeTo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="2"
+    Type="java.lang.String"
+    ColumnType="CHAR"
+    AliasName="SE_TO"
+    Expression="SE_TO"
+    SQLType="CHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="2"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Status"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="6"
+    Type="java.lang.String"
+    ColumnType="CHAR"
+    AliasName="STATUS"
+    Expression="STATUS"
+    SQLType="CHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="6"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CheckBox"
+    IsSelected="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="java.lang.Boolean"
+    ColumnType="NUMBER"
+    AliasName="VIEW_ATTR"
+    SQLType="BIT">
+    <Properties>
+      <SchemaBasedProperties>
+        <CONTROLTYPE
+          Value="check_box"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ResourceBundle>
+    <PropertiesBundle
+      PropertiesFile="model.ModelBundle"/>
+  </ResourceBundle>
+</ViewObject>
