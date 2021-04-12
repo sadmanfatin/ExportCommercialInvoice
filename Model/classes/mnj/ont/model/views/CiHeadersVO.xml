@@ -1675,6 +1675,11 @@ ORDER BY    CiHeadersEO.DOC_NO desc ,
     ViewLink="mnj.ont.model.views.IedocExpCiLines2FkLink"
     Type="oracle.jbo.RowIterator"
     IsUpdateable="false"/>
+  <ViewLinkAccessor
+    Name="FillLinesTemp"
+    ViewLink="mnj.ont.model.popup.views.CiHeader_FillLinesTemp"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
   <ResourceBundle>
     <PropertiesBundle
       PropertiesFile="model.ModelBundle"/>

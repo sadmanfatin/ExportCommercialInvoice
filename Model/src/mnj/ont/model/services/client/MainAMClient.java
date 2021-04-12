@@ -101,4 +101,9 @@ public class MainAMClient extends ApplicationModuleImpl implements MainAM {
             this.riInvokeExportedMethod(this,"setSessionValues",new String [] {"java.lang.String","java.lang.String","java.lang.String","java.lang.String"},new Object[] {orgId, userId, respId, respAppl});
         return;
     }
+
+    public void fetchLinesTemp() {
+        Object _ret = this.riInvokeExportedMethod(this,"fetchLinesTemp",null,null);
+        return;
+    }
 }

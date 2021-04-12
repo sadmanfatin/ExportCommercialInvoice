@@ -529,4 +529,58 @@ public class PopupManagedBean {
     public RichPanelFormLayout getHeaderForm() {
         return headerForm;
     }
+
+    public void FillLinesTempPopupFetchListener(PopupFetchEvent popupFetchEvent) {
+        // Add event code here...
+        //  system.out.println("Action");
+        BindingContext bindingContext = BindingContext.getCurrent();
+        BindingContainer bindingContainer = bindingContext.getCurrentBindingsEntry();
+        OperationBinding operationBinding = bindingContainer.getOperationBinding("popupDeselectActionListener");
+        operationBinding.execute();
+        AdfFacesContext adfFaces = AdfFacesContext.getCurrentInstance();
+        adfFaces.addPartialTarget(fillDataPopupTable);
+    }
+
+    public void fillLinesTempPopupCancelledListener(PopupCanceledEvent popupCanceledEvent) {
+        // Add event code here...
+    }
+    public void popupFillLinesTempDialogListener(DialogEvent dialogEvent) {
+        System.out.println(" in popupFillLinesTempDialogListener");
+        // Add event code here...
+      //  //  system.out.println("Dialog Event");
+        Outcome outcome = dialogEvent.getOutcome();
+        //  system.out.println(outcome.name());
+        if(outcome.name().equals("ok")){
+            //  system.out.println("OK Button");
+            OperationBinding operattionBinding = getOperationBinding("fetchLinesTemp");
+            operattionBinding.execute();
+           // BindingContext bindingContext = BindingContext.getCurrent();
+            //BindingContainer bindingContainer = bindingContext.getCurrentBindingsEntry();
+            operattionBinding = getOperationBinding("popupDeselectActionListener");
+            operattionBinding.execute();
+            AdfFacesContext adfFaces = AdfFacesContext.getCurrentInstance();
+            adfFaces.addPartialTarget(fillDataPopupTable);
+            //AdfFacesContext adfFaces = AdfFacesContext.getCurrentInstance();
+            adfFaces.addPartialTarget(dcpo);
+          //  adfFaces.addPartialTarget(consignee);
+            adfFaces.addPartialTarget(consigneeAddress);
+          //  adfFaces.addPartialTarget(notifyTo);
+            adfFaces.addPartialTarget(notifyAddress);
+         //   adfFaces.addPartialTarget(shipTo);
+            adfFaces.addPartialTarget(shipToAddress);
+            adfFaces.addPartialTarget(country);
+        }else {//if(outcome.name().equals("cancel")){
+            //  system.out.println("Cancel");
+            OperationBinding operattionBinding = getOperationBinding("popupDeselectActionListener");
+            operattionBinding.execute();
+            AdfFacesContext adfFaces = AdfFacesContext.getCurrentInstance();
+            adfFaces.addPartialTarget(fillDataPopupTable);
+        }
+        AdfFacesContext adfFaceContext = AdfFacesContext.getCurrentInstance();
+        adfFaceContext.addPartialTarget(linesTableBean);
+        
+     //   updateConsigneeNotifyShipToNameAndAddress();
+       
+          
+          }
 }

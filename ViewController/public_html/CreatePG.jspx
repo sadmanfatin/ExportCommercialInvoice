@@ -7,7 +7,7 @@
   <f:view>
     <af:document id="d1">
       <af:messages id="m1"/>
-      <af:form id="f1">
+      <af:form id="f1" clientComponent="true">
         <af:panelFormLayout id="pfl1" binding="#{PopupManagedBean.headerForm}"
                             styleClass="AFStretchWidth" maxColumns="5" rows="9"
                             inlineStyle="border-color:rgb(231,231,231); border-style:solid; border-width:thin;">
@@ -26,7 +26,7 @@
                                   actionListener="#{backing_bean.saveActionButton}"
                                   action="#{backing_bean.saveActionBtn}"
                                   inlineStyle="font-size:x-small; font-weight:bold;"
-                                  disabled="#{bindings.TrxNumber.inputValue !=null}"/>
+                                  disabled="#{ false and bindings.TrxNumber.inputValue !=null}"/>
                 <af:spacer width="20" height="10" id="s3"/>
                 <af:commandButton text="Excel Report" id="cb12"
                                   inlineStyle="font-weight:bold; font-size:x-small;">
@@ -543,8 +543,11 @@
                                     text="Create"
                                     disabled="#{!bindings.Create.enabled}"
                                     id="cb9" partialSubmit="true"/>
-                  <af:commandButton text="Fill Data" id="cb5">
+                  <af:commandButton text="Fill Data Paking list > 23500" id="cb5">
                     <af:showPopupBehavior popupId="::p2" alignId="::f1"/>
+                  </af:commandButton>
+                  <af:commandButton text="Fill Data Packing List &lt; 23500" id="cb13">
+                    <af:showPopupBehavior popupId="::p1" alignId="::f1"/>
                   </af:commandButton>
                   <af:commandButton actionListener="#{bindings.Delete.execute}"
                                     text="Delete" id="cb1"/>
@@ -1866,6 +1869,690 @@
               <f:validator binding="#{bindings.ShipToAddress.validator}"/>
             </af:inputText>
           </af:noteWindow>
+        </af:popup>
+        <af:popup id="p1" contentDelivery="lazyUncached">
+          <af:dialog id="d2"
+                               dialogListener="#{PopupManagedBean.popupFillLinesTempDialogListener}">
+            <af:panelCollection id="pc4"
+                                inlineStyle="height:450px; width:1300.0px;">
+              <f:facet name="menus"/>
+              <f:facet name="toolbar">
+                <af:toolbar id="t7">
+                  <af:commandButton text="Select All" id="cb15"
+                                    actionListener="#{PopupManagedBean.selectAllButtonAction}"
+                                    partialSubmit="true"/>
+                  <af:commandButton text="De-Select All" id="cb14"
+                                    actionListener="#{PopupManagedBean.deselectAllButtonAction}"
+                                    partialSubmit="true"/>
+                </af:toolbar>
+              </f:facet>
+              <f:facet name="statusbar"/>
+              <af:table value="#{bindings.FillLinesTempVO1.collectionModel}"
+                        var="row" rows="#{bindings.FillLinesTempVO1.rangeSize}"
+                        emptyText="#{bindings.FillLinesTempVO1.viewable ? 'No data to display.' : 'Access Denied.'}"
+                        fetchSize="#{bindings.FillLinesTempVO1.rangeSize}"
+                        rowBandingInterval="0"
+                        filterModel="#{bindings.FillLinesTempVO1Query.queryDescriptor}"
+                        queryListener="#{bindings.FillLinesTempVO1Query.processQuery}"
+                        filterVisible="true" varStatus="vs"
+                        selectedRowKeys="#{bindings.FillLinesTempVO1.collectionModel.selectedRow}"
+                        selectionListener="#{bindings.FillLinesTempVO1.collectionModel.makeCurrent}"
+                        rowSelection="single" id="t8">
+                <af:column headerText="#{bindings.FillLinesTempVO1.hints.MultiSelect2.label}"
+                           id="c137" align="center" sortable="true"
+                           filterable="true" width="50">
+                  <af:selectBooleanCheckbox value="#{row.bindings.MultiSelect2.inputValue}"
+                                            label="#{row.bindings.MultiSelect2.label}"
+                                            shortDesc="#{bindings.FillLinesTempVO1.hints.MultiSelect2.tooltip}"
+                                            id="sbc3"/>
+                </af:column>
+                <af:column sortProperty="PckLstNo" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.PckLstNo.label}"
+                           id="c133">
+                  <af:inputText value="#{row.bindings.PckLstNo.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.PckLstNo.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.PckLstNo.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.PckLstNo.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.PckLstNo.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.PckLstNo.tooltip}"
+                                id="it129">
+                    <f:validator binding="#{row.bindings.PckLstNo.validator}"/>
+                    <af:convertNumber groupingUsed="false"
+                                      pattern="#{bindings.FillLinesTempVO1.hints.PckLstNo.format}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="Bpo" filterable="true" sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.Bpo.label}"
+                           id="c134">
+                  <af:inputText value="#{row.bindings.Bpo.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.Bpo.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.Bpo.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.Bpo.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.Bpo.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.Bpo.tooltip}"
+                                id="it118">
+                    <f:validator binding="#{row.bindings.Bpo.validator}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="CurrentBpo" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.CurrentBpo.label}"
+                           id="c116">
+                  <af:inputText value="#{row.bindings.CurrentBpo.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.CurrentBpo.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.CurrentBpo.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.CurrentBpo.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.CurrentBpo.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.CurrentBpo.tooltip}"
+                                id="it126">
+                    <f:validator binding="#{row.bindings.CurrentBpo.validator}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="StyleName" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.StyleName.label}"
+                           id="c124">
+                  <af:inputText value="#{row.bindings.StyleName.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.StyleName.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.StyleName.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.StyleName.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.StyleName.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.StyleName.tooltip}"
+                                id="it101">
+                    <f:validator binding="#{row.bindings.StyleName.validator}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="CurrentStyle" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.CurrentStyle.label}"
+                           id="c120">
+                  <af:inputText value="#{row.bindings.CurrentStyle.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.CurrentStyle.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.CurrentStyle.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.CurrentStyle.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.CurrentStyle.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.CurrentStyle.tooltip}"
+                                id="it116">
+                    <f:validator binding="#{row.bindings.CurrentStyle.validator}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="CurrentStyleNo" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.CurrentStyleNo.label}"
+                           id="c93">
+                  <af:inputText value="#{row.bindings.CurrentStyleNo.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.CurrentStyleNo.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.CurrentStyleNo.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.CurrentStyleNo.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.CurrentStyleNo.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.CurrentStyleNo.tooltip}"
+                                id="it103">
+                    <f:validator binding="#{row.bindings.CurrentStyleNo.validator}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="StyleNumber" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.StyleNumber.label}"
+                           id="c109">
+                  <af:inputText value="#{row.bindings.StyleNumber.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.StyleNumber.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.StyleNumber.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.StyleNumber.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.StyleNumber.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.StyleNumber.tooltip}"
+                                id="it124">
+                    <f:validator binding="#{row.bindings.StyleNumber.validator}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="ChildStyleNo" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.ChildStyleNo.label}"
+                           id="c105">
+                  <af:inputText value="#{row.bindings.ChildStyleNo.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.ChildStyleNo.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.ChildStyleNo.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.ChildStyleNo.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.ChildStyleNo.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.ChildStyleNo.tooltip}"
+                                id="it130">
+                    <f:validator binding="#{row.bindings.ChildStyleNo.validator}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="OrderedItem" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.OrderedItem.label}"
+                           id="c90">
+                  <af:inputText value="#{row.bindings.OrderedItem.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.OrderedItem.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.OrderedItem.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.OrderedItem.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.OrderedItem.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.OrderedItem.tooltip}"
+                                id="it112">
+                    <f:validator binding="#{row.bindings.OrderedItem.validator}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="UnitSellingPrice" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.UnitSellingPrice.label}"
+                           id="c100">
+                  <af:inputText value="#{row.bindings.UnitSellingPrice.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.UnitSellingPrice.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.UnitSellingPrice.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.UnitSellingPrice.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.UnitSellingPrice.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.UnitSellingPrice.tooltip}"
+                                id="it133">
+                    <f:validator binding="#{row.bindings.UnitSellingPrice.validator}"/>
+                    <af:convertNumber groupingUsed="false"
+                                      pattern="#{bindings.FillLinesTempVO1.hints.UnitSellingPrice.format}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="OrderQuantityUom" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.OrderQuantityUom.label}"
+                           id="c89">
+                  <af:inputText value="#{row.bindings.OrderQuantityUom.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.OrderQuantityUom.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.OrderQuantityUom.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.OrderQuantityUom.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.OrderQuantityUom.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.OrderQuantityUom.tooltip}"
+                                id="it110">
+                    <f:validator binding="#{row.bindings.OrderQuantityUom.validator}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="Org" filterable="true" sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.Org.label}"
+                           id="c117">
+                  <af:inputText value="#{row.bindings.Org.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.Org.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.Org.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.Org.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.Org.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.Org.tooltip}"
+                                id="it107">
+                    <f:validator binding="#{row.bindings.Org.validator}"/>
+                    <af:convertNumber groupingUsed="false"
+                                      pattern="#{bindings.FillLinesTempVO1.hints.Org.format}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="SeasonName" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.SeasonName.label}"
+                           id="c115">
+                  <af:inputText value="#{row.bindings.SeasonName.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.SeasonName.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.SeasonName.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.SeasonName.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.SeasonName.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.SeasonName.tooltip}"
+                                id="it76">
+                    <f:validator binding="#{row.bindings.SeasonName.validator}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="Color" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.Color.label}"
+                           id="c102">
+                  <af:inputText value="#{row.bindings.Color.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.Color.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.Color.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.Color.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.Color.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.Color.tooltip}"
+                                id="it125">
+                    <f:validator binding="#{row.bindings.Color.validator}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="OrderedItemId" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.OrderedItemId.label}"
+                           id="c112">
+                  <af:inputText value="#{row.bindings.OrderedItemId.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.OrderedItemId.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.OrderedItemId.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.OrderedItemId.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.OrderedItemId.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.OrderedItemId.tooltip}"
+                                id="it120">
+                    <f:validator binding="#{row.bindings.OrderedItemId.validator}"/>
+                    <af:convertNumber groupingUsed="false"
+                                      pattern="#{bindings.FillLinesTempVO1.hints.OrderedItemId.format}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="ItemName" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.ItemName.label}"
+                           id="c135">
+                  <af:inputText value="#{row.bindings.ItemName.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.ItemName.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.ItemName.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.ItemName.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.ItemName.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.ItemName.tooltip}"
+                                id="it123">
+                    <f:validator binding="#{row.bindings.ItemName.validator}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="ItemCode" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.ItemCode.label}"
+                           id="c106">
+                  <af:inputText value="#{row.bindings.ItemCode.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.ItemCode.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.ItemCode.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.ItemCode.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.ItemCode.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.ItemCode.tooltip}"
+                                id="it106">
+                    <f:validator binding="#{row.bindings.ItemCode.validator}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="OrderedQuantity" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.OrderedQuantity.label}"
+                           id="c108">
+                  <af:inputText value="#{row.bindings.OrderedQuantity.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.OrderedQuantity.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.OrderedQuantity.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.OrderedQuantity.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.OrderedQuantity.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.OrderedQuantity.tooltip}"
+                                id="it132">
+                    <f:validator binding="#{row.bindings.OrderedQuantity.validator}"/>
+                    <af:convertNumber groupingUsed="false"
+                                      pattern="#{bindings.FillLinesTempVO1.hints.OrderedQuantity.format}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="ShippedQuantity" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.ShippedQuantity.label}"
+                           id="c110">
+                  <af:inputText value="#{row.bindings.ShippedQuantity.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.ShippedQuantity.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.ShippedQuantity.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.ShippedQuantity.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.ShippedQuantity.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.ShippedQuantity.tooltip}"
+                                id="it113">
+                    <f:validator binding="#{row.bindings.ShippedQuantity.validator}"/>
+                    <af:convertNumber groupingUsed="false"
+                                      pattern="#{bindings.FillLinesTempVO1.hints.ShippedQuantity.format}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="Amount" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.Amount.label}"
+                           id="c129">
+                  <af:inputText value="#{row.bindings.Amount.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.Amount.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.Amount.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.Amount.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.Amount.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.Amount.tooltip}"
+                                id="it99">
+                    <f:validator binding="#{row.bindings.Amount.validator}"/>
+                    <af:convertNumber groupingUsed="false"
+                                      pattern="#{bindings.FillLinesTempVO1.hints.Amount.format}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="Dcpo" filterable="true" sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.Dcpo.label}"
+                           id="c125">
+                  <af:inputText value="#{row.bindings.Dcpo.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.Dcpo.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.Dcpo.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.Dcpo.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.Dcpo.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.Dcpo.tooltip}"
+                                id="it105">
+                    <f:validator binding="#{row.bindings.Dcpo.validator}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="Country" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.Country.label}"
+                           id="c118">
+                  <af:inputText value="#{row.bindings.Country.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.Country.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.Country.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.Country.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.Country.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.Country.tooltip}"
+                                id="it102">
+                    <f:validator binding="#{row.bindings.Country.validator}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="PckStyleNumber" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.PckStyleNumber.label}"
+                           id="c55">
+                  <af:inputText value="#{row.bindings.PckStyleNumber.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.PckStyleNumber.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.PckStyleNumber.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.PckStyleNumber.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.PckStyleNumber.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.PckStyleNumber.tooltip}"
+                                id="it109">
+                    <f:validator binding="#{row.bindings.PckStyleNumber.validator}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="PartyName" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.PartyName.label}"
+                           id="c121">
+                  <af:inputText value="#{row.bindings.PartyName.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.PartyName.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.PartyName.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.PartyName.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.PartyName.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.PartyName.tooltip}"
+                                id="it117">
+                    <f:validator binding="#{row.bindings.PartyName.validator}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="HtsCode" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.HtsCode.label}"
+                           id="c128">
+                  <af:inputText value="#{row.bindings.HtsCode.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.HtsCode.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.HtsCode.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.HtsCode.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.HtsCode.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.HtsCode.tooltip}"
+                                id="it128">
+                    <f:validator binding="#{row.bindings.HtsCode.validator}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="CatNo" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.CatNo.label}"
+                           id="c126">
+                  <af:inputText value="#{row.bindings.CatNo.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.CatNo.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.CatNo.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.CatNo.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.CatNo.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.CatNo.tooltip}"
+                                id="it131">
+                    <f:validator binding="#{row.bindings.CatNo.validator}"/>
+                    <af:convertNumber groupingUsed="false"
+                                      pattern="#{bindings.FillLinesTempVO1.hints.CatNo.format}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="ExportLc" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.ExportLc.label}"
+                           id="c122">
+                  <af:inputText value="#{row.bindings.ExportLc.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.ExportLc.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.ExportLc.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.ExportLc.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.ExportLc.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.ExportLc.tooltip}"
+                                id="it127">
+                    <f:validator binding="#{row.bindings.ExportLc.validator}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="CartonQuantity" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.CartonQuantity.label}"
+                           id="c104">
+                  <af:inputText value="#{row.bindings.CartonQuantity.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.CartonQuantity.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.CartonQuantity.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.CartonQuantity.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.CartonQuantity.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.CartonQuantity.tooltip}"
+                                id="it115">
+                    <f:validator binding="#{row.bindings.CartonQuantity.validator}"/>
+                    <af:convertNumber groupingUsed="false"
+                                      pattern="#{bindings.FillLinesTempVO1.hints.CartonQuantity.format}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="NetNetWeight" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.NetNetWeight.label}"
+                           id="c119">
+                  <af:inputText value="#{row.bindings.NetNetWeight.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.NetNetWeight.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.NetNetWeight.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.NetNetWeight.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.NetNetWeight.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.NetNetWeight.tooltip}"
+                                id="it104">
+                    <f:validator binding="#{row.bindings.NetNetWeight.validator}"/>
+                    <af:convertNumber groupingUsed="false"
+                                      pattern="#{bindings.FillLinesTempVO1.hints.NetNetWeight.format}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="GrossWeight" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.GrossWeight.label}"
+                           id="c113">
+                  <af:inputText value="#{row.bindings.GrossWeight.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.GrossWeight.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.GrossWeight.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.GrossWeight.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.GrossWeight.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.GrossWeight.tooltip}"
+                                id="it108">
+                    <f:validator binding="#{row.bindings.GrossWeight.validator}"/>
+                    <af:convertNumber groupingUsed="false"
+                                      pattern="#{bindings.FillLinesTempVO1.hints.GrossWeight.format}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="NetWeight" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.NetWeight.label}"
+                           id="c111">
+                  <af:inputText value="#{row.bindings.NetWeight.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.NetWeight.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.NetWeight.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.NetWeight.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.NetWeight.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.NetWeight.tooltip}"
+                                id="it121">
+                    <f:validator binding="#{row.bindings.NetWeight.validator}"/>
+                    <af:convertNumber groupingUsed="false"
+                                      pattern="#{bindings.FillLinesTempVO1.hints.NetWeight.format}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="IncoTerms" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.IncoTerms.label}"
+                           id="c127">
+                  <af:inputText value="#{row.bindings.IncoTerms.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.IncoTerms.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.IncoTerms.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.IncoTerms.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.IncoTerms.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.IncoTerms.tooltip}"
+                                id="it122">
+                    <f:validator binding="#{row.bindings.IncoTerms.validator}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="ShipCancelExBdDate" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.ShipCancelExBdDate.label}"
+                           id="c132">
+                  <f:facet name="filter">
+                    <af:inputDate value="#{vs.filterCriteria.ShipCancelExBdDate}"
+                                  id="id10"/>
+                  </f:facet>
+                  <af:inputDate value="#{row.bindings.ShipCancelExBdDate.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.ShipCancelExBdDate.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.ShipCancelExBdDate.mandatory}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.ShipCancelExBdDate.tooltip}"
+                                id="id11">
+                    <f:validator binding="#{row.bindings.ShipCancelExBdDate.validator}"/>
+                    <af:convertDateTime pattern="#{bindings.FillLinesTempVO1.hints.ShipCancelExBdDate.format}"/>
+                  </af:inputDate>
+                </af:column>
+                <af:column sortProperty="Fromdate" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.Fromdate.label}"
+                           id="c103">
+                  <f:facet name="filter">
+                    <af:inputDate value="#{vs.filterCriteria.Fromdate}"
+                                  id="id9"/>
+                  </f:facet>
+                  <af:inputDate value="#{row.bindings.Fromdate.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.Fromdate.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.Fromdate.mandatory}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.Fromdate.tooltip}"
+                                id="id15">
+                    <f:validator binding="#{row.bindings.Fromdate.validator}"/>
+                    <af:convertDateTime pattern="#{bindings.FillLinesTempVO1.hints.Fromdate.format}"/>
+                  </af:inputDate>
+                </af:column>
+                <af:column sortProperty="Todate" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.Todate.label}"
+                           id="c88">
+                  <f:facet name="filter">
+                    <af:inputDate value="#{vs.filterCriteria.Todate}"
+                                  id="id17"/>
+                  </f:facet>
+                  <af:inputDate value="#{row.bindings.Todate.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.Todate.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.Todate.mandatory}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.Todate.tooltip}"
+                                id="id12">
+                    <f:validator binding="#{row.bindings.Todate.validator}"/>
+                    <af:convertDateTime pattern="#{bindings.FillLinesTempVO1.hints.Todate.format}"/>
+                  </af:inputDate>
+                </af:column>
+                <af:column sortProperty="ShipExFactoryDate" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.ShipExFactoryDate.label}"
+                           id="c94">
+                  <f:facet name="filter">
+                    <af:inputDate value="#{vs.filterCriteria.ShipExFactoryDate}"
+                                  id="id14"/>
+                  </f:facet>
+                  <af:inputDate value="#{row.bindings.ShipExFactoryDate.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.ShipExFactoryDate.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.ShipExFactoryDate.mandatory}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.ShipExFactoryDate.tooltip}"
+                                id="id18">
+                    <f:validator binding="#{row.bindings.ShipExFactoryDate.validator}"/>
+                    <af:convertDateTime pattern="#{bindings.FillLinesTempVO1.hints.ShipExFactoryDate.format}"/>
+                  </af:inputDate>
+                </af:column>
+                <af:column sortProperty="ShortExcessQty" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.ShortExcessQty.label}"
+                           id="c107">
+                  <af:inputText value="#{row.bindings.ShortExcessQty.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.ShortExcessQty.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.ShortExcessQty.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.ShortExcessQty.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.ShortExcessQty.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.ShortExcessQty.tooltip}"
+                                id="it114">
+                    <f:validator binding="#{row.bindings.ShortExcessQty.validator}"/>
+                    <af:convertNumber groupingUsed="false"
+                                      pattern="#{bindings.FillLinesTempVO1.hints.ShortExcessQty.format}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="ShortExcessPer" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.ShortExcessPer.label}"
+                           id="c114">
+                  <af:inputText value="#{row.bindings.ShortExcessPer.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.ShortExcessPer.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.ShortExcessPer.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.ShortExcessPer.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.ShortExcessPer.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.ShortExcessPer.tooltip}"
+                                id="it135">
+                    <f:validator binding="#{row.bindings.ShortExcessPer.validator}"/>
+                    <af:convertNumber groupingUsed="false"
+                                      pattern="#{bindings.FillLinesTempVO1.hints.ShortExcessPer.format}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="TotalCbm" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.TotalCbm.label}"
+                           id="c99">
+                  <af:inputText value="#{row.bindings.TotalCbm.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.TotalCbm.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.TotalCbm.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.TotalCbm.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.TotalCbm.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.TotalCbm.tooltip}"
+                                id="it119">
+                    <f:validator binding="#{row.bindings.TotalCbm.validator}"/>
+                    <af:convertNumber groupingUsed="false"
+                                      pattern="#{bindings.FillLinesTempVO1.hints.TotalCbm.format}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="TransportationMode" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.TransportationMode.label}"
+                           id="c131">
+                  <af:inputText value="#{row.bindings.TransportationMode.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.TransportationMode.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.TransportationMode.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.TransportationMode.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.TransportationMode.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.TransportationMode.tooltip}"
+                                id="it95">
+                    <f:validator binding="#{row.bindings.TransportationMode.validator}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="Currency" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.Currency.label}"
+                           id="c123">
+                  <af:inputText value="#{row.bindings.Currency.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.Currency.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.Currency.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.Currency.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.Currency.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.Currency.tooltip}"
+                                id="it134">
+                    <f:validator binding="#{row.bindings.Currency.validator}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="Stn" filterable="true" sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.Stn.label}"
+                           id="c130">
+                  <af:inputText value="#{row.bindings.Stn.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.Stn.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.Stn.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.Stn.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.Stn.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.Stn.tooltip}"
+                                id="it100">
+                    <f:validator binding="#{row.bindings.Stn.validator}"/>
+                  </af:inputText>
+                </af:column>
+                <af:column sortProperty="VersionNo" filterable="true"
+                           sortable="true"
+                           headerText="#{bindings.FillLinesTempVO1.hints.VersionNo.label}"
+                           id="c101">
+                  <af:inputText value="#{row.bindings.VersionNo.inputValue}"
+                                label="#{bindings.FillLinesTempVO1.hints.VersionNo.label}"
+                                required="#{bindings.FillLinesTempVO1.hints.VersionNo.mandatory}"
+                                columns="#{bindings.FillLinesTempVO1.hints.VersionNo.displayWidth}"
+                                maximumLength="#{bindings.FillLinesTempVO1.hints.VersionNo.precision}"
+                                shortDesc="#{bindings.FillLinesTempVO1.hints.VersionNo.tooltip}"
+                                id="it111">
+                    <f:validator binding="#{row.bindings.VersionNo.validator}"/>
+                    <af:convertNumber groupingUsed="false"
+                                      pattern="#{bindings.FillLinesTempVO1.hints.VersionNo.format}"/>
+                  </af:inputText>
+                </af:column>
+              </af:table>
+            </af:panelCollection>
+          
+          
+          </af:dialog>
         </af:popup>
       </af:form>
     </af:document>

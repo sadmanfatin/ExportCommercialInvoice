@@ -523,6 +523,135 @@ public class MainAMImpl extends ApplicationModuleImpl implements MainAM {
 // 
       }
     
+    public void fetchLinesTemp(){
+      System.out.println( "  in  fetchLines  Temp    ");
+        ViewObject Hvo =  this.getCiHeaders1();
+        Row Hrow = Hvo.getCurrentRow(); 
+        ViewObject fillLinesVO = this.getFillLinesTempVO1();
+        Row[] allRowsInRange = fillLinesVO.getAllRowsInRange();
+        
+        String multiSelect = "false";
+        String Dcpo = null;
+        String country1 = null;
+        String style = null;
+        ViewObject lvo =   this.getCiLines1();
+        for (Row row :  allRowsInRange){
+            
+            try{
+                System.out.println( "row.getAttribute(\"multiSelect\")  "+row.getAttribute("multiSelect") );
+                multiSelect = row.getAttribute("MultiSelect2").toString();
+                
+            }catch(Exception e){
+                multiSelect = "n";
+            }    
+            
+            System.out.println(" multiSelect  "+multiSelect);
+            if(multiSelect.equals("y")){  
+                
+                Row ciLinesRow = lvo.createRow();
+                try{ciLinesRow.setAttribute("GoodsValue", row.getAttribute("Amount").toString());}catch(Exception e){;}
+                try{ciLinesRow.setAttribute("InvoiceValue", row.getAttribute("Amount").toString());}catch(Exception e){;}
+                try{ciLinesRow.setAttribute("OrderBpo", row.getAttribute("Bpo").toString());}catch(Exception e){;}
+                try{ciLinesRow.setAttribute("Uom", row.getAttribute("OrderQuantityUom").toString());}catch(Exception e){;}
+                try{
+                    Dcpo = row.getAttribute("Dcpo").toString();
+                    ciLinesRow.setAttribute("Dcpo", row.getAttribute("Dcpo").toString());
+                }catch(Exception e){;}
+                try{ciLinesRow.setAttribute("ItemDescription", row.getAttribute("OrderedItem").toString());}catch(Exception e){;}
+                try{ciLinesRow.setAttribute("Attribute2", row.getAttribute("Color").toString());}catch(Exception e){;}
+                //try{System.out.println(" Item No " + row.getAttribute("OrderedItem").toString());}catch(Exception e){;}
+                try{ciLinesRow.setAttribute("ShipQty", row.getAttribute("ShippedQuantity").toString());}catch(Exception e){;}
+                try{
+                    style = row.getAttribute("StyleNumber").toString();
+                    ciLinesRow.setAttribute("Style", row.getAttribute("StyleNumber").toString());
+                }catch(Exception e){
+                    ;
+                }
+                try{ciLinesRow.setAttribute("UnitPrice", row.getAttribute("UnitSellingPrice").toString());}catch(Exception e){;}
+               // try{System.out.println(row.getAttribute("IncoTerms").toString());}catch(Exception e){System.out.println("Inco Terms Exception");} ;
+                try{ciLinesRow.setAttribute("IncoTermsValue", row.getAttribute("IncoTerms").toString());}catch(Exception e){;}
+              //  System.out.println("IncoTerms " + ciLinesRow.getAttribute("IncoTerms"));
+                try{ciLinesRow.setAttribute("HtsCode", row.getAttribute("HtsCode").toString());}catch(Exception e){;}
+                try{ciLinesRow.setAttribute("CartonNo", row.getAttribute("CatNo").toString());}catch(Exception e){;}
+                try{ciLinesRow.setAttribute("CartonQuantity", row.getAttribute("CartonQuantity").toString());}catch(Exception e){;}
+                try{ciLinesRow.setAttribute("GrossWeight", row.getAttribute("GrossWeight").toString());}catch(Exception e){;}
+                try{ciLinesRow.setAttribute("NetNetWeight", row.getAttribute("NetNetWeight").toString());}catch(Exception e){;}
+                try{ciLinesRow.setAttribute("NetWeight", row.getAttribute("NetWeight").toString());}catch(Exception e){;}
+                try{ciLinesRow.setAttribute("PackListNo", row.getAttribute("PckLstNo").toString());}catch(Exception e){;}
+                try{ciLinesRow.setAttribute("CbmM3", row.getAttribute("TotalCbm").toString());}catch(Exception e){;}
+                try{ciLinesRow.setAttribute("ExcessShortQty", row.getAttribute("ShortExcessQty").toString());}catch(Exception e){;}
+                try{ciLinesRow.setAttribute("PercExcessShortQty", row.getAttribute("ShortExcessPer").toString());}catch(Exception e){;}
+                try{
+                    country1 = row.getAttribute("Country").toString();
+                    ciLinesRow.setAttribute("Country", row.getAttribute("Country").toString());
+                }catch(Exception e){
+                    ;
+                }
+                try{ciLinesRow.setAttribute("Attribute1", row.getAttribute("ShipCancelExBdDate").toString());}catch(Exception e){ 
+                   // System.out.println("catch....");
+                    ;}
+                try{ciLinesRow.setAttribute("TransportationMode",row.getAttribute("TransportationMode").toString());}catch(Exception e){ 
+                    //System.out.println("catch....");
+                    ;}
+                try{ciLinesRow.setAttribute("Currency",row.getAttribute("Currency").toString());}catch(Exception e){ 
+                    //System.out.println("catch....");
+                    ;}
+                try{
+                    System.out.println(row.getAttribute("ShipCancelExBdDate").toString());
+                    System.out.println(ciLinesRow.getAttribute("Attribute1").toString());
+                }catch(Exception e){
+                    
+                       // System.out.println("NULLLLL");
+                    ;
+                }
+                try{ciLinesRow.setAttribute("OrderItemId", row.getAttribute("OrderedItemId").toString());}catch(Exception e){
+                   // System.out.println("Order Item Error");
+                    ;
+                    }
+                try{
+                   // System.out.println("Item Name "+row.getAttribute("ItemName").toString());
+                    ciLinesRow.setAttribute("ItemName", row.getAttribute("ItemName").toString());
+                }catch(Exception e){
+                    // System.out.println("Item Name Error ");
+                    ;}
+                try{
+                  ///  System.out.println("Item Code "+row.getAttribute("ItemCode").toString());
+                    ciLinesRow.setAttribute("ItemCode", row.getAttribute("ItemCode").toString());
+                }catch(Exception e){
+                  //  System.out.println("Item Code Error ");
+                    ;
+                    }
+                
+                
+                try{
+                  ///  System.out.println("Item Code "+row.getAttribute("ItemCode").toString());
+                    ciLinesRow.setAttribute("ChildStyleNo", row.getAttribute("ChildStyleNo").toString());
+                }catch(Exception e){
+                  //  System.out.println("Item Code Error ");
+                    ;
+                    } 
+         }       
+        }
+        lvo.executeQuery();
+        String buyer = null;
+        String country = null;
+        Hrow.setAttribute("Dcpo", Dcpo);
+        Hrow.setAttribute("Attribute12", country1);
+          try{
+              buyer = Hrow.getAttribute("Buyer").toString();
+          }catch(Exception e){
+            //  System.out.println("Buyer Error ");  
+              ;
+          }
+          try{
+              country = Hrow.getAttribute("Attribute12").toString();    
+          }catch(Exception e){
+            //  System.out.println("Country Error ");  
+              ;
+          }
+       
+      }
+    
     public void saveActionButton(){
        // System.out.println("Bettonfore Save Button");
             getExportedValue();
@@ -1346,8 +1475,22 @@ public class MainAMImpl extends ApplicationModuleImpl implements MainAM {
         context.addMessage(null, fm);
         
     }
-    
-    
-    
+
+
+    /**
+     * Container's getter for FillLinesTempVO1.
+     * @return FillLinesTempVO1
+     */
+    public ViewObjectImpl getFillLinesTempVO1() {
+        return (ViewObjectImpl)findViewObject("FillLinesTempVO1");
+    }
+
+    /**
+     * Container's getter for CiHeader_FillLinesTemp1.
+     * @return CiHeader_FillLinesTemp1
+     */
+    public ViewLinkImpl getCiHeader_FillLinesTemp1() {
+        return (ViewLinkImpl)findViewLink("CiHeader_FillLinesTemp1");
+    }
 }
 

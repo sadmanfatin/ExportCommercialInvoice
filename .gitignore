@@ -9,3 +9,7 @@ ViewController/classes/.data/00000000/0000003e.jdb
 *.cdi_javac
 *.jdb
 *.sso
+deploy/ExportCommercialInvoice_application1.ear
+*.jdb
+*.war
+*.jdb

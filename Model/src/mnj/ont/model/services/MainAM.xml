@@ -73,6 +73,9 @@
   <ViewUsage
     Name="ExcelVO1"
     ViewObjectName="mnj.ont.model.views.ExcelVO"/>
+  <ViewUsage
+    Name="FillLinesTempVO1"
+    ViewObjectName="mnj.ont.model.popup.views.FillLinesTempVO"/>
   <ViewLinkUsage
     Name="IedocExpCiLinesFkLink1"
     ViewLinkObjectName="mnj.ont.model.views.IedocExpCiLinesFkLink"
@@ -96,6 +99,12 @@
     ViewLinkObjectName="mnj.ont.model.views.IedocExpCiLines2FkLink"
     SrcViewUsageName="mnj.ont.model.services.MainAM.CiHeaders1"
     DstViewUsageName="mnj.ont.model.services.MainAM.CiLines2VO1"
+    Reversed="false"/>
+  <ViewLinkUsage
+    Name="CiHeader_FillLinesTemp1"
+    ViewLinkObjectName="mnj.ont.model.popup.views.CiHeader_FillLinesTemp"
+    SrcViewUsageName="mnj.ont.model.services.MainAM.CiHeaders1"
+    DstViewUsageName="mnj.ont.model.services.MainAM.FillLinesTempVO1"
     Reversed="false"/>
   <ResourceBundle>
     <PropertiesBundle
@@ -200,6 +209,11 @@
       <Parameter
         Name="respAppl"
         Type="java.lang.String"/>
+    </Method>
+    <Method
+      Name="fetchLinesTemp">
+      <Return
+        Type="void"/>
     </Method>
   </ClientInterface>
 </AppModule>

@@ -37,4 +37,6 @@ public interface MainAM extends ApplicationModule {
 
     void setSessionValues(String orgId, String userId, String respId,
                           String respAppl);
+
+    void fetchLinesTemp();
 }

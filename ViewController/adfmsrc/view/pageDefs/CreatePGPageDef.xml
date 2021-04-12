@@ -25,6 +25,11 @@
     <searchRegion Binds="CiLines2VO1Iterator" Criteria=""
                   Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
                   id="CiLines2VO1Query"/>
+    <iterator Binds="FillLinesTempVO1" RangeSize="25"
+              DataControl="MainAMDataControl" id="FillLinesTempVO1Iterator"/>
+    <searchRegion Binds="FillLinesTempVO1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="FillLinesTempVO1Query"/>
   </executables>
   <bindings>
     <listOfValues StaticList="false" IterBinding="CiHeaders1Iterator"
@@ -484,5 +489,78 @@
         <Item Value="CurrentSeason"/>
       </AttrNames>
     </attributeValues>
+    <tree IterBinding="FillLinesTempVO1Iterator" id="FillLinesTempVO1">
+      <nodeDefinition DefName="mnj.ont.model.popup.views.FillLinesTempVO"
+                      Name="FillLinesTempVO10">
+        <AttrNames>
+          <Item Value="PckLstNo"/>
+          <Item Value="Bpo"/>
+          <Item Value="CurrentBpo"/>
+          <Item Value="StyleName"/>
+          <Item Value="CurrentStyle"/>
+          <Item Value="CurrentStyleNo"/>
+          <Item Value="StyleNumber"/>
+          <Item Value="ChildStyleNo"/>
+          <Item Value="OrderedItem"/>
+          <Item Value="UnitSellingPrice"/>
+          <Item Value="OrderQuantityUom"/>
+          <Item Value="Org"/>
+          <Item Value="SeasonName"/>
+          <Item Value="Color"/>
+          <Item Value="OrderedItemId"/>
+          <Item Value="ItemName"/>
+          <Item Value="ItemCode"/>
+          <Item Value="OrderedQuantity"/>
+          <Item Value="ShippedQuantity"/>
+          <Item Value="Amount"/>
+          <Item Value="Dcpo"/>
+          <Item Value="Country"/>
+          <Item Value="PckStyleNumber"/>
+          <Item Value="PartyName"/>
+          <Item Value="HtsCode"/>
+          <Item Value="CatNo"/>
+          <Item Value="ExportLc"/>
+          <Item Value="CartonQuantity"/>
+          <Item Value="NetNetWeight"/>
+          <Item Value="GrossWeight"/>
+          <Item Value="NetWeight"/>
+          <Item Value="IncoTerms"/>
+          <Item Value="ShipCancelExBdDate"/>
+          <Item Value="Fromdate"/>
+          <Item Value="Todate"/>
+          <Item Value="ShipExFactoryDate"/>
+          <Item Value="ShortExcessQty"/>
+          <Item Value="ShortExcessPer"/>
+          <Item Value="TotalCbm"/>
+          <Item Value="TransportationMode"/>
+          <Item Value="Currency"/>
+          <Item Value="Stn"/>
+          <Item Value="VersionNo"/>
+          <Item Value="multiSelect" Binds="multiSelect1"/>
+          <Item Value="MultiSelect2" Binds="MultiSelect2"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <button IterBinding="FillLinesTempVO1Iterator" id="multiSelect1"
+            DTSupportsMRU="false">
+      <AttrNames>
+        <Item Value="multiSelect"/>
+      </AttrNames>
+    </button>
+    <methodAction id="fetchLinesTemp"
+                  InstanceName="MainAMDataControl.dataProvider"
+                  DataControl="MainAMDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="fetchLinesTemp"
+                  IsViewObjectMethod="false"/>
+    <button IterBinding="FillLinesTempVO1Iterator" id="MultiSelect2"
+            DTSupportsMRU="false" StaticList="true">
+      <AttrNames>
+        <Item Value="MultiSelect2"/>
+      </AttrNames>
+      <ValueList>
+        <Item Value="y"/>
+        <Item Value="n"/>
+      </ValueList>
+    </button>
   </bindings>
 </pageDefinition>

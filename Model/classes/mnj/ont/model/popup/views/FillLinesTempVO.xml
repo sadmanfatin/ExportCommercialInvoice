@@ -1,0 +1,1069 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="FillLinesTempVO"
+  Version="11.1.1.62.29"
+  InheritPersonalization="true"
+  BindingStyle="OracleName"
+  CustomQuery="true"
+  PageIterMode="Full"
+  UseGlueCode="false">
+  <DesignTime>
+    <Attr Name="_isExpertMode" Value="true"/>
+  </DesignTime>
+  <Properties>
+    <SchemaBasedProperties>
+      <LABEL
+        ResId="mnj.ont.model.popup.views.FillLinesTempVO_LABEL"/>
+    </SchemaBasedProperties>
+  </Properties>
+  <SQLQuery>
+    <![CDATA[SELECT  
+        bb.PCK_LST_NO,
+         aa.BPO,
+        aa.CURRENT_BPO,
+        aa.STYLE_NAME,
+        aa.CURRENT_STYLE,
+        aa.CURRENT_STYLE_NO,
+        aa.STYLE_NUMBER,
+        aa.child_Style_no ,
+        aa.ORDERED_ITEM,
+        aa.UNIT_SELLING_PRICE,
+        aa.ORDER_QUANTITY_UOM,
+        aa.ORG,
+        aa.SEASON_NAME,
+        aa.color,
+        aa.ORDERED_ITEM_ID,
+        (SELECT MSI.DESCRIPTION 
+        FROM MTL_SYSTEM_ITEMS MSI
+        WHERE MSI.INVENTORY_ITEM_ID = aa.ORDERED_ITEM_ID
+        AND   MSI.ORGANIZATION_ID = 353  
+        ) ITEM_NAME,
+        
+        (SELECT MSI.SEGMENT1 || ' - ' ||MSI.SEGMENT2 || ' - ' || MSI.SEGMENT3 || ' - ' || MSI.SEGMENT4 || ' - ' || MSI.SEGMENT5 || ' - ' || MSI.SEGMENT6 
+        FROM MTL_SYSTEM_ITEMS MSI
+        WHERE MSI.INVENTORY_ITEM_ID = aa.ORDERED_ITEM_ID
+        AND   MSI.ORGANIZATION_ID = 353  
+        ) ITEM_CODE,
+        
+         aa.inseam_qty ordered_quantity ,
+        bb.TOTAL_QTY shipped_QUANTITY,  
+        
+     
+          
+ 
+    
+      
+      
+        
+        
+        NVL(bb.TOTAL_QTY,0) * NVL(aa.UNIT_SELLING_PRICE,0) AMOUNT,  --added by fatin  on 28.11.17 instead of amount2 , amount1
+        
+        
+
+       
+        bb.DCPO, --aa.DCPO,
+        bb.COUNTRY,--aa.COUNTRY,
+        
+         bb.STYLE_NUMBER  PCK_STYLE_NUMBER, 
+         
+        aa.PARTY_NAME,
+       
+        aa.HTS_CODE,
+        aa.CAT_NO,
+        NVL(aa.EXPORT_LC,aa.EXPORT_LC2) EXPORT_LC,
+        SUM(bb.CARTON_QUANTITY) CARTON_QUANTITY,
+        SUM(bb.NET_NET_WEIGHT) NET_NET_WEIGHT,
+        SUM(bb.GROSS_WEIGHT) GROSS_WEIGHT,
+        SUM(bb.NET_WEIGHT) NET_WEIGHT,
+       
+        bb.INCO_TERMS ,
+        NVL(aa.SHIP_CANCEL_EX_BD_DATE,aa.SHIP_CANCEL_EX_BD_DATE2) SHIP_CANCEL_EX_BD_DATE,
+        NVL(aa.SHIP_CANCEL_EX_BD_DATE,aa.SHIP_CANCEL_EX_BD_DATE2) fromDate,
+        NVL(aa.SHIP_CANCEL_EX_BD_DATE,aa.SHIP_CANCEL_EX_BD_DATE2) toDate,
+        NVL(aa.SHIP_EX_FACTORY_DATE,aa.SHIP_EX_FACTORY_DATE2) SHIP_EX_FACTORY_DATE,
+        
+        
+           bb.TOTAL_QTY  -  aa.inseam_qty  SHORT_EXCESS_QTY ,
+        
+        
+      ( ( bb.TOTAL_QTY  -  aa.inseam_qty)/ aa.inseam_qty )*100  SHORT_EXCESS_PER ,
+       
+        
+        
+        
+
+      
+        bb.TOTAL_CBM,
+        bb.TRANSPORTATION_MODE,
+        aa.currency,
+        bb.stn ,
+        MAX(NVL(bb.VERSION_NO,1)) VERSION_NO
+FROM (
+       
+        select 
+     
+       -- added on 18 dec 19
+         NVL(       -- this block is to get final finished goods color 
+                    DECODE (oola.ATTRIBUTE13 ,'No entry' , NULL , oola.ATTRIBUTE13 ) ,
+                    
+                    -- this block is to get color 
+                    (
+                      SELECT ffvv.DESCRIPTION 
+                    FROM FND_FLEX_VALUES_VL ffvv,
+                         MTL_SYSTEM_ITEMS MSI
+                    WHERE ffvv.FLEX_VALUE_SET_ID = 1014895
+                    AND   msi.SEGMENT4 = ffvv.FLEX_VALUE
+                    AND   MSI.INVENTORY_ITEM_ID = oola.INVENTORY_ITEM_ID
+                    AND   MSI.ORGANIZATION_ID = 353                       
+                    AND  FFVV.ENABLED_FLAG = 'Y'
+                    AND   ROWNUM = 1   
+                    )     
+            )   COLOR  ,
+       
+       oola.ORDERED_ITEM_ID,
+       ooha.CUST_PO_NUMBER bpo,
+       NVL(ooha.ATTRIBUTE12,ooha.CUST_PO_NUMBER) CURRENT_BPO, 
+       ooha.SHIPPING_INSTRUCTIONS style_name,
+       NVL((SELECT DECODE(StyleLineEO.TRACK_BASIS,'Style Name',StyleLineEO.STYLE_NAME,'Style Number',StyleLineEO.STYLE_NUMBER)
+       FROM PWC_MFG_BSS_STYLE_L StyleLineEO,
+            pwc_mfg_bss_buyer_h pwcmfgbssbuyerh       
+       WHERE StyleLineEO.STYLE_IDENTIFIER = ooha.PACKING_INSTRUCTIONS
+       AND   pwcmfgbssbuyerh.BUYER_ID in (SELECT AC.CUSTOMER_ID
+                                        FROM AR_CUSTOMERS AC,
+                                             HZ_CUST_ACCOUNTS HCA
+                                        WHERE AC.customer_id = HCA.CUST_ACCOUNT_ID
+                                        AND   HCA.PARTY_ID = hp.PARTY_ID         
+                                        )
+       --AND   pwcmfgbssbuyerh.ORG_ID = HeaderEO.ORG_ID 
+       AND   StyleLineEO.HEADER_ID = pwcmfgbssbuyerh.HEADER_ID
+       AND   rownum = 1),ooha.PACKING_INSTRUCTIONS) CURRENT_STYLE,
+       
+       NVL((SELECT DECODE(StyleLineEO.TRACK_BASIS,'Style Name',StyleLineEO.STYLE_NAME,'Style Number',StyleLineEO.STYLE_NUMBER)
+       FROM PWC_MFG_BSS_STYLE_L StyleLineEO,
+            pwc_mfg_bss_buyer_h pwcmfgbssbuyerh       
+       WHERE StyleLineEO.STYLE_IDENTIFIER = ooha.PACKING_INSTRUCTIONS
+       AND   pwcmfgbssbuyerh.BUYER_ID In (SELECT AC.CUSTOMER_ID
+                                        FROM AR_CUSTOMERS AC,
+                                             HZ_CUST_ACCOUNTS HCA
+                                        WHERE AC.customer_id = HCA.CUST_ACCOUNT_ID
+                                        AND   HCA.PARTY_ID = hp.PARTY_ID         
+                                        )
+      
+       AND   StyleLineEO.HEADER_ID = pwcmfgbssbuyerh.HEADER_ID
+       AND   rownum = 1),ooha.PACKING_INSTRUCTIONS) CURRENT_STYLE_NO, 
+       
+       ooha.PACKING_INSTRUCTIONS style_number,
+         
+       
+       ooha.Attribute2 child_Style_no ,
+       
+       sl.country country1 , sl.dcpo_no , sl.inseam_qty ,  sl.ship_mode , 
+       sl.delivery_date ,  -------  added on 30 apr 19
+       
+       ooha.TRANSACTIONAL_CURR_CODE currency,
+       oola.USER_ITEM_DESCRIPTION  ,   -- added on 26.dec.17  
+       oola.cust_po_number||'/'||oola.line_number stn ,   -- added on 27.dec.17 
+       oola.UNIT_SELLING_PRICE,
+       oola.ORDER_QUANTITY_UOM,
+       ooha.ORG_ID org,
+       ooha.ATTRIBUTE4 season_name,
+       oola.ORDERED_QUANTITY,
+       oola.UNIT_SELLING_PRICE * oola.ORDERED_QUANTITY amount,
+       oola.ATTRIBUTE2 DCPO,
+       bill_loc.country,
+       hp.PARTY_NAME,
+        ooha.attribute10 inco_terms,
+        -----------------------------------------added instead of ooha.attribute11 
+--         (select QR.CHARACTER3   
+--        from    QA_RESULTS_V QR
+--        WHERE   QR.NAME = 'STYLE INFO FORM'
+--        AND QR.CHARACTER1 = ooha.PACKING_INSTRUCTIONS
+--        
+--        AND rownum = 1) ORDERED_ITEM,
+      --------------------------------------  
+      
+      -- added 04 feb 2020
+      ( select  item_description 
+      from   mnj_style_info msi 
+       where  msi.season = ooha.attribute4 
+       and msi.STYLE_ORDER = ooha.packing_instructions ) ORDERED_ITEM,
+      
+        ( select  HTS_CODE_EXP 
+      from   mnj_style_info msi 
+       where  msi.season = ooha.attribute4 
+       and msi.STYLE_ORDER = ooha.packing_instructions ) HTS_CODE,
+       
+        ( select  CAT_NO_EXP 
+      from   mnj_style_info msi 
+       where  msi.season = ooha.attribute4 
+       and msi.STYLE_ORDER = ooha.packing_instructions ) CAT_NO,
+       
+       
+--        (select QR.CHARACTER4   
+--        from    QA_RESULTS_V QR
+--        WHERE   QR.NAME = 'STYLE INFO FORM'
+--        AND QR.CHARACTER1 = ooha.PACKING_INSTRUCTIONS
+--        AND rownum = 1) HTS_CODE,
+        
+--        (select QR.CHARACTER5   
+--        from    QA_RESULTS_V QR
+--        WHERE   QR.NAME = 'STYLE INFO FORM'
+--        AND QR.CHARACTER1 = ooha.PACKING_INSTRUCTIONS
+--        AND rownum = 1) CAT_NO,
+        
+    (SELECT DISTINCT NVL(ImpSaleContractDetailEO.EXPORT_LC_NO, NVL(IMPSALECONTRHEADEREO.EXPORT_LC_NO,IMPSALECONTRHEADEREO.IMP_SALE_CONTRACT_NO)) EXPORT_LC_NO 
+        FROM IEDOC_IMP_SALE_CONTR_HEADERS IMPSALECONTRHEADEREO,
+             IEDOC_IMP_SALE_CONTR_DETAILS ImpSaleContractDetailEO,
+             IEDOC_IMP_SALE_CONTR_AMEND ImpSaleContractAmendEO
+        WHERE  IMPSALECONTRHEADEREO.IMP_SALE_HEADER_ID =     ImpSaleContractDetailEO.IMP_SALE_HEADER_ID
+        AND ImpSaleContractAmendEO.IMP_SALE_DETAIL_ID = ImpSaleContractDetailEO.IMP_SALE_DETAIL_ID
+       -- AND  ImpSaleContractAmendEO.STYLE_NO = ooha.PACKING_INSTRUCTIONS --ooha.SHIPPING_INSTRUCTIONS
+         AND ( ImpSaleContractAmendEO.STYLE_NO = ooha.PACKING_INSTRUCTIONS  or ImpSaleContractAmendEO.STYLE_NO = ooha.SHIPPING_INSTRUCTIONS   ) 
+        AND ImpSaleContractAmendEO.BPO_NO =  ooha.CUST_PO_NUMBER 
+        AND rownum = 1) EXPORT_LC,   
+        
+    (SELECT DISTINCT NVL(IMPSALECONTRHEADEREO.EXPORT_LC_NO,IMPSALECONTRHEADEREO.IMP_SALE_CONTRACT_NO) EXPORT_LC_NO 
+        FROM IEDOC_IMP_SALE_CONTR_HEADERS IMPSALECONTRHEADEREO,
+             IEDOC_IMP_SALE_CONTR_LINES lines
+        WHERE  IMPSALECONTRHEADEREO.IMP_SALE_HEADER_ID =     lines.IMP_SALE_HEADER_ID
+     --   AND  lines.STYLE_NO = ooha.PACKING_INSTRUCTIONS--ooha.SHIPPING_INSTRUCTIONS
+           AND ( lines.STYLE_NO = ooha.PACKING_INSTRUCTIONS  or lines.STYLE_NO = ooha.SHIPPING_INSTRUCTIONS   ) -- added by fatin on 13.nov.17
+        AND lines.BPO_NO =  ooha.CUST_PO_NUMBER 
+        AND rownum = 1) EXPORT_LC2,
+        
+    (SELECT DISTINCT  ImpSaleContractAmendEO.SHIP_CANCEL_EX_BD_DATE
+        FROM IEDOC_IMP_SALE_CONTR_HEADERS IMPSALECONTRHEADEREO,
+             IEDOC_IMP_SALE_CONTR_DETAILS ImpSaleContractDetailEO,
+             IEDOC_IMP_SALE_CONTR_AMEND ImpSaleContractAmendEO
+       
+             
+        WHERE  IMPSALECONTRHEADEREO.IMP_SALE_HEADER_ID =     ImpSaleContractDetailEO.IMP_SALE_HEADER_ID
+        AND ImpSaleContractAmendEO.IMP_SALE_DETAIL_ID = ImpSaleContractDetailEO.IMP_SALE_DETAIL_ID
+         AND ( ImpSaleContractAmendEO.STYLE_NO = ooha.PACKING_INSTRUCTIONS  or ImpSaleContractAmendEO.STYLE_NO = ooha.SHIPPING_INSTRUCTIONS   ) 
+        AND ImpSaleContractAmendEO.BPO_NO =  ooha.CUST_PO_NUMBER 
+        AND rownum = 1) SHIP_CANCEL_EX_BD_DATE,
+        
+    (SELECT DISTINCT  ImpSaleContractAmendEO.SHIP_EX_FACTORY_DATE
+        FROM IEDOC_IMP_SALE_CONTR_HEADERS IMPSALECONTRHEADEREO,
+             IEDOC_IMP_SALE_CONTR_DETAILS ImpSaleContractDetailEO,
+             IEDOC_IMP_SALE_CONTR_AMEND ImpSaleContractAmendEO
+        WHERE  IMPSALECONTRHEADEREO.IMP_SALE_HEADER_ID =     ImpSaleContractDetailEO.IMP_SALE_HEADER_ID
+        AND ImpSaleContractAmendEO.IMP_SALE_DETAIL_ID = ImpSaleContractDetailEO.IMP_SALE_DETAIL_ID
+       AND ( ImpSaleContractAmendEO.STYLE_NO = ooha.PACKING_INSTRUCTIONS  or ImpSaleContractAmendEO.STYLE_NO = ooha.SHIPPING_INSTRUCTIONS   ) 
+        AND ImpSaleContractAmendEO.BPO_NO =  ooha.CUST_PO_NUMBER
+        AND rownum = 1 ) SHIP_EX_FACTORY_DATE,
+        
+    (SELECT DISTINCT lines.SHIP_CANCEL_EX_BD_DATE
+        FROM IEDOC_IMP_SALE_CONTR_HEADERS IMPSALECONTRHEADEREO,
+             IEDOC_IMP_SALE_CONTR_LINES lines
+        WHERE  IMPSALECONTRHEADEREO.IMP_SALE_HEADER_ID =     lines.IMP_SALE_HEADER_ID
+        AND  lines.STYLE_NO = ooha.PACKING_INSTRUCTIONS--ooha.SHIPPING_INSTRUCTIONS
+        AND lines.BPO_NO =  ooha.CUST_PO_NUMBER
+        AND rownum = 1 ) SHIP_CANCEL_EX_BD_DATE2,                
+    (SELECT DISTINCT lines.SHIP_EX_FACTORY_DATE
+        FROM IEDOC_IMP_SALE_CONTR_HEADERS IMPSALECONTRHEADEREO,
+             IEDOC_IMP_SALE_CONTR_LINES lines
+        WHERE  IMPSALECONTRHEADEREO.IMP_SALE_HEADER_ID =     lines.IMP_SALE_HEADER_ID
+        AND  lines.STYLE_NO = ooha.PACKING_INSTRUCTIONS--ooha.SHIPPING_INSTRUCTIONS
+        AND lines.BPO_NO =  ooha.CUST_PO_NUMBER
+        AND rownum =1 ) SHIP_EX_FACTORY_DATE2
+from oe_order_headers_all ooha,
+     oe_order_lines_all oola, 
+     hz_cust_site_uses_all bill_su,
+     hz_cust_acct_sites_all bill_cas,
+     hz_party_sites bill_ps,
+     hz_locations bill_loc,
+     hz_parties     hp  ,
+     CUST_MNJ_ONT_SO_OBIN_SIZLINE sl 
+where  
+oola.HEADER_ID  =   ooha.HEADER_ID
+AND oola.ORG_ID     =   ooha.ORG_ID
+AND oola.invoice_to_org_id = bill_su.site_use_id(+)
+AND bill_su.cust_acct_site_id = bill_cas.cust_acct_site_id(+)
+AND bill_cas.party_site_id = bill_ps.party_site_id(+)
+AND bill_loc.location_id(+) = bill_ps.location_id
+AND hp.PARTY_ID = bill_ps.PARTY_ID
+AND OOLA.CUST_PO_NUMBER||'/'|| OOLA.LINE_NUMBER = SL.OC_NO --added on 5nov18
+and ooha.header_ID = sl.sales_order_id
+and oola.inventory_item_id = sl.inventory_item_id
+
+and sl.DELIVERY_DATE > sysdate-360
+
+
+) aa,
+
+(
+    SELECT PLV.SHPCKASSORT_ID ,
+       PLV.ORG  ,
+       PLV.STN,
+       PLV.COLOR ,
+       PLV.NET_WEIGHT,
+       PLV.GROSS_WEIGHT,
+       PLV.NET_NET_WEIGHT,
+       PLV.TOTAL_QTY,
+       PLV.SALESORDER_NO,
+       PLV.STYLE_NAME,
+       PLV.STYLE_NUMBER,
+       PLV.PCK_LST_NO ,
+       PLV.INCO_TERMS,
+       PLV.COUNTRY,
+       PLV.DCPO,
+       PLV.DELIVERY_DATE,
+       PLV.TOTAL_CBM,
+       PLV.TRANSPORTATION_MODE,
+       PLV.VERSION_NO
+      , h.TOTAL_CARTON_QTY CARTON_QUANTITY  ,  h.SHORT_EXCESS_QTY , h.SHORT_EXCESS_PER
+
+
+         ----------------------------- start of mm-------------------------------------
+             from  PACKING_LIST_VIEW PLV       ,
+              cust_mnj_ont_finishpckassort h
+              
+               
+             where   PLV.SHPCKASSORT_ID = h.SHPCKASSORT_ID    
+              
+           --   and   not exists   (
+--             
+--                    select   icl.PACK_LIST_NO   
+--                    from  iedoc_exp_ci_lines  icl
+--                    where icl.STYLE = PLV.STYLE_NUMBER 
+--                    and   icl.Attribute2 = PLV.Color
+--                    and   PLV.PCK_LST_NO  = icl.pack_list_no
+--           
+--             )
+             
+
+) bb
+
+
+WHERE (aa.BPO = bb.SALESORDER_NO or  aa.CURRENT_BPO = bb.SALESORDER_NO )   -- added on 30.11.2017  by fatin
+
+and   aa.org=bb.org   -- added on 26.dec.17
+
+AND NVL(aa.EXPORT_LC,aa.EXPORT_LC2) IS NOT NULL
+
+AND  (aa.style_number = bb.style_number or aa.CURRENT_STYLE_NO =  bb.style_number )  -- added on 3.12.17 by fati
+
+
+and aa.stn = bb.stn  -- added on 26.dec.17
+
+and aa.color =  bb.color
+
+
+and aa.country1 =bb.country
+
+and aa.dcpo_no = bb.dcpo
+
+and  aa.ship_mode =  bb.transportation_mode
+
+and aa.delivery_date = bb.delivery_date   -------  added on 30 apr 19
+
+GROUP BY aa.BPO,
+        aa.STYLE_NAME,
+        aa.STYLE_NUMBER,
+        aa.ORDERED_ITEM,
+        bb.stn ,
+        aa.UNIT_SELLING_PRICE,
+        aa.ORDER_QUANTITY_UOM,
+        aa.ORG,
+        aa.SEASON_NAME,
+        bb.TOTAL_QTY, --aa.ORDERED_QUANTITY,
+        --aa.AMOUNT,
+        bb.DCPO, --aa.DCPO,
+        bb.COUNTRY, --aa.COUNTRY,
+          bb.style_number , 
+          aa.child_Style_no ,
+        aa.PARTY_NAME,
+        aa.INCO_TERMS,
+        aa.HTS_CODE,
+        aa.CAT_NO,
+        bb.PCK_LST_NO,
+        bb.INCO_TERMS ,
+        NVL(aa.EXPORT_LC,aa.EXPORT_LC2),
+
+        NVL(aa.SHIP_CANCEL_EX_BD_DATE,aa.SHIP_CANCEL_EX_BD_DATE2),
+        NVL(aa.SHIP_EX_FACTORY_DATE,aa.SHIP_EX_FACTORY_DATE2),
+        aa.ORDERED_ITEM_ID,
+        aa.color,
+         aa.inseam_qty ,
+       --  aa.ORDERED_QUANTITY ,
+        aa.ORDERED_ITEM_ID,
+        bb.SHORT_EXCESS_QTY,
+        ROUND(bb.SHORT_EXCESS_PER,2), --ROUND(bb.SHORT_EXCESS_PER),
+        bb.TOTAL_CBM,
+        bb.TRANSPORTATION_MODE,
+        aa.currency,
+        bb.SHPCKASSORT_ID,
+        aa.CURRENT_STYLE,
+        aa.CURRENT_STYLE_NO,
+        aa.CURRENT_BPO]]>
+  </SQLQuery>
+  <ViewAttribute
+    Name="PckLstNo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="15"
+    Scale="0"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="PCK_LST_NO"
+    Expression="PCK_LST_NO"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="16"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Bpo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="50"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="BPO"
+    Expression="BPO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="50"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CurrentBpo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="240"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="CURRENT_BPO"
+    Expression="CURRENT_BPO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="240"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="StyleName"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="2000"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="STYLE_NAME"
+    Expression="STYLE_NAME"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="2000"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CurrentStyle"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="2000"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="CURRENT_STYLE"
+    Expression="CURRENT_STYLE"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="2000"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CurrentStyleNo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="2000"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="CURRENT_STYLE_NO"
+    Expression="CURRENT_STYLE_NO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="2000"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="StyleNumber"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="2000"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="STYLE_NUMBER"
+    Expression="STYLE_NUMBER"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="2000"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ChildStyleNo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="240"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="CHILD_STYLE_NO"
+    Expression="CHILD_STYLE_NO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="240"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="OrderedItem"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="ORDERED_ITEM"
+    Expression="ORDERED_ITEM"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="UnitSellingPrice"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="UNIT_SELLING_PRICE"
+    Expression="UNIT_SELLING_PRICE"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="OrderQuantityUom"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="3"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="ORDER_QUANTITY_UOM"
+    Expression="ORDER_QUANTITY_UOM"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="3"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Org"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="ORG"
+    Expression="ORG"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="SeasonName"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="240"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="SEASON_NAME"
+    Expression="SEASON_NAME"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="240"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Color"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="240"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="COLOR"
+    Expression="COLOR"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="240"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="OrderedItemId"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="ORDERED_ITEM_ID"
+    Expression="ORDERED_ITEM_ID"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ItemName"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="240"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="ITEM_NAME"
+    Expression="ITEM_NAME"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="240"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ItemCode"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="255"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="ITEM_CODE"
+    Expression="ITEM_CODE"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="255"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="OrderedQuantity"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="20"
+    Scale="0"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="ORDERED_QUANTITY"
+    Expression="ORDERED_QUANTITY"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="21"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ShippedQuantity"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="SHIPPED_QUANTITY"
+    Expression="SHIPPED_QUANTITY"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Amount"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="AMOUNT"
+    Expression="AMOUNT"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Dcpo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="DCPO"
+    Expression="DCPO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Country"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="255"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="COUNTRY"
+    Expression="COUNTRY"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="255"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="PckStyleNumber"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="PCK_STYLE_NUMBER"
+    Expression="PCK_STYLE_NUMBER"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="PartyName"
+    IsUpdateable="false"
+    IsPersistent="false"
+    IsNotNull="true"
+    PrecisionRule="true"
+    Precision="360"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="PARTY_NAME"
+    Expression="PARTY_NAME"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="360"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="HtsCode"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="HTS_CODE"
+    Expression="HTS_CODE"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CatNo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="CAT_NO"
+    Expression="CAT_NO"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ExportLc"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="EXPORT_LC"
+    Expression="EXPORT_LC"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CartonQuantity"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="CARTON_QUANTITY"
+    Expression="CARTON_QUANTITY"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="NetNetWeight"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="NET_NET_WEIGHT"
+    Expression="NET_NET_WEIGHT"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="GrossWeight"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="GROSS_WEIGHT"
+    Expression="GROSS_WEIGHT"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="NetWeight"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="NET_WEIGHT"
+    Expression="NET_WEIGHT"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="IncoTerms"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="INCO_TERMS"
+    Expression="INCO_TERMS"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ShipCancelExBdDate"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Date"
+    ColumnType="DATE"
+    AliasName="SHIP_CANCEL_EX_BD_DATE"
+    Expression="SHIP_CANCEL_EX_BD_DATE"
+    SQLType="DATE">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="7"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Fromdate"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Date"
+    ColumnType="DATE"
+    AliasName="FROMDATE"
+    Expression="FROMDATE"
+    SQLType="DATE">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="7"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Todate"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Date"
+    ColumnType="DATE"
+    AliasName="TODATE"
+    Expression="TODATE"
+    SQLType="DATE">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="7"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ShipExFactoryDate"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Date"
+    ColumnType="DATE"
+    AliasName="SHIP_EX_FACTORY_DATE"
+    Expression="SHIP_EX_FACTORY_DATE"
+    SQLType="DATE">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="7"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ShortExcessQty"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="SHORT_EXCESS_QTY"
+    Expression="SHORT_EXCESS_QTY"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ShortExcessPer"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="SHORT_EXCESS_PER"
+    Expression="SHORT_EXCESS_PER"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="TotalCbm"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="TOTAL_CBM"
+    Expression="TOTAL_CBM"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="TransportationMode"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="255"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="TRANSPORTATION_MODE"
+    Expression="TRANSPORTATION_MODE"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="255"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Currency"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="15"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="CURRENCY"
+    Expression="CURRENCY"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="15"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Stn"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="255"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="STN"
+    Expression="STN"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="255"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="VersionNo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="VERSION_NO"
+    Expression="VERSION_NO"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="multiSelect"
+    IsSelected="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="java.lang.Boolean"
+    ColumnType="NUMBER"
+    AliasName="VIEW_ATTR"
+    SQLType="BIT">
+    <Properties>
+      <SchemaBasedProperties>
+        <CONTROLTYPE
+          Value="check_box"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="MultiSelect2"
+    IsSelected="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="VIEW_ATTR"
+    SQLType="VARCHAR"/>
+  <ViewLinkAccessor
+    Name="CiHeaders"
+    ViewLink="mnj.ont.model.popup.views.CiHeader_FillLinesTemp"
+    Type="oracle.jbo.Row"
+    Reversed="true"
+    IsUpdateable="false"/>
+  <ResourceBundle>
+    <PropertiesBundle
+      PropertiesFile="model.ModelBundle"/>
+  </ResourceBundle>
+</ViewObject>
