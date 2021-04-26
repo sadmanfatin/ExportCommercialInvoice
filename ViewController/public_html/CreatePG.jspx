@@ -26,7 +26,7 @@
                                   actionListener="#{backing_bean.saveActionButton}"
                                   action="#{backing_bean.saveActionBtn}"
                                   inlineStyle="font-size:x-small; font-weight:bold;"
-                                  disabled="#{ false and bindings.TrxNumber.inputValue !=null}"/>
+                                  disabled="#{bindings.TrxNumber.inputValue != null}"/>
                 <af:spacer width="20" height="10" id="s3"/>
                 <af:commandButton text="Excel Report" id="cb12"
                                   inlineStyle="font-weight:bold; font-size:x-small;">
@@ -37,7 +37,8 @@
                 <af:spacer width="620" height="10" id="s5"/>
                 <af:commandButton text="Generate Invoice" id="cb10"
                                   actionListener="#{backing_bean.generateInvoiceListener}"
-                                  inlineStyle="font-size:x-small; font-weight:bold;"/>
+                                  inlineStyle="font-size:x-small; font-weight:bold;"
+                                  disabled="#{bindings.TrxNumber.inputValue != null}"/>
               </af:panelGroupLayout>
             </af:group>
           </f:facet>

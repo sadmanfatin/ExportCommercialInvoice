@@ -13,3 +13,5 @@ deploy/ExportCommercialInvoice_application1.ear
 *.jdb
 *.war
 *.jdb
+*.sso
+*.cdi_javac
