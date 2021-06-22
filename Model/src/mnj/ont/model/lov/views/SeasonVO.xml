@@ -50,48 +50,25 @@
     ViewObjectName="mnj.ont.model.views.CiHeadersVO"
     RowLevelBinds="true"/>
   <SQLQuery>
-    <![CDATA[select DISTINCT  qr.CHARACTER2 season, 
-                 qr.CHARACTER1 buyer,
-                 NVL((SELECT SeasonDetailEO.SEASON_NAME
-                       FROM PWC_MFG_BSS_STYLE_L  StyleLineEO,
-                            pwc_mfg_bss_buyer_h  pwcmfgbssbuyerh,
-                            PWC_MFG_BSS_SEASON_D SeasonDetailEO   
-                       WHERE /*StyleLineEO.STYLE_IDENTIFIER = STYLE_NAME
-                       AND   */SeasonDetailEO.SEASON_IDENTIFIER = qr.CHARACTER2
-                       AND   pwcmfgbssbuyerh.BUYER_ID = (SELECT customer_id
-                                                        FROM AR_CUSTOMERS AC
-                                                        WHERE AC.CUSTOMER_NAME = qr.CHARACTER1
-                                                        AND ROWNUM = 1)
-                       --AND   pwcmfgbssbuyerh.ORG_ID = HeaderEO.ORG_ID 
-                       AND   StyleLineEO.HEADER_ID = pwcmfgbssbuyerh.HEADER_ID
-                       AND   SeasonDetailEO.LINE_ID = StyleLineEO.LINE_ID 
-                       AND   rownum = 1),qr.CHARACTER2) CURRENT_SEASON 
-from qa_results_v qr 
-WHERE qr.NAME = 'BUYER WISE DETAILS OM'
-AND qr.CHARACTER2 IS NOT NULL
-/*AND qr.CHARACTER1 = :buyerName*/]]>
+    <![CDATA[SELECT DISTINCT 
+  APPS.XX_OM_BUYER_NAME_FOR_ID(BS.BUYER_ID) BUYER ,
+  BS.SEASON,
+   NVL((SELECT SEASONDETAILEO.SEASON_NAME
+       FROM PWC_MFG_BSS_STYLE_L  STYLELINEEO,
+            PWC_MFG_BSS_BUYER_H  PWCMFGBSSBUYERH,
+            PWC_MFG_BSS_SEASON_D SEASONDETAILEO   
+       WHERE /*StyleLineEO.STYLE_IDENTIFIER = STYLE_NAME
+       AND   */SEASONDETAILEO.SEASON_IDENTIFIER = BS.SEASON
+       AND   PWCMFGBSSBUYERH.BUYER_ID = BS.BUYER_ID
+       --AND   pwcmfgbssbuyerh.ORG_ID = HeaderEO.ORG_ID 
+       AND   STYLELINEEO.HEADER_ID = PWCMFGBSSBUYERH.HEADER_ID
+       AND   SEASONDETAILEO.LINE_ID = STYLELINEEO.LINE_ID 
+       AND   ROWNUM = 1),BS.SEASON) CURRENT_SEASON
+  
+ FROM XX_OM_BUYERWISE_SEASON_T BS
+WHERE 1=1
+AND  APPS.XX_OM_BUYER_NAME_FOR_ID(BS.BUYER_ID) IS NOT NULL]]>
   </SQLQuery>
-  <ViewAttribute
-    Name="Season"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="255"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="SEASON"
-    Expression="SEASON"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="150"/>
-    </DesignTime>
-    <Properties>
-      <SchemaBasedProperties>
-        <DISPLAYWIDTH
-          Value="20"/>
-      </SchemaBasedProperties>
-    </Properties>
-  </ViewAttribute>
   <ViewAttribute
     Name="Buyer"
     IsUpdateable="false"
@@ -110,6 +87,27 @@ AND qr.CHARACTER2 IS NOT NULL
       <SchemaBasedProperties>
         <LABEL
           ResId="mnj.ont.model.lov.views.SeasonVO.Buyer_LABEL"/>
+        <DISPLAYWIDTH
+          Value="20"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Season"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="255"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="SEASON"
+    Expression="SEASON"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="150"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
         <DISPLAYWIDTH
           Value="20"/>
       </SchemaBasedProperties>
@@ -163,19 +161,19 @@ AND qr.CHARACTER2 IS NOT NULL
       Name="vcrow8"
       UpperColumns="1">
       <ViewCriteriaItem
-        Name="SeasonVOCriteria_vcrow8_Season"
-        ViewAttribute="Season"
-        Operator="="
-        Conjunction="AND"
-        Value=":seasonBind"
-        IsBindVarValue="true"
-        Required="Optional"/>
-      <ViewCriteriaItem
         Name="Buyer"
         ViewAttribute="Buyer"
         Operator="="
         Conjunction="AND"
         Value=":buyerNameBind"
+        IsBindVarValue="true"
+        Required="Optional"/>
+      <ViewCriteriaItem
+        Name="SeasonVOCriteria_vcrow8_Season"
+        ViewAttribute="Season"
+        Operator="="
+        Conjunction="AND"
+        Value=":seasonBind"
         IsBindVarValue="true"
         Required="Optional"/>
     </ViewCriteriaRow>
