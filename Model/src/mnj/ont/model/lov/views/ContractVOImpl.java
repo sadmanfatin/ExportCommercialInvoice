@@ -54,50 +54,50 @@ public class ContractVOImpl extends ViewObjectImpl {
 
 
     /**
-     * Returns the variable value for buyerNameBind.
-     * @return variable value for buyerNameBind
+     * Returns the bind variable value for p_org_id.
+     * @return bind variable value for p_org_id
      */
-    public String getbuyerNameBind() {
-        return (String)ensureVariableManager().getVariableValue("buyerNameBind");
+    public String getp_org_id() {
+        return (String)getNamedWhereClauseParam("p_org_id");
     }
 
     /**
-     * Sets <code>value</code> for variable buyerNameBind.
-     * @param value value to bind as buyerNameBind
+     * Sets <code>value</code> for bind variable p_org_id.
+     * @param value value to bind as p_org_id
      */
-    public void setbuyerNameBind(String value) {
-        ensureVariableManager().setVariableValue("buyerNameBind", value);
+    public void setp_org_id(String value) {
+        setNamedWhereClauseParam("p_org_id", value);
     }
 
     /**
-     * Returns the variable value for seasonBind.
-     * @return variable value for seasonBind
+     * Returns the variable value for p_buyer_name.
+     * @return variable value for p_buyer_name
      */
-    public String getseasonBind() {
-        return (String)ensureVariableManager().getVariableValue("seasonBind");
+    public String getp_buyer_name() {
+        return (String)ensureVariableManager().getVariableValue("p_buyer_name");
     }
 
     /**
-     * Sets <code>value</code> for variable seasonBind.
-     * @param value value to bind as seasonBind
+     * Sets <code>value</code> for variable p_buyer_name.
+     * @param value value to bind as p_buyer_name
      */
-    public void setseasonBind(String value) {
-        ensureVariableManager().setVariableValue("seasonBind", value);
+    public void setp_buyer_name(String value) {
+        ensureVariableManager().setVariableValue("p_buyer_name", value);
     }
 
     /**
-     * Returns the variable value for ORG_ID.
-     * @return variable value for ORG_ID
+     * Returns the bind variable value for p_season.
+     * @return bind variable value for p_season
      */
-    public Number getORG_ID() {
-        return (Number)ensureVariableManager().getVariableValue("ORG_ID");
+    public String getp_season() {
+        return (String)getNamedWhereClauseParam("p_season");
     }
 
     /**
-     * Sets <code>value</code> for variable ORG_ID.
-     * @param value value to bind as ORG_ID
+     * Sets <code>value</code> for bind variable p_season.
+     * @param value value to bind as p_season
      */
-    public void setORG_ID(Number value) {
-        ensureVariableManager().setVariableValue("ORG_ID", value);
+    public void setp_season(String value) {
+        setNamedWhereClauseParam("p_season", value);
     }
 }

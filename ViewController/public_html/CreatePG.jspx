@@ -62,7 +62,8 @@
                                 required="#{bindings.Buyer.hints.mandatory}"
                                 columns="#{bindings.Buyer.hints.displayWidth}"
                                 shortDesc="#{bindings.Buyer.hints.tooltip}"
-                                binding="#{LovManagedBean.buyerName}">
+                                binding="#{LovManagedBean.buyerName}"
+                                autoSubmit="true">
             <f:validator binding="#{bindings.Buyer.validator}"/>
             <af:autoSuggestBehavior suggestedItems="#{bindings.Buyer.suggestedItems}"/>
           </af:inputListOfValues>
@@ -74,7 +75,7 @@
                                 required="#{bindings.Season.hints.mandatory}"
                                 columns="#{bindings.Season.hints.displayWidth}"
                                 shortDesc="#{bindings.Season.hints.tooltip}"
-                                autoSubmit="true">
+                                autoSubmit="true" partialTriggers="buyerId">
             <f:validator binding="#{bindings.Season.validator}"/>
             <af:autoSuggestBehavior suggestedItems="#{bindings.Season.suggestedItems}"/>
           </af:inputListOfValues>
@@ -91,7 +92,8 @@
                                 required="#{bindings.ContractLcNumber.hints.mandatory}"
                                 columns="#{bindings.ContractLcNumber.hints.displayWidth}"
                                 shortDesc="#{bindings.ContractLcNumber.hints.tooltip}"
-                                autoSubmit="true" autoTab="true" simple="false">
+                                autoSubmit="true" autoTab="true" simple="false"
+                                partialTriggers="orgNameLovId buyerId seasonId">
             <f:validator binding="#{bindings.ContractLcNumber.validator}"/>
             <af:autoSuggestBehavior suggestedItems="#{bindings.ContractLcNumber.suggestedItems}"/>
           </af:inputListOfValues>

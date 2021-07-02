@@ -71,14 +71,14 @@
       Name="ContractVOCriteria"
       FullName="mnj.ont.model.lov.views.ContractVO.ContractVOCriteria"/>
     <ParameterMap>
-      <PIMap Variable="buyerNameBind">
+      <PIMap Variable="p_buyer_name">
         <TransientExpression><![CDATA[Buyer]]></TransientExpression>
       </PIMap>
-      <PIMap Variable="seasonBind">
-        <TransientExpression><![CDATA[Season]]></TransientExpression>
-      </PIMap>
-      <PIMap Variable="ORG_ID">
+      <PIMap Variable="p_org_id">
         <TransientExpression><![CDATA[OrgId]]></TransientExpression>
+      </PIMap>
+      <PIMap Variable="p_season">
+        <TransientExpression><![CDATA[Season]]></TransientExpression>
       </PIMap>
     </ParameterMap>
   </ViewAccessor>

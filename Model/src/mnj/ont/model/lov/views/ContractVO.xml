@@ -22,17 +22,38 @@
     </SchemaBasedProperties>
   </Properties>
   <Variable
-    Name="buyerNameBind"
-    Kind="viewcriteria"
-    Type="java.lang.String"/>
+    Name="p_org_id"
+    Kind="where"
+    Type="java.lang.String">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYHINT
+          Value="Hide"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </Variable>
   <Variable
-    Name="seasonBind"
-    Kind="viewcriteria"
-    Type="java.lang.String"/>
+    Name="p_buyer_name"
+    Kind="where"
+    Type="java.lang.String">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYHINT
+          Value="Hide"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </Variable>
   <Variable
-    Name="ORG_ID"
-    Kind="viewcriteria"
-    Type="oracle.jbo.domain.Number"/>
+    Name="p_season"
+    Kind="where"
+    Type="java.lang.String">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYHINT
+          Value="Hide"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </Variable>
   <SQLQuery>
     <![CDATA[SELECT  ORG_ID,
       CONTRACT_NO,
@@ -74,7 +95,7 @@ SELECT    DISTINCT     CONT.ORG_ID ,
 --                from ar_customers ac
 --                WHERE ac.CUSTOMER_ID = cont.BUYER_ID ) buyer_name,
                 CONT.SEASON,
-                CONT.BUYER_NAME_NEW BUYER_NAME,
+                apps.XX_OM_BUYER_NAME_FOR_ID( BUYER_ID) BUYER_NAME,
                 CONT.CONTRACT_VALUE,
                 CONT.ATTRIBUTE3 BANK,
                 CONT.CURRENCY,
@@ -99,7 +120,7 @@ SELECT
                 CONT1.BUYER_ID,
                 CONT1.ORDER_TYPE,
                 CONT1.SEASON,
-                CONT1.BUYER_NAME_NEW BUYER_NAME,
+                apps.XX_OM_BUYER_NAME_FOR_ID( BUYER_ID) BUYER_NAME,
                 CONT1.CONTRACT_VALUE,
                 CONT1.ATTRIBUTE3 BANK,
                 CONT1.CURRENCY, 
@@ -107,6 +128,10 @@ SELECT
         FROM XX_COM_SALES_CONTRACT_H_T CONT1
         WHERE CONT1.EXPORT_LC_NO IS NOT NULL
 )
+where 1=1
+AND ORG_ID = :p_org_id
+AND BUYER_NAME = :p_buyer_name
+and SEASON = :p_season 
 
 GROUP BY ORG_ID,
         CONTRACT_NO,
@@ -411,11 +436,19 @@ GROUP BY ORG_ID,
         ViewAttribute="OrgId"
         Operator="="
         Conjunction="AND"
-        Value=":ORG_ID"
-        IsBindVarValue="true"
         Required="Required"
         GenerateIsNullClauseForBindVars="false"
-        ValidateBindVars="true"/>
+        Value=":p_org_id"
+        ValidateBindVars="true"
+        IsBindVarValue="true">
+        <Properties>
+          <CustomProperties>
+            <Property
+              Name="renderedMode"
+              Value="Never"/>
+          </CustomProperties>
+        </Properties>
+      </ViewCriteriaItem>
       <ViewCriteriaItem
         Name="ContractNo"
         ViewAttribute="ContractNo"
@@ -425,19 +458,19 @@ GROUP BY ORG_ID,
       <ViewCriteriaItem
         Name="Season"
         ViewAttribute="Season"
-        Operator="="
+        Operator="CONTAINS"
         Conjunction="AND"
-        Value=":seasonBind"
-        IsBindVarValue="true"
-        Required="Optional"/>
+        Required="Optional"
+        Value=":p_season"
+        IsBindVarValue="true"/>
       <ViewCriteriaItem
         Name="ContractVOCriteria_vcrow103_BuyerName"
         ViewAttribute="BuyerName"
-        Operator="="
+        Operator="CONTAINS"
         Conjunction="AND"
-        Value=":buyerNameBind"
-        IsBindVarValue="true"
-        Required="Optional"/>
+        Required="Optional"
+        Value=":p_buyer_name"
+        IsBindVarValue="true"/>
     </ViewCriteriaRow>
   </ViewCriteria>
   <ResourceBundle>
