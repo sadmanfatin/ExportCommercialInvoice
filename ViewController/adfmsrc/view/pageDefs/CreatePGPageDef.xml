@@ -562,5 +562,10 @@
         <Item Value="n"/>
       </ValueList>
     </button>
+    <attributeValues IterBinding="CiHeaders1Iterator" id="OrgId">
+      <AttrNames>
+        <Item Value="OrgId"/>
+      </AttrNames>
+    </attributeValues>
   </bindings>
 </pageDefinition>

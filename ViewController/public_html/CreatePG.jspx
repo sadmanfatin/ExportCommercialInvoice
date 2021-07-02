@@ -49,7 +49,8 @@
                                 model="#{bindings.OrgNameLov.listOfValuesModel}"
                                 required="#{bindings.OrgNameLov.hints.mandatory}"
                                 columns="#{bindings.OrgNameLov.hints.displayWidth}"
-                                shortDesc="#{bindings.OrgNameLov.hints.tooltip}">
+                                shortDesc="#{bindings.OrgNameLov.hints.tooltip}"
+                                autoSubmit="true">
             <f:validator binding="#{bindings.OrgNameLov.validator}"/>
             <af:autoSuggestBehavior suggestedItems="#{bindings.OrgNameLov.suggestedItems}"/>
           </af:inputListOfValues>
@@ -362,6 +363,14 @@
           </af:inputText>
           <af:inputText id="it93" visible="false"/>
           <af:inputText id="it94" visible="false"/>
+          <af:panelLabelAndMessage label="#{bindings.OrgId.hints.label}"
+                                   id="plam3" visible="false"
+                                   partialTriggers="orgNameLovId">
+            <af:outputText value="#{bindings.OrgId.inputValue}" id="ot23">
+              <af:convertNumber groupingUsed="false"
+                                pattern="#{bindings.OrgId.format}"/>
+            </af:outputText>
+          </af:panelLabelAndMessage>
           <af:panelFormLayout id="pfl2" maxColumns="1"
                               inlineStyle="width:340.0px; background-color:rgb(239,239,239); border-color:rgb(231,231,231); border-style:solid; border-width:thin;"
                               labelAlignment="start">
