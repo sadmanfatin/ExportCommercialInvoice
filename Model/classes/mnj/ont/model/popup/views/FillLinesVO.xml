@@ -145,10 +145,10 @@
         
         FROM  XX_OM_POC_H_T H , XX_OM_POC_L_T L ,XX_OM_BPO_INFO_T BPO 
           WHERE  H.POC_ID = L.POC_ID
-            AND L.FOB_ID = BPO.FOB_ID                       
-          -- AND BPO.BPO = '9309622'
-        
-        
+            AND L.FOB_ID = BPO.FOB_ID
+            AND BPO.STATUS =  1     -- added on  4.Aug.2021 recomended by Md. Wasi Uddin
+            AND BPO.QTY >0           -- added on  4.Aug.2021 recomended by Md. Wasi Uddin                  
+          -- AND BPO.BPO = '9309622'               
         ) POC ,
         
         (
