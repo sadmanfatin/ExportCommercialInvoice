@@ -46,6 +46,8 @@ import oracle.jbo.RowSet;
 import oracle.jbo.RowSetIterator;
 import oracle.jbo.ViewObject;
 
+import oracle.jdbc.internal.OracleTypes;
+
 import org.apache.myfaces.trinidad.event.AttributeChangeEvent;
 import org.apache.myfaces.trinidad.event.SelectionEvent;
 
@@ -434,8 +436,6 @@ public class BackingBean {
     }
 
     public void generateInvoiceListener(ActionEvent actionEvent) {
-        // Add event code here...
-
        ViewObject  headerVo  = appM.getCiHeaders1();
         Row currentHeaderRow = headerVo.getCurrentRow();
          String trxNo = null ;
@@ -476,6 +476,31 @@ public class BackingBean {
         
     }
 
+/*
+ *  Run Procedure to update Invoice number in Inland form matched with Pack List , Style , Order BPO
+ */
+    public void updateInlandInvoiceListener(ActionEvent actionEvent) {
+        ViewObject  headerVo  = appM.getCiHeaders1();
+        Row currentHeaderRow = headerVo.getCurrentRow();
+        String InvoiceNoVal = null ;
+        
+        try {            
+          InvoiceNoVal = currentHeaderRow.getAttribute("InvoiceNo").toString();   
+        System.out.println("[InvoiceNoVal  ] " + InvoiceNoVal);
+        }
+        catch(Exception e ){            
+            InvoiceNoVal = null ;        
+        }
+        //invoice not generated 
+        if (InvoiceNoVal==null)
+        {                                 
+        }          
+        //invoice  generated   
+        else {            
+            updateInlandInvoiceProcedure();            
+        }          
+        refreshQueryKeepingCurrentRow(headerVo ) ;
+    }
     public void setExp_no(RichInputText exp_no) {
         this.exp_no = exp_no;
     }
@@ -564,7 +589,39 @@ public class BackingBean {
         
         
     }
-
+    private void updateInlandInvoiceProcedure()
+    {
+        ViewObject hvo   = appM.getCiHeaders1();        
+        String header_ID = null;           
+        Row currentRow   = null;
+        try{
+             currentRow = hvo.getCurrentRow();
+        }catch(Exception e){
+            System.out.println("[ERROR updateInlandInvoiceProcedure #1 ] ");
+        }
+        try{
+            header_ID = currentRow.getAttribute("ExpCiHeaderId").toString();
+        }catch(Exception e){
+            System.out.println("[ERROR updateInlandInvoiceProcedure #2 ] ");
+            ;
+        }
+       
+        String stmt = "BEGIN  EXP_INLAND_FOR_INV_UPDATE(:1, :2); end;";
+        String procedureResult = null;
+        try {
+            CallableStatement cs = appM.getDBTransaction().createCallableStatement(stmt, 1);
+            cs.registerOutParameter(2, oracle.jdbc.OracleTypes.VARCHAR);
+            cs.setInt(1, Integer.parseInt(header_ID) );                      
+            cs.execute();
+            procedureResult = cs.getString(2 );
+            cs.close();
+            System.out.println("[procedureResult--->] " + procedureResult );
+        } catch (Exception e) {
+            System.out.println(e);                       
+            showMessage(e.toString(), "error" );
+            ;
+        }           
+    }
 
     public void bpoUnitPriceChangeListener(ValueChangeEvent valueChangeEvent) {
         // Add event code here...

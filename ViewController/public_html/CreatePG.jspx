@@ -34,11 +34,16 @@
                                                  filename="Com_Invoice.xls"
                                                  method="#{ExcelBean.invoicExcelReport}"/>
                 </af:commandButton>
-                <af:spacer width="620" height="10" id="s5"/>
+                <af:spacer width="120" height="10" id="s5"/>
                 <af:commandButton text="Generate Invoice" id="cb10"
                                   actionListener="#{backing_bean.generateInvoiceListener}"
                                   inlineStyle="font-size:x-small; font-weight:bold;"
                                   disabled="#{bindings.TrxNumber.inputValue != null}"/>
+                <af:spacer width="10" height="10" id="s4"/>
+                <af:commandButton text=" Update Inland Transport Invoice" id="cb16"
+                                  inlineStyle="font-size:x-small; font-weight:bold;"
+                                  actionListener="#{backing_bean.updateInlandInvoiceListener}"
+                                  disabled="#{bindings.InvoiceNo.inputValue == null}"/>
               </af:panelGroupLayout>
             </af:group>
           </f:facet>
